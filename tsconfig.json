@@ -9,7 +9,12 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "jsx": "react-jsx",
+    "noEmit": true,
     "baseUrl": ".",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

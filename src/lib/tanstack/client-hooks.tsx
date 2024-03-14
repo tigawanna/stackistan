@@ -1,6 +1,8 @@
 import type { ClientPluginFactory } from "rakkasjs/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ClientSuspense } from "rakkasjs";
+import ReactQueryDevtoolsWrapper from "./devtools";
+
 
 const tanstackQueryClientHooksFactory: ClientPluginFactory = (_, options) => {
   const queryClient = new QueryClient({
@@ -36,7 +38,9 @@ const tanstackQueryClientHooksFactory: ClientPluginFactory = (_, options) => {
       return (
         <QueryClientProvider client={queryClient}>
           {app}
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ClientSuspense fallback={null}>
+            <ReactQueryDevtoolsWrapper />
+          </ClientSuspense>
         </QueryClientProvider>
       );
     },

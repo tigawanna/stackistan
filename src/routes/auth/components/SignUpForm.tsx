@@ -32,17 +32,16 @@ export function SignUpForm({}: SignupFormProps) {
     (vars: typeof input) => {
       return createUser({
         pb: page_ctx.locals.pb,
-        collection:"applicate_users",
+        collection: "stackistan_users",
         data: vars,
       });
     },
     {
       invalidateTags: ["viewer"],
       onError(error: any) {
-
         toast.error("Something went wrong", {
           description: error?.message,
-        })
+        });
       },
       onSuccess(data) {
         if (data && data?.data) {
@@ -97,7 +96,6 @@ export function SignUpForm({}: SignupFormProps) {
             val={input.email}
             onChange={handleChange}
             validation_error={error}
-            // @ts-expect-error
             pb_error={email_password_signup_mutation.data?.error}
           />
           <PbTheTextInput
@@ -108,7 +106,6 @@ export function SignUpForm({}: SignupFormProps) {
             val={input.username}
             onChange={handleChange}
             validation_error={error}
-            // @ts-expect-error
             pb_error={email_password_signup_mutation.data?.error}
           />
           <PbTheTextInput
@@ -120,7 +117,6 @@ export function SignUpForm({}: SignupFormProps) {
             onChange={handleChange}
             val={input.password}
             validation_error={error}
-            // @ts-expect-error
             pb_error={email_password_signup_mutation.data?.error}
           />
           <PbTheTextInput
@@ -132,7 +128,6 @@ export function SignUpForm({}: SignupFormProps) {
             onChange={handleChange}
             val={input.passwordConfirm}
             validation_error={error}
-            // @ts-expect-error
             pb_error={email_password_signup_mutation.data?.error}
           />
 

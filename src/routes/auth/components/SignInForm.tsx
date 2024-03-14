@@ -4,7 +4,7 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useFormHook } from "@/components/form/useForm";
 import { useState } from "react";
 import { Loader, Unlock } from "lucide-react";
-import { tryCatchWrapper } from "@/utils/helpers/async";
+
 import {
   Link,
   navigate,
@@ -36,7 +36,7 @@ export function SignInForm({}: SignInFormProps) {
     (vars: { usernameOrEmail: string; password: string }) => {
       return emailPasswordLogin({
         pb: page_ctx.locals.pb,
-        collection: "applicate_users",
+        collection: "stackistan_users",
         identity: vars.usernameOrEmail,
         password: vars.password,
       });
@@ -71,7 +71,7 @@ export function SignInForm({}: SignInFormProps) {
       return resetPassword({
         pb: page_ctx.locals.pb,
         email: vars.email,
-        collection: "applicate_users",
+        collection: "stackistan_users",
       });
     },
     {
@@ -163,7 +163,7 @@ export function SignInForm({}: SignInFormProps) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <p className=" text-sm">
+        <p className=" ">
           New here ? Create an account ?{" "}
           <Link href="/auth/signup" className="text-accent">
             Sign up
@@ -175,7 +175,8 @@ export function SignInForm({}: SignInFormProps) {
           onClick={() =>
             pw_reset_request_mutation.mutate({
               email: input.usernameOrEmail,
-            })}
+            })
+          }
         >
           <h3>Forgot password</h3>
           <Unlock className="h-4 w-4 text-red-600" />

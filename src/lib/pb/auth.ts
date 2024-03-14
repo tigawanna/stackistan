@@ -1,7 +1,7 @@
-import { tryCatchWrapper } from "@/utils/helpers/async";
 import { CollectionName, PocketBaseClient } from "./client";
 import { Schema } from "./database";
 import { OAuth2AuthConfig } from "pocketbase";
+import { pbTryCatchWrapper } from "./utils";
 
 
 //  Base interface 
@@ -27,7 +27,7 @@ export async function resetPassword<T extends CollectionName>({
   collection,
   email,
 }: ResetPasswordPocketbaseUser<T>) {
-  return tryCatchWrapper(
+  return pbTryCatchWrapper(
     pb?.collection(collection).requestPasswordReset(email),
   );
 }
@@ -55,10 +55,10 @@ export async function confirmResetPassword<T extends CollectionName>({
   password,
   passwordConfirm,
 }: ResetPasswordConfirmPocketbaseUser<T>) {
-  return tryCatchWrapper(
+  return pbTryCatchWrapper(
     pb
       ?.collection(collection)
-      .confirmPasswordReset(token,password,passwordConfirm),
+      .confirmPasswordReset(token, password, passwordConfirm),
   );
 }
 
@@ -81,7 +81,7 @@ export async function createUser<T extends CollectionName>({
   data,
   collection,
 }: CreatePocketbaseUser<T>) {
-  const res = await tryCatchWrapper(pb.collection(collection).create(data));
+  const res = await pbTryCatchWrapper(pb.collection(collection).create(data));
   document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
   return res;
 }
@@ -98,7 +98,9 @@ export async function updateUser<T extends CollectionName>({
   data,
   collection,
 }: UpdatePocketbaseUser<T>) {
-  const res = await tryCatchWrapper(pb.collection(collection).update(id,data));
+  const res = await pbTryCatchWrapper(
+    pb.collection(collection).update(id, data),
+  );
   document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
   return res;
 }
@@ -122,7 +124,7 @@ export async function verifyUserEmail<T extends CollectionName>({
   collection,
   email,
 }: VerifyPocketbaseUserEmail<T>) {
-  return await tryCatchWrapper(
+  return await pbTryCatchWrapper(
     pb.collection(collection).requestVerification(email),
   );
 }
@@ -148,7 +150,7 @@ export async function emailPasswordLogin<T extends CollectionName>({
   identity,
   password,
 }: LoginPocketbaseUser<T>) {
-  const user = await tryCatchWrapper(
+  const user = await pbTryCatchWrapper(
     pb.collection(collection).authWithPassword(identity, password),
   );
   document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
@@ -175,7 +177,14 @@ export async function oneClickOauthLogin<T extends CollectionName>({
       .collection(collection)
       .authWithOAuth2<RecordManualTypes>(oauth_config);
 
-    console.log(" ===== oneClickOauthLogin ====== ", authData);
+  const provider = oauth_config.provider
+  const userToUpdate = provider ==="github"? {
+    accessToken: authData?.meta?.accessToken,
+    avatar: authData?.meta?.avatarUrl,
+  }: {
+    accessToken: authData?.meta?.accessToken,
+    avatar: authData?.meta?.avatarUrl,
+  }
 
     const updated_user = await pb
       .collection(collection)

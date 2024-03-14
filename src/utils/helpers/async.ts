@@ -35,7 +35,7 @@ export function narrowOutError<T = unknown>(data?: DataOrError<T>) {
   }
 }
 
-export async function tryCatchWrapper<T,E=Error>(
+export async function tryCatchWrapper<T,E extends Error>(
   fn: Promise<T>,
 ): Promise<{ data: T | null; error: E | null }> {
   try {

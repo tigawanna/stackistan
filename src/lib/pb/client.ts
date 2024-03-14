@@ -42,10 +42,10 @@ export async function serverSideAdminPocketBaseInstance(
 ) {
   try {
     if (!process.env.RAKKAS_ADMIN_USERNAME) {
-      throw new Error("RAKKAS_ADMIN_USERNAME is not defined");
+      throw new Error("PB_ADMIN_USERNAME is not defined");
     }
     if (!process.env.RAKKAS_ADMIN_PASSWORD) {
-      throw new Error("RAKKAS_ADMIN_PASSWORD is not defined");
+      throw new Error("PB_ADMIN_PASSWORD is not defined");
     }
     const pb = new PocketBase(
       import.meta.env.RAKKAS_PB_URL,

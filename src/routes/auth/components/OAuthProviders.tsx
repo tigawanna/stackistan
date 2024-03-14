@@ -19,16 +19,13 @@ export function OAuthproviders({}: OAuthprovidersProps) {
   const qc = useQueryClient();
   const { locals } = usePageContext();
   const { current } = useLocation();
-  // const query = useQuery("/providers", () => {
-  //   return locals.pb.from("applicate_users").listAuthMethods();
-  // });
-  // console.log(" ==== auth methods   ==== ", query.data);
+
   const mutation = useMutation(
     ({ provider }: { provider: "github" | "google" | "oidc" }) => {
       return tryCatchWrapper(
         oneClickOauthLogin({
           pb: locals.pb,
-          collection: "applicate_users",
+          collection: "stackistan_users",
           oauth_config: {
             provider,
             scopes: ["openid", "profile", "email"],

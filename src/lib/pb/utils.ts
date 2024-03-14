@@ -17,3 +17,15 @@ export function errorToClientResponseError(
     toJSON: error?.toJSON,
   };
 }
+
+
+export async function pbTryCatchWrapper<T>(
+  fn: Promise<T>,
+): Promise<{ data: T | null; error: ClientResponseError | null }> {
+  try {
+    const data = await fn;
+    return { data, error: null };
+  } catch (error: any) {
+    return { data: null, error };
+  }
+}

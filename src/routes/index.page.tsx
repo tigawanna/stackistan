@@ -1,7 +1,10 @@
-export default function HomePage() {
-	return (
-		<main>
-			<h1>Hello world!</h1>
-		</main>
-	);
+import { HeroSection } from "@/components/landing/HeroSection";
+import { PageProps } from "rakkasjs";
+
+export default function HomePage({}: PageProps) {
+  return (
+    <main className="flex h-fit w-full flex-col  items-center ">
+      <HeroSection />
+    </main>
+  );
 }

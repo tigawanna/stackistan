@@ -71,7 +71,7 @@ export default {
           "base-100": "#000000",
           "base-200": "#333333",
           "base-300": "#4d4d4d",
-          "base-content": "#ffffff",
+          "base-content": "#f7f3f6",
 
           info: "#0000ff",
           success: "#008000",

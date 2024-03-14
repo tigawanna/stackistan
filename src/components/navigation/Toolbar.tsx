@@ -12,7 +12,7 @@ export function Toolbar({}: ToolbarProps) {
   ];
   return (
     <div className="glass sticky top-0 flex  w-full items-center justify-between bg-inherit">
-      <Link href="/" className="p-2 text-3xl hover:text-secondary"> Applicate</Link>
+      <Link href="/" className="p-2 text-2xl hover:text-secondary font-bold"> Stackistan</Link>
       <div className="hidden items-center justify-end gap-2 px-2 md:flex">
         <ul className="flex flex-wrap items-center gap-2 divide-x-2">
           {routes.map((route) => (

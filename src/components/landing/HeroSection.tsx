@@ -15,13 +15,14 @@ export function HeroSection({}: HeroSectionProps) {
         <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
           <div className="flex flex-col gap-2 p-3 ">
             <h1 className="block font-bold  py-5  text-6xl lg:leading-tight ">
-              Start your journey with{" "}
-              <span className="text-primary">Applicate</span>
+              Start your journey with 
+              {" "}
+              <span className="text-primary"> Stackistan</span>
             </h1>
-            <p className="mx-auto max-w-[600px] text-xl ">
-              Create a stunning resume and cover letter with our easy-to-use
-              builder with automation that leverages your application history to
-              grant you a friction less experience.
+            <p className="mx-auto brightness-75 max-w-[600px] text-xl ">
+             A collection of tools to help you navigate the tech job market
+             Everything from crafting your resume to automating your application
+             to building a greater picture of the tech scene
             </p>
 
             {/* <!-- Buttons --> */}

@@ -2,10 +2,10 @@
 import { startClient } from "rakkasjs/client";
 // import { TypedPocketBase } from "typed-pocketbase";
 // import { Schema } from "@/lib/pb/database";
- const dataTheme = document?.documentElement?.getAttribute("data-theme");
+//  const dataTheme = document?.documentElement?.getAttribute("data-theme");
   // document.documentElement.setAttribute("data-theme", `${dataTheme}`);
-   console.log("dataTheme on the entry.client  ====== ", dataTheme);
-startClient({
+  //  console.log("dataTheme on the entry.client  ====== ", dataTheme);
+  startClient({
   hooks: {
     beforeStart() {
       // Do something before starting the client

@@ -1,4 +1,4 @@
-import { Head, LayoutProps } from "rakkasjs";
+import { LayoutProps, PreloadContext } from "rakkasjs";
 import ErrorBoundaryComponent from "@/components/wrappers/ErrorBoundaryComponent";
 import "./index.css";
 
@@ -11,5 +11,10 @@ function Layout({ children }: LayoutProps) {
     </ErrorBoundaryComponent>
   );
 }
+Layout.preload = (ctx: PreloadContext) => {
+  return {
+    head: { title: "Stackistan", description: "Tech job market tool" },
+  };
+};
 
 export default Layout;

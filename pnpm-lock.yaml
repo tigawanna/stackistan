@@ -101,6 +101,9 @@ dependencies:
   '@tanstack/react-query-devtools':
     specifier: ^5.28.0
     version: 5.28.0(@tanstack/react-query@5.28.0)(react@18.2.0)
+  '@unpic/react':
+    specifier: ^0.1.11
+    version: 0.1.11(react-dom@18.2.0)(react@18.2.0)
   '@vitejs/plugin-react':
     specifier: ^4.2.1
     version: 4.2.1(vite@5.1.6)
@@ -3067,6 +3070,27 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
+
+  /@unpic/core@0.0.47:
+    resolution: {integrity: sha512-h8Jage7Jh4PS7j77syB/qQR75eDzF0aTJc7mkDfWwqp5HKDfLb7L/3i7ta8Iasg6qZzfySWX/hzy+kLuOJS5XA==}
+    dependencies:
+      unpic: 3.18.0
+    dev: false
+
+  /@unpic/react@0.1.11(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-8ru3Pc+DaADnTkuEqe2v+PzqUT6fhqs89bvJ9ESAg/OI2Nq7FCPu+zc77tnBYMY+VJtcfGjB9tNF3KIfxOB7Jg==}
+    peerDependencies:
+      next: '>=14'
+      react: '>=17'
+      react-dom: '>=17'
+    peerDependenciesMeta:
+      next:
+        optional: true
+    dependencies:
+      '@unpic/core': 0.0.47
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@vavite/connect@4.1.1(vite@5.1.6):
     resolution: {integrity: sha512-UjJEPX9t1fPNJiDbTzzW/ZIorTipCWO9x9aQ0CkNqtH6+dKnaWI/a03gFiNU+7ybhYI1LxdY17ar10ns7DQ08Q==}
@@ -6567,6 +6591,10 @@ packages:
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
+
+  /unpic@3.18.0:
+    resolution: {integrity: sha512-JemzuG3nyKpEQ/DArrYM0l+LDSLLPYiUQvDfGXJY35+r0J0C984vPB4Zh8DyMVip102YSnTeZtZ6Q8OQegQDRQ==}
+    dev: false
 
   /update-browserslist-db@1.0.13(browserslist@4.23.0):
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}

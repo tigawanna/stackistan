@@ -3,26 +3,22 @@ import { Button } from "@/components/shadcn/ui/button";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useFormHook } from "@/components/form/useForm";
 import { useState } from "react";
-import { Loader, Unlock } from "lucide-react";
+import { Link, Loader, Unlock } from "lucide-react";
 
-import {
-  Link,
-  navigate,
-  useLocation,
-  useMutation,
-  usePageContext,
-  useQueryClient,
-} from "rakkasjs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { emailPasswordLogin, resetPassword } from "@/lib/pb/auth";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import {Label} from "@/components/shadcn/ui/label";
+import { Label } from "@/components/shadcn/ui/label";
+import { usePageContext, navigate } from "rakkasjs";
+import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 
 interface SignInFormProps {
-  current:URL
+  current: URL;
 }
 
-export function SignInForm({current}: SignInFormProps) {
+export function SignInForm({ current }: SignInFormProps) {
   const page_ctx = usePageContext();
   const [show, setShow] = useState(false);
   // const { current } = useLocation();
@@ -36,8 +32,8 @@ export function SignInForm({current}: SignInFormProps) {
       },
     });
 
-  const email_login_mutation = useMutation(
-    (vars: { usernameOrEmail: string; password: string }) => {
+  const email_login_mutation = useMutation({
+    mutationFn: (vars: { usernameOrEmail: string; password: string }) => {
       return emailPasswordLogin({
         pb: page_ctx.locals.pb,
         collection: "stackistan_users",
@@ -45,60 +41,82 @@ export function SignInForm({current}: SignInFormProps) {
         password: vars.password,
       });
     },
-    {
-      invalidateTags: ["viewer"],
-      onError(error: any) {
-        toast.error("Something went wrong", {
-          description: error?.message,
-        });
-      },
-      onSuccess(data) {
-        if (data && data?.data) {
-          qc.invalidateQueries(["viewer"]);
-          const return_to = current.searchParams.get("return_to");
-          navigate(return_to ?? "/");
-          toast.success(`Welcome`, {
-            description: `${data?.data?.record?.username}`,
-          });
-        }
-        if (data && data?.error) {
-          toast.error("Something went wrong", {
-            description: data?.error?.message,
-          });
-        }
-      },
+    meta: {
+      invalidates: ["viewer"],
     },
-  );
 
-  const pw_reset_request_mutation = useMutation(
-    (vars: { email: string }) => {
+    onError(error: any) {
+      sonnerToast({
+        type: "error",
+        options: {
+          description: error?.message,
+        },
+      });
+    },
+    onSuccess(data) {
+      if (data && data?.data) {
+        // qc.invalidateQueries({ queryKey: ["viewer"] });
+        const return_to = current.searchParams.get("return_to");
+        navigate(return_to ?? "/");
+        sonnerToast({
+          title: "welcome",
+          options: {
+            description: `${data?.data?.record?.username}`,
+          },
+        });
+      }
+      if (data && data?.error) {
+        toast.error("Something went wrong", {
+          description: data?.error?.message,
+        });
+        sonnerToast({
+          type: "error",
+          options: {
+            description: `${data?.error?.message}`,
+          },
+        });
+      }
+    },
+  });
+
+  const pw_reset_request_mutation = useMutation({
+    mutationFn: (vars: { email: string }) => {
       return resetPassword({
         pb: page_ctx.locals.pb,
         email: vars.email,
         collection: "stackistan_users",
       });
     },
-    {
-      invalidateTags: ["viewer"],
-      onError(error: any) {
-        toast.error("Something went wrong", {
-          description: error?.message,
-        });
-      },
-      onSuccess(data) {
-        if (data && data?.data) {
-          toast.success(`Success`, {
-            description: `Password reset request sent, check your email`,
-          });
-        }
-        if (data && data?.error) {
-          toast.error("Something went wrong", {
-            description: data?.error?.message,
-          });
-        }
-      },
+    meta: {
+      invalidates: ["viewer"],
     },
-  );
+    onError(error: any) {
+      sonnerToast({
+        type: "error",
+        options: {
+          description: error?.message,
+        },
+      });
+    },
+    onSuccess(data) {
+      if (data && data?.data) {
+        sonnerToast({
+          title: "success",
+          options: {
+            description: `Password reset request sent, check your email`,
+          },
+        });
+      }
+      if (data && data?.error) {
+        sonnerToast({
+          type: "error",
+          options: {
+            description: data?.error?.message,
+          },
+        });
+      }
+    },
+  });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -132,28 +150,26 @@ export function SignInForm({current}: SignInFormProps) {
             val={input.password}
           />
           <div className="flex gap-2 items-center justify-center">
-          <Label htmlFor="show-password">
-            show password
-          </Label>
-          <Checkbox
-          id="show-password"
-          name="show-password"
-          className="h-5 w-5"
-            checked={show}
-            onCheckedChange={(e) => {
-              e.valueOf() ? setShow(true) : setShow(false);
-            }}
-          />
-        </div>
+            <Label htmlFor="show-password">show password</Label>
+            <Checkbox
+              id="show-password"
+              name="show-password"
+              className="h-5 w-5"
+              checked={show}
+              onCheckedChange={(e) => {
+                e.valueOf() ? setShow(true) : setShow(false);
+              }}
+            />
+          </div>
           <Button
             type="submit"
-            disabled={email_login_mutation.isLoading}
+            disabled={email_login_mutation.isPending}
             className="btn btn-wide min-w-[50%]"
             size={"sm"}
           >
             {" "}
             Sign in{" "}
-            {email_login_mutation.isLoading && (
+            {email_login_mutation.isPending && (
               <Loader className="animate-spin" />
             )}
           </Button>
@@ -179,7 +195,7 @@ export function SignInForm({current}: SignInFormProps) {
         </p>
         <button
           className="btn btn-outline btn-sm flex text-xs gap-2 h-2 "
-          disabled={pw_reset_request_mutation.isLoading}
+          disabled={pw_reset_request_mutation.isPending}
           onClick={() =>
             pw_reset_request_mutation.mutate({
               email: input.usernameOrEmail,
@@ -188,7 +204,7 @@ export function SignInForm({current}: SignInFormProps) {
         >
           <h3>Forgot password</h3>
           <Unlock className="h-4 w-4 text-red-600" />
-          {pw_reset_request_mutation.isLoading && (
+          {pw_reset_request_mutation.isPending && (
             <Loader className="animate-spin" />
           )}
         </button>

@@ -19,6 +19,7 @@ startClient({
           import.meta.env.RAKKAS_PB_URL,
         );
         pageContext.locals.pb?.authStore.onChange(() => {
+          // @ts-expect-error
           pageContext.requestContext?.setCookie?.(
             "set-cookie",
             pageContext.locals.pb?.authStore.exportToCookie(),

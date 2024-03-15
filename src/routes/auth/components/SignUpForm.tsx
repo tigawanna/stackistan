@@ -10,6 +10,8 @@ import { Loader } from "lucide-react";
 import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
 import { createUser } from "@/lib/pb/auth";
 import { toast } from "sonner";
+import { Label } from "@/components/shadcn/ui/label";
+import { Checkbox } from "@/components/shadcn/ui/checkbox";
 
 interface SignupFormProps {}
 
@@ -130,22 +132,22 @@ export function SignUpForm({}: SignupFormProps) {
             validation_error={error}
             pb_error={email_password_signup_mutation.data?.error}
           />
-
-          <TheTextInput
-            field_key={"show"}
-            field_name={"show password"}
-            onChange={(e) => setShow(e.target.checked)}
-            type="checkbox"
-            className="border border-secondary checkbox h-5 w-5 bg-secondary/30"
-            container_classname="border-none  flex flex-row justify-center items-center gap-3"
-            label_classname="min-w-fit "
-          />
-
+          <div className="flex gap-2 items-center justify-center">
+            <Label htmlFor="show-password">show password</Label>
+            <Checkbox
+              id="show-password"
+              name="show-password"
+              className="h-5 w-5"
+              checked={show}
+              onCheckedChange={(e) => {
+                e.valueOf() ? setShow(true) : setShow(false);
+              }}
+            />
+          </div>
           <Button
             type="submit"
             disabled={email_password_signup_mutation.isLoading}
             className="btn btn-sm btn-outline min-w-[50%]"
-            variant={"ghost"}
             size={"sm"}
           >
             {" "}

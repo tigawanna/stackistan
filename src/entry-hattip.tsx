@@ -17,6 +17,7 @@ export default createRequestHandler({
     beforePages: [],
     beforeApiRoutes: [],
     beforeNotFound: [],
+    // @ts-expect-error
     beforeAll: [cookie()],
   },
 
@@ -27,6 +28,7 @@ export default createRequestHandler({
       },
 
       emitToDocumentHead() {
+        // @ts-expect-error
         const cookie_theme = requestContext?.cookie?.theme ?? "dark";
         // console.log("cookieTheme on the server  ====== ", cookie_theme);
         return `

@@ -22,7 +22,9 @@ function Layout({ children }: LayoutProps) {
             <Sidebar />
           </div>
           <div className="fixed top-[2%] left-[2%] sm:hidden">
-            <SideDrawer />
+            <ClientSuspense fallback={<div className="h-8 "></div>}>
+              <SideDrawer />
+            </ClientSuspense>
           </div>
           <div className="w-full  flex flex-col  gap-2 ">
             <div className="w-fit flex rounded-xl">

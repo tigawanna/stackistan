@@ -1,18 +1,12 @@
-import { Button } from "@/components/shadcn/ui/button";
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/shadcn/ui/drawer";
 import { Menu, X } from "lucide-react";
 import { MiniSettingsModal } from "../mini-settings/MiniSettings";
 import { RoutesList } from "./RoutesList";
-import { Icon } from "@radix-ui/react-select";
 
 interface SideDrawerProps {}
 

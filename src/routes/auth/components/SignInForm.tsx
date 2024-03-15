@@ -15,13 +15,17 @@ import {
 } from "rakkasjs";
 import { emailPasswordLogin, resetPassword } from "@/lib/pb/auth";
 import { toast } from "sonner";
+import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import {Label} from "@/components/shadcn/ui/label";
 
-interface SignInFormProps {}
+interface SignInFormProps {
+  current:URL
+}
 
-export function SignInForm({}: SignInFormProps) {
+export function SignInForm({current}: SignInFormProps) {
   const page_ctx = usePageContext();
   const [show, setShow] = useState(false);
-  const { current } = useLocation();
+  // const { current } = useLocation();
   const qc = useQueryClient();
 
   const { handleChange, input, setError, setInput, validateInputs } =
@@ -127,20 +131,24 @@ export function SignInForm({}: SignInFormProps) {
             onChange={handleChange}
             val={input.password}
           />
-          <TheTextInput
-            field_key={"show"}
-            field_name={"show password"}
-            onChange={(e) => setShow(e.target.checked)}
-            type="checkbox"
-            className="border border-secondary checkbox h-5 w-5 bg-secondary/30"
-            container_classname="border-none  flex flex-row justify-center items-center gap-3"
-            label_classname="min-w-fit "
+          <div className="flex gap-2 items-center justify-center">
+          <Label htmlFor="show-password">
+            show password
+          </Label>
+          <Checkbox
+          id="show-password"
+          name="show-password"
+          className="h-5 w-5"
+            checked={show}
+            onCheckedChange={(e) => {
+              e.valueOf() ? setShow(true) : setShow(false);
+            }}
           />
+        </div>
           <Button
             type="submit"
             disabled={email_login_mutation.isLoading}
-            className="btn btn-sm btn-outline min-w-[50%]"
-            variant={"ghost"}
+            className="btn btn-wide min-w-[50%]"
             size={"sm"}
           >
             {" "}

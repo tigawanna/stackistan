@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MutationCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { uneval } from "devalue";
 import type { ServerPluginFactory } from "rakkasjs/server";
 
@@ -7,9 +7,28 @@ const tanstackQueryServerHooksFactory: ServerPluginFactory = (_, options) => ({
     let thereIsUnsentData = false;
     let unsentData = Object.create(null);
 
-    const queryClient = new QueryClient({
-      defaultOptions: options.defaultTanstackQueryOptions,
-    });
+
+  const queryClient = new QueryClient({
+    mutationCache: new MutationCache({
+      onSuccess: async (data, variable, context, mutation) => {
+        if (Array.isArray(mutation.meta?.invalidates)) {
+          mutation.meta?.invalidates.forEach((key) => {
+            return queryClient.invalidateQueries({
+              queryKey: key,
+            });
+          });
+        }
+      },
+    }),
+    defaultOptions: {
+      queries: {
+        staleTime: 100,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
+      ...options.defaultTanstackQueryOptions,
+    },
+  });
     queryClient.getQueryCache().subscribe(({ type, query }) => {
       if (type !== "updated" || query.state.status !== "success") return;
       unsentData[query.queryHash] = query.state.data;

@@ -1,12 +1,28 @@
 import type { ClientPluginFactory } from "rakkasjs/client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MutationCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ClientSuspense } from "rakkasjs";
 import ReactQueryDevtoolsWrapper from "./devtools";
 
 
 const tanstackQueryClientHooksFactory: ClientPluginFactory = (_, options) => {
+
   const queryClient = new QueryClient({
-    defaultOptions: options.defaultTanstackQueryOptions,
+    mutationCache: new MutationCache({
+      onSuccess: async (data, variable, context, mutation) => {
+        if (Array.isArray(mutation.meta?.invalidates)) {
+          mutation.meta?.invalidates.forEach((key) => {
+            return queryClient.invalidateQueries({
+              queryKey: key,
+            });
+          });
+        }
+      },
+    }),
+    defaultOptions: {queries: {
+      staleTime: 100,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    },...options.defaultTanstackQueryOptions},
   });
 
   function doSetQueryData(data: Record<string, unknown>) {

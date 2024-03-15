@@ -3,7 +3,7 @@ import { PageProps } from "rakkasjs";
 export default function TestPage({}: PageProps) {
   return (
     <div className="flex h-full  w-full flex-col items-center justify-center">
-      Test page
+      Test-2 page
     </div>
   );
 }

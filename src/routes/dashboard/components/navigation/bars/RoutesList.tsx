@@ -22,7 +22,7 @@ export function RoutesList({icontsOnly=true}: RoutesListProps) {
             data-tip={route.name}
             className="text-3xl  items-center flex gap-3 
                 hover:bg-base-300 
-              rounded-lg p-2 lg:p-4 tooltip hover:tooltip-right"
+              rounded-lg p-2 lg:p-4 tooltip hover:tooltip-right duration-1000"
           >
             {route.icon}
             {icontsOnly ? (

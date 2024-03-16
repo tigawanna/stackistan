@@ -5,6 +5,7 @@ import BreadCrumbs from "@/components/navigation/BreadCrumbs";
 import { Toaster } from "@/components/shadcn/ui/sonner";
 import { SideDrawer } from "@/routes/dashboard/components/navigation/bars/SideDrawer";
 import { Sidebar } from "@/routes/dashboard/components/navigation/bars/sidebar";
+import { getSSRFriendlyTheme } from "@/lib/rakkas/theme";
 
 function Layout({ children }: LayoutProps) {
   const location = useLocation();
@@ -45,12 +46,14 @@ function Layout({ children }: LayoutProps) {
   );
 }
 Layout.preload = (ctx: PreloadContext) => {
-  const theme = ctx?.params?.theme;
+  // const theme = ctx.requestContext?.cookie?.theme
+  const theme = getSSRFriendlyTheme(ctx.requestContext)
+  // console.log(" ==== theme  ===== ",theme)
   return {
     head: {
       title: "Dashboard",
       description: "Tech job market tool",
-      htmlAttributes: { "data-theme": theme??"dark" },
+      htmlAttributes: { "data-theme": theme },
     },
   };
 };

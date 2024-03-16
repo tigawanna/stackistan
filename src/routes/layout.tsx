@@ -15,7 +15,8 @@ Layout.preload = (ctx: PreloadContext) => {
   return {
     head: { title: "Stackistan", 
     description: "Tech job market tool",
-    htmlAttributes:{ "data-theme":"dark" }} 
+    // htmlAttributes:{ "data-theme":"dark" }
+  } 
   };
 };
 

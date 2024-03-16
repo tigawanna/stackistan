@@ -8,11 +8,12 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group "
       toastOptions={{
 
-        style: {
-          background: `var(--backeground-darker)`,
-          color: `var(--foreground)`,
+        // style: {
+        //   background: `var(--backeground-darker)`,
+        //   color: `var(--foreground)`,
       
-        },
+        // },
+        
         classNames: {
           toast: `group toast rounded-lg  
             group-[.toaster]:border-border group-[.toaster]:shadow-lg`,

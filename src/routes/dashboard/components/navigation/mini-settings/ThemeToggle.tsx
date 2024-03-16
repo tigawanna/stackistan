@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   Select,
   SelectContent,
@@ -9,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/ui/select";
-import { useSSRFriendlyTheme } from "@/lib/rakkas/useSSRFriendlyTheme";
+import { useSSRFriendlyTheme } from "@/lib/rakkas/theme";
 
 interface ThemeToggleModalProps {}
 

@@ -1,4 +1,10 @@
-import { ClientSuspense, LayoutProps, PreloadContext, useLocation } from "rakkasjs";
+import {
+  ClientSuspense,
+  Head,
+  LayoutProps,
+  PreloadContext,
+  useLocation,
+} from "rakkasjs";
 import Nprogress from "@/components/navigation/nprogress/Nprogress";
 import ErrorBoundaryComponent from "@/components/wrappers/ErrorBoundaryComponent";
 import BreadCrumbs from "@/components/navigation/BreadCrumbs";
@@ -13,6 +19,16 @@ function Layout({ children }: LayoutProps) {
   return (
     <ErrorBoundaryComponent>
       <div className="w-full h-screen  overflow-y-hidden  flex flex-col items-center justify-center ">
+        <Head
+          elements={[
+            {
+              tagName: "link",
+              rel: "icon",
+              type: "image/svg+xml",
+              href: "/site.svg",
+            },
+          ]}
+        />
         <ClientSuspense fallback={<div className="h-8 "></div>}>
           <Nprogress
             isAnimating={location && location?.pending ? true : false}
@@ -47,13 +63,21 @@ function Layout({ children }: LayoutProps) {
 }
 Layout.preload = (ctx: PreloadContext) => {
   // const theme = ctx.requestContext?.cookie?.theme
-  const theme = getSSRFriendlyTheme(ctx.requestContext)
+  const theme = getSSRFriendlyTheme(ctx.requestContext);
   // console.log(" ==== theme  ===== ",theme)
   return {
     head: {
       title: "Dashboard",
       description: "Tech job market tool",
       htmlAttributes: { "data-theme": theme },
+      // elements: [{
+      //   tagName: "head",
+      //   rel: "icon",
+      //   type: "image/svg+xml",
+      //   href: "/site.svg",
+      // }],
+
+      // <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     },
   };
 };

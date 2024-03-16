@@ -6,7 +6,7 @@ interface RoutesListProps {
 
 export function RoutesList({icontsOnly=true}: RoutesListProps) {
   const routes = [
-    { name: "home", url: "/", icon: <Home /> },
+    { name: "dashboard", url: "/dashboard", icon: <Home /> },
     { name: "profile", url: "/dashboard/profile", icon: <User /> },
     { name: "resume", url: "/dashboard/resume", icon: <Lock /> },
     { name: "test", url: "/dashboard/test", icon: <TestTube2 /> },

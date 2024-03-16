@@ -170,8 +170,8 @@ dependencies:
 
 devDependencies:
   '@rakkasjs/eslint-config':
-    specifier: 0.7.0-next.43
-    version: 0.7.0-next.43(eslint@8.57.0)(typescript@5.4.2)
+    specifier: 0.7.0-next.45
+    version: 0.7.0-next.45(eslint@8.57.0)(typescript@5.4.2)
   '@tanstack/eslint-plugin-query':
     specifier: ^5.27.7
     version: 5.27.7(eslint@8.57.0)(typescript@5.4.2)
@@ -206,8 +206,8 @@ devDependencies:
     specifier: 0.5.12
     version: 0.5.12(prettier@3.2.5)
   rakkasjs:
-    specifier: 0.7.0-next.43
-    version: 0.7.0-next.43(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)(vite@5.1.6)
+    specifier: 0.7.0-next.45
+    version: 0.7.0-next.45(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)(vite@5.1.6)
   tailwindcss:
     specifier: 3.4.1
     version: 3.4.1
@@ -1105,33 +1105,24 @@ packages:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: false
 
-  /@hattip/adapter-node@0.0.42:
-    resolution: {integrity: sha512-lMsXl7GqZl7gdaipuul4s8EFRQdrmE5qFzo2khFcaUdaHAJghfSXqyeHnseOlRcrItFu9jO8sU5mUar6iTqYJw==}
+  /@hattip/adapter-node@0.0.44:
+    resolution: {integrity: sha512-Qf0kcrE4yHFrmKgfntrxHGNkk0/9a45aKmAO3ex6OiRKat5DZCFDdFMHV85Z594IohzT7Q+WcWiHQl/b0Jvo7Q==}
     dependencies:
-      '@hattip/core': 0.0.42
-      '@hattip/polyfills': 0.0.42
-      '@hattip/walk': 0.0.42
+      '@hattip/core': 0.0.44
+      '@hattip/polyfills': 0.0.44
+      '@hattip/walk': 0.0.44
     dev: true
 
-  /@hattip/bundler-cloudflare-workers@0.0.42:
-    resolution: {integrity: sha512-YSyHLqMIfjHKpQW6t7TjztqAv6Av8jzv/g/+e7dEZDxRiJg4yty8q7/yu7JAIlS6amIBkkgTdEa3ABgFSMzwQQ==}
+  /@hattip/bundler-cloudflare-workers@0.0.44:
+    resolution: {integrity: sha512-PHXuES9p/+UpLjxqEHxbldr5COrmoFB8D8V+qDX8bUgcgMZ7u5H9SQRP2wS9VAjGL0NDyglYOsA0Ex9k0+CJzg==}
     hasBin: true
     dependencies:
       cac: 6.7.14
       esbuild: 0.20.1
     dev: true
 
-  /@hattip/bundler-deno@0.0.42:
-    resolution: {integrity: sha512-LOXT9zr76fQhR4vxcW9kmjj7UsSctVBADpIfeIm0T7qwTZHaoRhiaXLdAVu+I654B8quhrdsOan9OeHNLj9aGQ==}
-    hasBin: true
-    dependencies:
-      cac: 6.7.14
-      cpr: 3.0.1
-      esbuild: 0.20.1
-    dev: true
-
-  /@hattip/bundler-netlify@0.0.42:
-    resolution: {integrity: sha512-HBkt3yLcX6TwnV3fAA7/USOzOsKAa5OTgDhWw6Cz03s8kXdlaxJelQV+AD7Mvh4PpkYE2lHRHVDcoZn5YEJ40A==}
+  /@hattip/bundler-deno@0.0.44:
+    resolution: {integrity: sha512-1SIugKyALTF2u22zJmZysN7GNcHmoPQyr+qkyN+7WfonYe3XwhFrAF2eGlVzLTbRQg2rdzLvto+O1tYPn9RuZQ==}
     hasBin: true
     dependencies:
       cac: 6.7.14
@@ -1139,8 +1130,8 @@ packages:
       esbuild: 0.20.1
     dev: true
 
-  /@hattip/bundler-vercel@0.0.42:
-    resolution: {integrity: sha512-r9ShywwtEFzaglKwzsgsB03Tn6jV+ZJ3LMdHtiqXYqlF7d62CWtpavTFY4Zek0uc6J7hsK7BBJUlt5wmk1bwcw==}
+  /@hattip/bundler-netlify@0.0.44:
+    resolution: {integrity: sha512-rlPObreT3j+3tJuWfYcfTp1ey1F87jrAmVg9++/wdtPus8Zkd2XCZy+vZ24NgAbIcdyyAGFkB/6bEfn3Hrnm/g==}
     hasBin: true
     dependencies:
       cac: 6.7.14
@@ -1148,17 +1139,19 @@ packages:
       esbuild: 0.20.1
     dev: true
 
-  /@hattip/compose@0.0.42:
-    resolution: {integrity: sha512-LkRloknz1Riq0n8ZeEPKu3cqNbHJcHaaY58gvNPpoWsxhuHyC/F+JJ0HeYjC8ffxP2XpFRYAbmMcygYzikPkjw==}
+  /@hattip/bundler-vercel@0.0.44:
+    resolution: {integrity: sha512-aA+eBe+3wnIdqkp7BZQitgmSCddrkSrKQ4QifqpixP62N1ja+cvdLuVfFwh9ttRaqD9rQZ9tYPRigjnzc1wi3w==}
+    hasBin: true
     dependencies:
-      '@hattip/core': 0.0.42
+      cac: 6.7.14
+      cpr: 3.0.1
+      esbuild: 0.20.1
     dev: true
 
   /@hattip/compose@0.0.44:
     resolution: {integrity: sha512-0K8fhk3dOI8p6FmCxiGPz5Cr1Svu65Q19/hX2r5OJVdj0U6D/yPzrXyMDQ0Mr8h7PWtAIDCJpa/HxQw+z84HZQ==}
     dependencies:
       '@hattip/core': 0.0.44
-    dev: false
 
   /@hattip/cookie@0.0.44:
     resolution: {integrity: sha512-EwoFHdQzjLtLlC+ECZpo6qedu1rIMSVUduIZg9nTqaQkpmG3UjQXXPJbnyJw5PsrNgps+LBAQX1SQvTZmLR88A==}
@@ -1169,24 +1162,19 @@ packages:
       cookie: 0.6.0
     dev: false
 
-  /@hattip/core@0.0.42:
-    resolution: {integrity: sha512-qJe3t3oSBd09BpdvQsAqQxfaJ+xOJ9hG8z3U9b4rmDTYBGW0ZKL+3pkdFjT6zCBEThE/PLqZQaNVwQZaiKzE7A==}
-    dev: true
-
   /@hattip/core@0.0.44:
     resolution: {integrity: sha512-hW0scygJk2FjC8lL+NAaV8eY5XtseXvX+EyORFgtURJQ33myy/epSFm7uLZcVNVU9aA0C4WyJQSza+U0rxt2Sg==}
-    dev: false
 
-  /@hattip/headers@0.0.42:
-    resolution: {integrity: sha512-Nk6bkyvux+mJ2KncS7Gm7QS7RGMhLKPZk7XSQ+0gzSr6DZMc8Ra/gVg5CZFvL/rnqnJggc5hERxX7FvEClv5MA==}
+  /@hattip/headers@0.0.44:
+    resolution: {integrity: sha512-bwNQ+o8RRTox9FWkmprTP8/rNki9BXkrthCDdnT5zgfkjZk6VFAloV5jmYqnqrNkh3Aw5DFGUcQJRoQBb4aQCw==}
     dependencies:
-      '@hattip/core': 0.0.42
+      '@hattip/core': 0.0.44
     dev: true
 
-  /@hattip/polyfills@0.0.42:
-    resolution: {integrity: sha512-csRDCO154QRr7rVJshvx26/PUlsPCuziZ4ZhfUWKfB8K2Sx10EUyiL6Jur8i0lrA6Zw6p8PVqmKMDR1B4qDB7A==}
+  /@hattip/polyfills@0.0.44:
+    resolution: {integrity: sha512-ldNES22u/135K8Yg6nti1djcwZeIw6e1SY/iqW0qh+AfyYNHuGTix7YL/9OKAD9wbOUj2NHqXYOGCT69NsfIqA==}
     dependencies:
-      '@hattip/core': 0.0.42
+      '@hattip/core': 0.0.44
       '@whatwg-node/fetch': 0.9.17
       node-fetch-native: 1.6.2
     dev: true
@@ -1197,11 +1185,11 @@ packages:
       '@hattip/core': 0.0.44
     dev: false
 
-  /@hattip/walk@0.0.42:
-    resolution: {integrity: sha512-bqmZgQdIy0M0F44PqkUkwbsrF+U4AYeVGUvt5WodxiNL9um/8bG78T33ihE5wIN8F7CiGj3ugzbcrqlDzsBprw==}
+  /@hattip/walk@0.0.44:
+    resolution: {integrity: sha512-tjYO71byyQpdsOVKJ4cySAwWSYqU9IWbROiU1D9SqlQyEYN+TOEaB6n8YkX1gyRbLVkMe+/DJcuagm9AQdPO5A==}
     hasBin: true
     dependencies:
-      '@hattip/headers': 0.0.42
+      '@hattip/headers': 0.0.44
       cac: 6.7.14
       mime-types: 2.1.35
     dev: true
@@ -2502,8 +2490,8 @@ packages:
       '@babel/runtime': 7.24.0
     dev: false
 
-  /@rakkasjs/eslint-config@0.7.0-next.43(eslint@8.57.0)(typescript@5.4.2):
-    resolution: {integrity: sha512-H2HTqqEDrN/E6Wfd0AQdBdq3SUsNFCfawOBkznkhw9T48cNkjOeJnHASQwNQG67tA4qmg9OrOAtIPKeYxZhwLw==}
+  /@rakkasjs/eslint-config@0.7.0-next.45(eslint@8.57.0)(typescript@5.4.2):
+    resolution: {integrity: sha512-dxfHkiZbCdu4bJjp7xM/UZSEHGRswJBLCCZdrz7V42xPmjMAktAoyYh6I5oIhjtmjaKxd6gGQHWj+NLRDZFlOQ==}
     peerDependencies:
       eslint: ^8.7.0
       typescript: 4 || 5
@@ -5724,8 +5712,8 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /rakkasjs@0.7.0-next.43(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)(vite@5.1.6):
-    resolution: {integrity: sha512-pnW2JU+zuZEogmRzYvTCaMuAjbm6rQO+CaqSJg9z7awWl42S2a4zRskx9Z7iN2HOFO4MuaZQcqniZdR3Bd2GRA==}
+  /rakkasjs@0.7.0-next.45(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)(vite@5.1.6):
+    resolution: {integrity: sha512-VFaqA2gHaxogb0ZMSys8+x5W83tkS/H3u40yiujkuTlL4goGfgBjctu/ArCCKwNkqd9233xfEvn2B+tuFSM+dQ==}
     hasBin: true
     peerDependencies:
       react: '18'
@@ -5738,14 +5726,14 @@ packages:
     dependencies:
       '@babel/core': 7.24.0
       '@babel/types': 7.24.0
-      '@hattip/adapter-node': 0.0.42
-      '@hattip/bundler-cloudflare-workers': 0.0.42
-      '@hattip/bundler-deno': 0.0.42
-      '@hattip/bundler-netlify': 0.0.42
-      '@hattip/bundler-vercel': 0.0.42
-      '@hattip/compose': 0.0.42
-      '@hattip/core': 0.0.42
-      '@hattip/polyfills': 0.0.42
+      '@hattip/adapter-node': 0.0.44
+      '@hattip/bundler-cloudflare-workers': 0.0.44
+      '@hattip/bundler-deno': 0.0.44
+      '@hattip/bundler-netlify': 0.0.44
+      '@hattip/bundler-vercel': 0.0.44
+      '@hattip/compose': 0.0.44
+      '@hattip/core': 0.0.44
+      '@hattip/polyfills': 0.0.44
       '@microsoft/fetch-event-source': 2.0.1
       '@types/node': 20.11.27
       '@types/react': 18.2.65

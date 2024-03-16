@@ -14,7 +14,7 @@
     "test:unit": "vitest run"
   },
   "devDependencies": {
-    "@rakkasjs/eslint-config": "0.7.0-next.43",
+    "@rakkasjs/eslint-config": "0.7.0-next.45",
     "@tanstack/eslint-plugin-query": "^5.27.7",
     "@types/react": "^18.2.65",
     "@types/react-dom": "^18.2.22",
@@ -26,7 +26,7 @@
     "postcss": "8.4.35",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "0.5.12",
-    "rakkasjs": "0.7.0-next.43",
+    "rakkasjs": "0.7.0-next.45",
     "tailwindcss": "3.4.1",
     "tailwindcss-animate": "1.0.7",
     "tsx": "^4.7.1",

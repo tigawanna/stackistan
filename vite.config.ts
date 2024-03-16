@@ -4,6 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 // import react from "@vitejs/plugin-react";
 import react from "@vitejs/plugin-react-swc";
 import { rakkasTanstackQuery } from "./src/lib/tanstack/vite-plugin";
+import { rakkasPocketbase } from "./src/lib/pb/rakkas-hook/vite-plugin";
 
 const env = loadEnv("", process.cwd(), "");
 Object.assign(process.env, env);
@@ -17,7 +18,7 @@ export default defineConfig({
     react(),
     rakkas({}),
     rakkasTanstackQuery(),
-
+    rakkasPocketbase(),
   ],
   server: {
     port: 3000,

@@ -1,217 +1,157 @@
-import { ProfileImage } from "./profile-sections/ProfileImage";
-import { PBReturnedUseQueryError } from "@/components/error/PBReturnedUseQueryEror";
-import { useState } from "react";
-import { ProfileDetails } from "./profile-sections/ProfileDetails";
-import { Edit, Loader, Save } from "lucide-react";
-import { TheCountryFields } from "@/components/country/TheCountryFields";
+import { Badge } from "@/components/shadcn/ui/badge";
+import { OptionalTextFields } from "@/components/wrappers/OptionalTextFields";
+import { TimeCompponent } from "@/components/wrappers/TimeCompponent";
+import { useViewer } from "@/lib/pb/hooks/useViewer";
+import {
+  ChevronLeft,
+  ExternalLink,
+  MailIcon,
+  MapPin,
+  PhoneIcon,
+} from "lucide-react";
+import { Link } from "rakkasjs";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
-import { useUser } from "@/utils/hooks/tanstack-query/useUser";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
-import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
-import { TheStringListInput } from "@/components/form/inputs/StringListInput";
-import { usePageContext } from "rakkasjs";
-import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
-import { pbTryCatchWrapper } from "@/lib/pb/utils";
-import { StackistanUsersUpdate } from "@/lib/pb/database";
+interface ProfileComponentProps {}
 
-interface ProfileComponentProps {
-  id: string;
-}
+export function ProfileComponent({}: ProfileComponentProps) {
+  const { data } = useViewer();
 
-export function ProfileComponenst({ id }: ProfileComponentProps) {
-  const qc = useQueryClient();
-  const { locals } = usePageContext();
-
-  const [editing, setEditing] = useState(false);
-
-  const query = useQuery({
-    queryKey: ["profile", id],
-    queryFn: () =>
-      pbTryCatchWrapper(locals.pb.from("stackistan_users").getOne(id ?? "")),
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-  });
-  const profile = query.data?.data;
-
-  const [input, setInput] = useState<StackistanUsersUpdate>({
-    username: profile?.username,
-    github_username: profile?.github_username ?? "",
-    linkedin_username: profile?.linkedin_username ?? "",
-    bio: profile?.bio ?? "",
-
-    avatar_url: profile?.avatar_url,
-    email: profile?.email,
-    country: profile?.country ?? "",
-    city: profile?.city ?? "",
-
-    phone: profile?.phone ?? "",
-    skills: profile?.skills ?? "",
-  });
-  const mutation = useMutation({
-    mutationFn: async (vars: StackistanUsersUpdate) => {
-      return pbTryCatchWrapper(
-        locals.pb.from("stackistan_users").update(id ?? "", vars),
-      );
-    },
-
-    onSuccess: (res) => {
-      if (res.data) {
-        sonnerToast({
-          options: {
-            description: "Profile updated successfully",
-          },
-        });
-        qc.invalidateQueries({ queryKey: ["profile", id] });
-        setEditing(false);
-        // startTransition(() => {
-        // })
-      }
-      if (res.error) {
-        // toast.error("something went wrong", { description: res.error.message , duration:10000 });
-        sonnerToast({
-          type: "error",
-          options: {
-            description: res.error.message,
-          },
-        });
-      }
-    },
-    onError: (error: any) => {
-      // toast(err?.message, { type: "error", autoClose: false });
-      sonnerToast({
-        type: "error",
-        options: {
-          description: error.message,
-        },
-      });
-    },
-  });
-
-  const response = query.data;
-
+  const user = data?.user?.record;
+  if (!user) return null;
+  const {
+    id,
+    name,
+    phone,
+    skills,
+    avatar_url,
+    verified,
+    bio,
+    city,
+    country,
+    created,
+    email,
+    github_username,
+    username,
+    cover_image_url,
+    linkedin_username,
+  } = user;
   return (
-    <div className="w-full h-full flex flex-col items-center  px-4 ">
-      {response?.error && <PBReturnedUseQueryError error={response.error} />}
-      {!response?.data?.verified && (
-        <div className="text-sm bg-error/20 text-error sticky top-10 p-1">
-          ⚠ unverified emails have read-only access
-        </div>
-      )}
-      <div className="flex items-center justify-end gap-1  p-1 w-full sticky top-10">
-        {editing && (
-          <button title="save changes" className="btn btn-sm ">
-            {mutation.isPending ? (
-              <Loader className="animate-spin" />
-            ) : (
-              <Save
-                onClick={() => mutation.mutate(input)}
-                className="h-7 w-7"
-              />
-            )}
-          </button>
-        )}
-        <button
-          title={editing ? "stop editing" : "toggle editing"}
-          className={editing ? "btn btn-sm text-accent" : "btn btn-sm"}
-        >
-          <Edit onClick={() => setEditing((prev) => !prev)} />
-        </button>
+    <div className="w-full h-full flex flex-col items-center  relative gap-2">
+      {/* back button */}
+      <Link
+        className="absolute top-4 left-4 z-30 bg-base-100 bg-opacity-40 hover:bg-secondary  glass rounded-full p-2"
+        href={"/dashboard"}
+      >
+        <ChevronLeft className="h-6 w-7" />
+      </Link>
+      {/* start of cover image  */}
+      <img
+        src={cover_image_url}
+        height={200}
+        width={600}
+        alt={"cover image"}
+        className="w-full h-[200px] object-cover  z-20 top-0 left-0 right-0 bottom-[80%]"
+      />
+      {/*  end of cover image */}
+      {/*start  profile image */}
+      <div className="rounded-full absolute top-[11%] sm:top-[12%] md:top-[15%] p-3 glass z-40">
+        <img
+          src={avatar_url}
+          height={150}
+          width={150}
+          alt={"cover image"}
+          className="rounded-full"
+        />
       </div>
-
-      {response?.data && (
-        <div className="w-full  flex flex-col  gap-10  p-1  mb-5 sm:px-5 ">
-          <div className="w-full flex flex-col md:flex-row gap-5  justify-between ">
-            <div className="min-w-[250px] w-full md:w-[25%]">
-              <ProfileImage
-                avatar_url={response?.data?.avatar_url}
-                file_name={response?.data?.avatar_url}
-                record_id={response?.data?.id}
-                editing={editing}
-                setEditing={setEditing}
-                setInput={setInput}
-              />
+      {/* end of profile image */}
+      {/* start of profile  details */}
+      <div className="w-full glass flex flex-col items-center justify-center z-30 pt-[11%] sm:pt-[7%] lg:pt-[5%] pb-2 ">
+        {/*  image and basic detalis */}
+        <div className="w-full flex items-center justify-between flex-col  gap-2 ">
+          <div className="flex flex-wrap items-center justify-center p-3  ">
+            <div className="flex flex-wrap items-center justify-center gap-3 ">
+              {/* name and edit profile section */}
+              <div className="flex flex-wrap items-center justify-center gap-3 w-full">
+                {/* name */}
+                <span className="text-2xl font-bold  px-2 line-clamp-1">
+                  {name}
+                </span>
+                <button className="rounded-xl border border-secondary px-2">
+                  Edit profile
+                </button>
+              </div>
+              {/* bio */}
+              <div className="w-full flex items-center justify-between flex-col  text-sm brightness-75 text-center text-balance">
+                <div className="w-full sm:w-[90%] lg:w-[70%] flex items-center justify-between flex-col  text-sm  ">
+                  {bio}
+                </div>
+              </div>
+              {/* username */}
+              <span className=" brightness-90">@{username}</span>
+              {/* email */}
+              <span className="flex flex-wrap gap-1 items-center justify-center">
+                <MailIcon className="h-4 w-4" />
+                {email}
+              </span>
+              {/* joined */}
+              <span className="brightness-90 flex justify-center items-center text-sm">
+                Joined <TimeCompponent time={created} />
+              </span>
+              {/* phone */}
+              <OptionalTextFields value={phone}>
+                <span className=" brightness-90 flex flex-wrap gap-1 items-center justify-center">
+                  <PhoneIcon className="w-4 h-4" /> {phone}
+                </span>
+              </OptionalTextFields>
+              {/* city country */}
+              <OptionalTextFields value={city || country}>
+                <span className=" brightness-90 flex flex-wrap gap-1 items-center justify-center">
+                  <MapPin className="w-4 h-4" />
+                  {city} {country}
+                </span>
+              </OptionalTextFields>
+              {/* github */}
+              <OptionalTextFields value={github_username}>
+                <Link
+                  href={`https://github.com/${github_username}`}
+                  target="_blank"
+                  className=" group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
+                >
+                  <FaGithub />
+                  {city} {github_username}
+                  <ExternalLink className="w-4 h-4 hidden group-hover:flex  absolute -right-5" />
+                </Link>
+              </OptionalTextFields>
+              {/* linkedin */}
+              <OptionalTextFields value={linkedin_username}>
+                <Link
+                  href={`https://www.linkedin.com/in/${linkedin_username}`}
+                  target={"_blank"}
+                  className=" group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
+                >
+                  <FaLinkedin />
+                  {linkedin_username}
+                  <ExternalLink className="w-4 h-4 hidden group-hover:flex  absolute -right-5" />
+                </Link>
+              </OptionalTextFields>
             </div>
-
-            <div className="w-full  flex flex-col   p-1  gap-2 ">
-              {/* email, username , github_username , linkedin_username */}
-              <ProfileDetails
-                profile={response?.data}
-                editing={editing}
-                input={input}
-                setInput={setInput}
-              />
-              {/* country , city , phone */}
-              <TheCountryFields
-                editing={editing}
-                country={{
-                  city: input.city ?? "",
-                  country: input.country ?? "",
-                  phone: input.phone ?? "",
-                }}
-                setInput={(value) =>
-                  setInput((prev) => {
-                    return {
-                      ...prev,
-                      country: value.country,
-                      phone: value.phone,
-                      city: value.city,
-                    };
-                  })
-                }
-              />
-            </div>
           </div>
-          {/* skills */}
-          <div className="w-full flex flex-wrap gap-5  ">
-            <TheStringListInput
-              editing={editing}
-              field_name="Skills"
-              field_key="skills"
-              input={input}
-              setInput={setInput}
-            />{" "}
-          </div>
-
-          {/* bio */}
-          <div className="w-full h-full flex flex-col  md:flex-row  p-1  gap-2">
-            <TheTextAreaInput
-              container_classname="lg:max-w-[70%] lg:max-w-[60%] gap-2"
-              className="min-h-[180px] "
-              field_key={"about_me"}
-              value={input["bio"]}
-              // input={input}
-              field_name={"About Me"}
-              onChange={(e) => {
-                setInput((prev) => {
-                  return {
-                    ...prev,
-                    bio: e.target.value,
-                  };
-                });
-              }}
-              label_classname=""
-              editing={editing}
-            />
-          </div>
-
-          {editing && (
-            <button
-              title="save changes"
-              className="btn btn-sm h-auto p-1 px-3 btn-outline w-fit"
-            >
-              {mutation.isPending ? (
-                <Loader className="animate-spin" />
-              ) : (
-                <>
-                  Save Changes
-                  <Save onClick={() => mutation.mutate(input)} className="" />
-                </>
-              )}
-            </button>
-          )}
         </div>
-      )}
+        {/* skills  */}
+        {skills && (
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {skills?.split(",").map((skill, idx) => {
+              return (
+                <Badge key={skill + idx} variant="outline" className="glass">
+                  {skill}
+                </Badge>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      {/* end of profile details */}
     </div>
   );
 }

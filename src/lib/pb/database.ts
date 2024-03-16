@@ -145,7 +145,8 @@ export interface StackistanUsersResponse extends AuthCollectionResponse {
   google_access_token: string;
   bio: string;
   avatar_url: string;
-  skills?:string;
+  cover_image_url: string;
+  skills?: string;
   github_username: string;
   linkedin_username: string;
   city: string;
@@ -158,7 +159,8 @@ export interface StackistanUsersCreate extends AuthCollectionCreate {
   google_access_token?: string;
   bio?: string;
   avatar_url?: string | URL;
-  skills?:string;
+  cover_image_url: string | URL;
+  skills?: string;
   github_username?: string;
   linkedin_username?: string;
   city?: string;
@@ -171,7 +173,8 @@ export interface StackistanUsersUpdate extends AuthCollectionUpdate {
   google_access_token?: string;
   bio?: string;
   avatar_url?: string | URL;
-  skills?:string;
+  cover_image_url: string | URL;
+  skills?: string;
   github_username?: string;
   linkedin_username?: string;
   city?: string;

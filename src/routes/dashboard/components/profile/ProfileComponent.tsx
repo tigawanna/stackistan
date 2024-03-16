@@ -1,3 +1,4 @@
+import { Badge } from "@/components/shadcn/ui/badge";
 import { OptionalTextFields } from "@/components/wrappers/OptionalTextFields";
 import { TimeCompponent } from "@/components/wrappers/TimeCompponent";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
@@ -52,9 +53,9 @@ export function ProfileComponent({}: ProfileComponentProps) {
         alt={"cover image"}
         className="w-full h-[200px] object-cover  z-20 top-0 left-0 right-0 bottom-[80%]"
       />
-    {/*  end of cover image */}
+      {/*  end of cover image */}
       {/*start  profile image */}
-            <div className="rounded-full absolute top-[11%] sm:top-[12%] md:top-[15%] p-3 glass z-40">
+      <div className="rounded-full absolute top-[11%] sm:top-[12%] md:top-[15%] p-3 glass z-40">
         <img
           src={avatar_url}
           height={150}
@@ -63,9 +64,9 @@ export function ProfileComponent({}: ProfileComponentProps) {
           className="rounded-full"
         />
       </div>
-     {/* end of profile image */}
+      {/* end of profile image */}
       {/* start of profile  details */}
-      <div className="w-full glass flex items-center justify-center z-30 pt-[11%] sm:pt-[7%] lg:pt-[5%] pb-2 ">
+      <div className="w-full glass flex flex-col items-center justify-center z-30 pt-[11%] sm:pt-[7%] lg:pt-[5%] pb-2 ">
         {/*  image and basic detalis */}
         <div className="w-full flex items-center justify-between flex-col  gap-2 ">
           <div className="flex flex-wrap items-center justify-center p-3  ">
@@ -137,6 +138,18 @@ export function ProfileComponent({}: ProfileComponentProps) {
             </div>
           </div>
         </div>
+        {/* skills  */}
+        {skills && (
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {skills?.split(",").map((skill, idx) => {
+              return (
+                <Badge key={skill + idx} variant="outline" className="glass">
+                  {skill}
+                </Badge>
+              );
+            })}
+          </div>
+        )}
       </div>
       {/* end of profile details */}
     </div>

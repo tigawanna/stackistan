@@ -13,7 +13,9 @@ function Layout({ children }: LayoutProps) {
 }
 Layout.preload = (ctx: PreloadContext) => {
   return {
-    head: { title: "Stackistan", description: "Tech job market tool" },
+    head: { title: "Stackistan", 
+    description: "Tech job market tool",
+    htmlAttributes:{ "data-theme":"dark" }} 
   };
 };
 

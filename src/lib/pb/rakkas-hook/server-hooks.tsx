@@ -11,7 +11,6 @@ function pocketbaseMiddleware(ctx: RequestContext) {
   );
 }
 const pocketbaseServerHooksFactory: ServerPluginFactory = (_, options) => ({
-  
   createPageHooks(requestContext) {
     return {
       extendPageContext(pageContext) {
@@ -29,15 +28,19 @@ const pocketbaseServerHooksFactory: ServerPluginFactory = (_, options) => ({
         try {
           if (pageContext.locals.pb.authStore.isValid) {
             const user = pageContext?.locals?.pb;
-            pageContext.queryClient.setQueryData(
-              "user",
+            pageContext.tanstackQueryClient.setQueryData(
+              ["viewer"],
               user?.authStore?.model,
             );
-            // console.log("===VALID USER , UPDATING POCKETBASE USER= ===");
+            // pageContext.queryClient.setQueryData(
+            //   "user",
+            //   user?.authStore?.model,
+            // );
+            console.log("===VALID USER , UPDATING POCKETBASE USER= ===");
           } else {
-            // console.log("====INVALID USER , LOGGING OUT POCKETBASE= ===");
+            console.log("====INVALID USER , LOGGING OUT POCKETBASE= ===");
             pageContext.locals.pb.authStore.clear();
-            pageContext.queryClient.setQueryData("user", null);
+            pageContext.tanstackQueryClient.setQueryData(["viewer"], null);
           }
         } catch (_) {
           // clear the auth store on failed refresh

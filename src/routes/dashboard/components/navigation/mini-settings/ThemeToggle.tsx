@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/ui/select";
+import { useSSRFriendlyTheme } from "@/lib/rakkas/useSSRFriendlyTheme";
 
 interface ThemeToggleModalProps {}
 
@@ -27,25 +28,8 @@ export function ThemeToggle({}: ThemeToggleModalProps) {
     // "nord",
     // "sunset",
   ];
-  const [theme, setTheme] = useState<string>(""); // Step 1: Create state variable for theme
-  useEffect(() => {
-    // Step 2: Run code on first mount
-    // console.log("initialTheme on client outside use effect window check  ====== ", theme)
-    if (typeof window !== undefined) {
-      const initialTheme =
-        document?.documentElement?.getAttribute("data-theme"); // Step 4: Retrieve initial theme
-        // console.log("initialTheme on client  ====== ", initialTheme)
-      setTheme(initialTheme ?? ""); // Step 5: Update state variable with initial theme
-    }
-  }, []);
 
-  const handleThemeChange = (newTheme: string) => {
-    if (typeof window !== undefined) {
-      setTheme(newTheme);
-      document?.documentElement?.setAttribute("data-theme", newTheme);
-      document.cookie = `theme=${newTheme}`;
-    }
-  };
+  const { theme, updateTheme } = useSSRFriendlyTheme();
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-1 p-5">
@@ -54,7 +38,7 @@ export function ThemeToggle({}: ThemeToggleModalProps) {
         data-choose-theme
         value={theme}
         onValueChange={(e) => {
-          handleThemeChange(e);
+          updateTheme(e);
         }}
       >
         <SelectTrigger className="w-[180px]">

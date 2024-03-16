@@ -1,4 +1,4 @@
-import { ClientSuspense, LayoutProps, useLocation } from "rakkasjs";
+import { ClientSuspense, LayoutProps, PreloadContext, useLocation } from "rakkasjs";
 import Nprogress from "@/components/navigation/nprogress/Nprogress";
 import ErrorBoundaryComponent from "@/components/wrappers/ErrorBoundaryComponent";
 import BreadCrumbs from "@/components/navigation/BreadCrumbs";
@@ -44,5 +44,14 @@ function Layout({ children }: LayoutProps) {
     </ErrorBoundaryComponent>
   );
 }
-
+Layout.preload = (ctx: PreloadContext) => {
+  const theme = ctx?.params?.theme;
+  return {
+    head: {
+      title: "Dashboard",
+      description: "Tech job market tool",
+      htmlAttributes: { "data-theme": theme??"dark" },
+    },
+  };
+};
 export default Layout;

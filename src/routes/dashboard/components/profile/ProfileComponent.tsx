@@ -1,7 +1,10 @@
 import { OptionalTextFields } from "@/components/wrappers/OptionalTextFields";
+import { TimeCompponent } from "@/components/wrappers/TimeCompponent";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 import {
   CheckCircle,
+  ChevronLeft,
+  ChevronRight,
   ExternalLink,
   GithubIcon,
   LinkedinIcon,
@@ -25,73 +28,102 @@ export function ProfileComponent({}: ProfileComponentProps) {
   const user = data?.user?.record;
   if (!user) return null;
   const {
+    id,
+    name,
+    phone,
+    skills,
     avatar_url,
+    verified,
     bio,
     city,
     country,
     created,
     email,
     github_username,
-    github_access_token,
-    linkedin_username,
-    google_access_token,
-    id,
-    phone,
     username,
-    skills,
-    verified,
+    cover_image_url,
+    linkedin_username,
+    github_access_token,
+    google_access_token,
   } = user;
   return (
     <div className="w-full h-full flex flex-col items-center  relative gap-2">
+      {/* back button */}
+      <Link
+        className="absolute top-4 left-4 z-30 bg-base-100 bg-opacity-40 hover:bg-secondary  glass rounded-full p-2"
+        href={"/dashboard"}
+      >
+        <ChevronLeft className="h-6 w-7" />
+      </Link>
       {/* start of cover image  */}
       <img
-        src={"https://picsum.photos/id/63/600/200"}
+        src={cover_image_url}
         height={200}
         width={600}
         alt={"cover image"}
-        className="w-full aspect-[6/2]l md:aspect-[7/1]  object-cover  z-20 top-0 left-0 right-0 bottom-[80%]"
+        className="w-full h-[200px] object-cover  z-20 top-0 left-0 right-0 bottom-[80%]"
       />
-      {/*  end of cover image */}
-      <div className="w-full flex   items-center justify-center z-30 absolute md:static top-[10%] md:top-0">
-        {/*  image and basic detalis */}
-        <div className="w-full flex items-center flex-col md:flex-row gap-2">
-          <img
-            src={avatar_url}
-            height={200}
-            width={200}
-            alt={"cover image"}
-            className="rounded-xl"
-          />
+      <div className="rounded-full absolute top-[11%] sm:top-[12%] md:top-[15%] p-3 glass z-40">
+        <img
+          src={avatar_url}
+          height={150}
+          width={150}
+          alt={"cover image"}
+          className="rounded-full"
+        />
+      </div>
 
-          <div className="flex flex-col items-center justify-center   ">
-            <div className="flex flex-col items-center justify-center">
-              <span className="text-lg flex flex-wrap gap-1 items-center justify-center">
-                <MailIcon className="h-4 w-4" />
+      {/*  end of cover image */}
+      {/* start of profile image + details */}
+      <div className="w-full glass flex items-center justify-center z-30 pt-[11%] sm:pt-[7%] lg:pt-[5%] pb-2 ">
+        {/*  image and basic detalis */}
+        <div className="w-full flex items-center justify-between flex-col  gap-2 ">
+          <div className="flex flex-wrap items-center justify-center p-3  ">
+            <div className="flex flex-wrap items-center justify-center gap-3 ">
+              {/* name and edit profile section */}
+              <div className="flex flex-wrap items-center justify-center gap-3 w-full">
+                {/* name */}
+                <span className="text-2xl font-bold  px-2 line-clamp-1">{name}</span>
+                <span className="rounded-xl border border-secondary px-2">
+                  Edit profile
+                </span>
+              </div>
+              {/* username */}
+              <span className=" brightness-90">@{username}</span>
+              {/* email */}
+              <span className="flex flex-wrap gap-1 items-center justify-center">
+                <MailIcon className="h-5 w-5" />
                 {email}
               </span>
-              <span className="text-lg brightness-90">@{username}</span>
+              {/* joined */}
+              <span className="brightness-90 flex justify-center items-center text-sm">
+                Joined <TimeCompponent time={created} />
+              </span>
+              {/* city country */}
               <OptionalTextFields value={city || country}>
-                <span className="text-lg brightness-90 flex flex-wrap gap-1 items-center justify-center">
-                  <MapPin />
+                <span className=" brightness-90 flex flex-wrap gap-1 items-center justify-center">
+                  <MapPin className="w-5 h-5" />
                   {city} {country}
                 </span>
               </OptionalTextFields>
+              {/* github */}
               <OptionalTextFields value={github_username}>
                 <Link
                   href={`https://github.com/${github_username}`}
                   target="_blank"
-                  className="text-lg group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
+                  className=" group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
                 >
                   <FaGithub />
                   {city} {github_username}
                   <ExternalLink className="w-4 h-4 hidden group-hover:flex  absolute -right-5" />
                 </Link>
               </OptionalTextFields>
+              {/* linkedin */}
               <OptionalTextFields value={linkedin_username}>
                 <Link
                   href={`https://www.linkedin.com/in/${linkedin_username}`}
                   target={"_blank"}
-                  className="text-lg group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
+                  className=" group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
                 >
                   <FaLinkedin />
                   {linkedin_username}
@@ -102,6 +134,7 @@ export function ProfileComponent({}: ProfileComponentProps) {
           </div>
         </div>
       </div>
+      {/* end of profile image + details */}
     </div>
   );
 }

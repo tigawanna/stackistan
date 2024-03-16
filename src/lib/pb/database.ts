@@ -143,7 +143,8 @@ export interface StackistanUsersResponse extends AuthCollectionResponse {
   collectionName: "stackistan_users";
   github_access_token: string;
   google_access_token: string;
-  bio: string;
+  bio?: string;
+  name: string;
   avatar_url: string;
   cover_image_url: string;
   skills?: string;
@@ -155,6 +156,7 @@ export interface StackistanUsersResponse extends AuthCollectionResponse {
 }
 
 export interface StackistanUsersCreate extends AuthCollectionCreate {
+  name: string;
   github_access_token?: string;
   google_access_token?: string;
   bio?: string;
@@ -169,6 +171,7 @@ export interface StackistanUsersCreate extends AuthCollectionCreate {
 }
 
 export interface StackistanUsersUpdate extends AuthCollectionUpdate {
+  name: string;
   github_access_token?: string;
   google_access_token?: string;
   bio?: string;

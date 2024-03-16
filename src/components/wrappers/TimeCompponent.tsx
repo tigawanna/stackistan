@@ -27,7 +27,7 @@ export function TimeCompponent({
     <div
       {...props}
       className={twMerge(
-        "text-xs font-bold text-secondary-foreground p-1",
+        "text-secondary-foreground p-1",
         props.className
       )}
     >

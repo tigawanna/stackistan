@@ -2,20 +2,11 @@ import { OptionalTextFields } from "@/components/wrappers/OptionalTextFields";
 import { TimeCompponent } from "@/components/wrappers/TimeCompponent";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 import {
-  CheckCircle,
   ChevronLeft,
-  ChevronRight,
   ExternalLink,
-  GithubIcon,
-  LinkedinIcon,
-  Mail,
   MailIcon,
   MapPin,
   PhoneIcon,
-  Pin,
-  PinOffIcon,
-  TwitterIcon,
-  User,
 } from "lucide-react";
 import { Link } from "rakkasjs";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -43,8 +34,6 @@ export function ProfileComponent({}: ProfileComponentProps) {
     username,
     cover_image_url,
     linkedin_username,
-    github_access_token,
-    google_access_token,
   } = user;
   return (
     <div className="w-full h-full flex flex-col items-center  relative gap-2">
@@ -63,7 +52,9 @@ export function ProfileComponent({}: ProfileComponentProps) {
         alt={"cover image"}
         className="w-full h-[200px] object-cover  z-20 top-0 left-0 right-0 bottom-[80%]"
       />
-      <div className="rounded-full absolute top-[11%] sm:top-[12%] md:top-[15%] p-3 glass z-40">
+    {/*  end of cover image */}
+      {/*start  profile image */}
+            <div className="rounded-full absolute top-[11%] sm:top-[12%] md:top-[15%] p-3 glass z-40">
         <img
           src={avatar_url}
           height={150}
@@ -72,9 +63,8 @@ export function ProfileComponent({}: ProfileComponentProps) {
           className="rounded-full"
         />
       </div>
-
-      {/*  end of cover image */}
-      {/* start of profile image + details */}
+     {/* end of profile image */}
+      {/* start of profile  details */}
       <div className="w-full glass flex items-center justify-center z-30 pt-[11%] sm:pt-[7%] lg:pt-[5%] pb-2 ">
         {/*  image and basic detalis */}
         <div className="w-full flex items-center justify-between flex-col  gap-2 ">
@@ -83,26 +73,40 @@ export function ProfileComponent({}: ProfileComponentProps) {
               {/* name and edit profile section */}
               <div className="flex flex-wrap items-center justify-center gap-3 w-full">
                 {/* name */}
-                <span className="text-2xl font-bold  px-2 line-clamp-1">{name}</span>
-                <span className="rounded-xl border border-secondary px-2">
-                  Edit profile
+                <span className="text-2xl font-bold  px-2 line-clamp-1">
+                  {name}
                 </span>
+                <button className="rounded-xl border border-secondary px-2">
+                  Edit profile
+                </button>
+              </div>
+              {/* bio */}
+              <div className="w-full flex items-center justify-between flex-col  text-sm brightness-75 text-center text-balance">
+                <div className="w-full sm:w-[90%] lg:w-[70%] flex items-center justify-between flex-col  text-sm  ">
+                  {bio}
+                </div>
               </div>
               {/* username */}
               <span className=" brightness-90">@{username}</span>
               {/* email */}
               <span className="flex flex-wrap gap-1 items-center justify-center">
-                <MailIcon className="h-5 w-5" />
+                <MailIcon className="h-4 w-4" />
                 {email}
               </span>
               {/* joined */}
               <span className="brightness-90 flex justify-center items-center text-sm">
                 Joined <TimeCompponent time={created} />
               </span>
+              {/* phone */}
+              <OptionalTextFields value={phone}>
+                <span className=" brightness-90 flex flex-wrap gap-1 items-center justify-center">
+                  <PhoneIcon className="w-4 h-4" /> {phone}
+                </span>
+              </OptionalTextFields>
               {/* city country */}
               <OptionalTextFields value={city || country}>
                 <span className=" brightness-90 flex flex-wrap gap-1 items-center justify-center">
-                  <MapPin className="w-5 h-5" />
+                  <MapPin className="w-4 h-4" />
                   {city} {country}
                 </span>
               </OptionalTextFields>
@@ -134,7 +138,7 @@ export function ProfileComponent({}: ProfileComponentProps) {
           </div>
         </div>
       </div>
-      {/* end of profile image + details */}
+      {/* end of profile details */}
     </div>
   );
 }

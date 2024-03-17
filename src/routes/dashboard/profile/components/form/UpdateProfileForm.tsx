@@ -16,6 +16,7 @@ import { TheCountryFields } from "@/components/country/TheCountryFields";
 import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
 import { Button } from "@/components/shadcn/ui/button";
 import { Loader } from "lucide-react";
+import { TheStringListInput } from "@/components/form/inputs/StringListInput";
 
 interface UpdateProfileFormProps {}
 
@@ -185,7 +186,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
             </ClientSuspense>
 
             {/* profile details */}
-            <div className="w-full flex flex-wrap items-ceneter justify-center">
+            <div className="w-full flex flex-wrap items-ceneter justify-center gap-4">
               <div className="w-full flex flex-wrap gap-3 justify-center items-center">
                 <PbTheTextInput
                   container_classname="w-full md:w-[40%]"
@@ -238,6 +239,20 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
                 type="url"
                 onChange={handleChange}
               />
+              <PBFieldWrapper field_key={"date_of_birth"} pb_error={pb_error}>
+                <TheStringListInput<StackistanUsersUpdate>
+                  field_key="skills"
+                  input={input}
+                  setInput={setInput}
+                  // input={input}
+                  field_name={"skills"}
+                  // className="input input-bordered input-sm "
+                  // container_classname="w-full min-w-[100px] flex flex-row items-center gap-1"
+                  label_classname="flex"
+                  // onChange={handleChange}
+                  editing={true}
+                />
+              </PBFieldWrapper>
             </div>
             {/* submit button */}
             <div className="w-full py-5 flex items-center justify-center">

@@ -99,19 +99,20 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
         </CardHeader>
         <CardContent className="grid gap-6 pt-6">
           {/* cover image */}
-          <div className="w-full flex flex-col  justify-center items-center">
+          <div className="w-full min-h-[200px] flex flex-col  justify-center ">
             <Label className="text-sm" htmlFor="cover_image_url">
               Cover Image URL
             </Label>
             <PBFieldWrapper field_key={"cover_image_url"} pb_error={pb_error}>
               <ProfileImage
                 field_key={"cover_image_url"}
+                // @ts-expect-error
                 image={input?.cover_image_url}
-                setImage={() => {
+                setImage={(img) => {
                   setInput((prev) => {
                     return {
                       ...prev,
-                      cover_image_url: "",
+                      cover_image_url:img,
                     };
                   });
                 }}
@@ -119,19 +120,20 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
             </PBFieldWrapper>
           </div>
           {/* profile image */}
-          <div className="w-full flex flex-col  justify-center items-center">
+          <div className="w-full min-h-[200px] flex flex-col  justify-center ">
             <Label className="text-sm" htmlFor="avatar_url">
               Avatar URL
             </Label>
             <PBFieldWrapper field_key={"avatar_url"} pb_error={pb_error}>
               <ProfileImage
                 field_key={"avatar_url"}
+                // @ts-expect-error
                 image={input?.avatar_url}
-                setImage={() => {
+                setImage={(img) => {
                   setInput((prev) => {
                     return {
                       ...prev,
-                      avatar_url: "",
+                      avatar_url:img,
                     };
                   });
                 }}
@@ -141,7 +143,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
           {/* profile country */}
           {/* country , city , phone */}
           <ClientSuspense
-            fallback={<div className="h-10 skeleton bg-base-300"></div>}
+            fallback={<div className="h-[150px] skeleton bg-base-300"></div>}
           >
             <ClientSuspenseWrapper>
               <TheCountryFields

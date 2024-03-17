@@ -5,6 +5,7 @@ import { getCountries } from "../form/location/location";
 import { Country } from "../form/location/types";
 import { MapPin } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Label } from "../shadcn/ui/label";
 
 interface TheCountryFieldsProps {
   setInput: (props: SetCountryInput) => void;
@@ -101,6 +102,7 @@ export function TheCountryFields({
   return (
     <div className="w-full min-h-sm flex cursor-pointer flex-col lg:flex-row items-center  gap-2 ">
       <div className="w-full  flex  cursor-pointer flex-col items-center  gap-1 sm:pl-2">
+        <Label className="text-sm">Country</Label>
         {editing && (
           <div className="w-full flex flex-col gap-[1px] ">
             <TheTextInput
@@ -134,7 +136,7 @@ export function TheCountryFields({
         ) : null}
         {/* {!editing&&<div className="flex ">{country.country}</div>} */}
 
-        <div className=" w-full flex flex-wrap items-center justify-center rounded-lg duration-500 animate-in fade-in">
+        <div className=" flex flex-wrap items-center justify-center rounded-lg duration-500 animate-in fade-in">
           {data?.slice(0, 10).map((item, idx: number) => {
             return (
               <div

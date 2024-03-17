@@ -9,7 +9,6 @@ interface PbTheTextInputProps<T>
   error_message?: string;
   container_classname?: string;
 
-
   label_classname?: string;
   description_classname?: string;
   output_classname?: string;
@@ -39,16 +38,14 @@ export function PbTheTextInput<T>({
   const pb_field_error = error_data?.[field_key] as FieldError | undefined;
 
   return (
-    <div className="w-full flex flex-col gap-1">
-      <TheTextInput
-        {...props}
-        className={className}
-        field_key={field_key}
-        field_name={field_name}
-        editing={editing}
-        val={props.val ?? props.value}
-        error_message={validation_field_error ?? pb_field_error?.message}
-      />
-    </div>
+    <TheTextInput
+      {...props}
+      className={className}
+      field_key={field_key}
+      field_name={field_name}
+      editing={editing}
+      val={props.val ?? props.value}
+      error_message={validation_field_error ?? pb_field_error?.message}
+    />
   );
 }

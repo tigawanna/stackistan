@@ -1,8 +1,4 @@
-import { Button } from "@/components/shadcn/ui/button";
-import { Card, CardHeader, CardContent } from "@/components/shadcn/ui/card";
-import { Input } from "@/components/shadcn/ui/input";
-import { Label } from "@/components/shadcn/ui/label";
-import { Textarea } from "@/components/shadcn/ui/textarea";
+
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 
 import { Image } from "@unpic/react";

@@ -76,9 +76,9 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
                 <span className="text-2xl font-bold  px-2 line-clamp-1">
                   {name}
                 </span>
-                <button className="rounded-xl border border-secondary px-2">
+                <Link href={`/dashboard/profile/edit`} className="rounded-xl border border-secondary px-2">
                   Edit profile
-                </button>
+                </Link>
               </div>
               {/* bio */}
               <div className="w-full flex items-center justify-between flex-col  text-sm brightness-75 text-center text-balance">

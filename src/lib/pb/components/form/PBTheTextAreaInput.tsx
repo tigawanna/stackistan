@@ -35,7 +35,7 @@ export function PbTheTextAreaInput<T>({
   const pb_field_error = error_data?.[field_key] as FieldError | undefined;
 
   return (
-    <div className="w-full flex flex-col gap-1">
+
       <TheTextAreaInput
         {...props}
         field_key={field_key}
@@ -43,6 +43,6 @@ export function PbTheTextAreaInput<T>({
         editing={editing}
         error_message={validatin_field_error ?? pb_field_error?.message}
       />
-    </div>
+
   );
 }

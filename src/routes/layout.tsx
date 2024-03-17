@@ -13,10 +13,19 @@ function Layout({ children }: LayoutProps) {
 }
 Layout.preload = (ctx: PreloadContext) => {
   return {
-    head: { title: "Stackistan", 
-    description: "Tech job market tool",
-    // htmlAttributes:{ "data-theme":"dark" }
-  } 
+    head: {
+      title: "Stackistan",
+      description: "Tech job market tool",
+      elements: [
+        {
+          tagName: "link",
+          rel: "icon",
+          type: "image/svg+xml",
+          href: "/site.svg",
+        },
+      ],
+      // htmlAttributes:{ "data-theme":"dark" }
+    },
   };
 };
 

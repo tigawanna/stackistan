@@ -1,16 +1,14 @@
-import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
-import { Button } from "@/components/shadcn/ui/button";
-import { Home } from "lucide-react";
 import { PageProps } from "rakkasjs"
 import { Suspense } from "react";
-import { toast } from "sonner";
-import { ProfileContainer } from "./components/profile/ProfileContainer";
+
 import { ProfileComponentSuspenseFallback } from "./profile/components/ProfileComponent";
+import { LoggedInProfile } from "./profile/components/LoggedInProfile";
+
 export default function DashboardPage({}:PageProps) {
 return (
   <div className="w-full h-full  flex flex-col items-center justify-center">
     <Suspense fallback={<ProfileComponentSuspenseFallback />}>
-      <ProfileContainer />
+      <LoggedInProfile />
     </Suspense>
   </div>
 );}

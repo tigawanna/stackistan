@@ -1,6 +1,5 @@
 import {
   ClientSuspense,
-  Head,
   LayoutProps,
   PreloadContext,
   useLocation,
@@ -19,16 +18,6 @@ function Layout({ children }: LayoutProps) {
   return (
     <ErrorBoundaryComponent>
       <div className="w-full h-screen  overflow-y-hidden  flex flex-col items-center justify-center ">
-        <Head
-          elements={[
-            {
-              tagName: "link",
-              rel: "icon",
-              type: "image/svg+xml",
-              href: "/site.svg",
-            },
-          ]}
-        />
         <ClientSuspense fallback={<div className="h-8 "></div>}>
           <Nprogress
             isAnimating={location && location?.pending ? true : false}
@@ -70,14 +59,6 @@ Layout.preload = (ctx: PreloadContext) => {
       title: "Dashboard",
       description: "Tech job market tool",
       htmlAttributes: { "data-theme": theme },
-      // elements: [{
-      //   tagName: "head",
-      //   rel: "icon",
-      //   type: "image/svg+xml",
-      //   href: "/site.svg",
-      // }],
-
-      // <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     },
   };
 };

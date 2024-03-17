@@ -12,7 +12,10 @@ export function LoggedInProfile({}:LoggedInProfileProps){
       return <ErrorOutput error={data?.error} />;
     }
     if (isError) {
-      return <ErrorOutput error={error} />;
+      return <ErrorOutput error={{
+        name: "Error getting profile",
+        message: error?.message ?? "Something went wrong",
+      }} />;
     }
   if(!data?.user?.record) return null;
   return (

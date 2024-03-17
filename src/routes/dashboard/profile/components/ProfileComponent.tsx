@@ -5,6 +5,7 @@ import { StackistanUsersResponse } from "@/lib/pb/database";
 import {
   ChevronLeft,
   ExternalLink,
+  Link2,
   MailIcon,
   MapPin,
   PhoneIcon,
@@ -22,6 +23,7 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
     id,
     name,
     phone,
+    website,
     skills,
     avatar_url,
     verified,
@@ -76,7 +78,10 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
                 <span className="text-2xl font-bold  px-2 line-clamp-1">
                   {name}
                 </span>
-                <Link href={`/dashboard/profile/edit`} className="rounded-xl border border-secondary px-2">
+                <Link
+                  href={`/dashboard/profile/edit`}
+                  className="rounded-xl border border-secondary px-2"
+                >
                   Edit profile
                 </Link>
               </div>
@@ -110,6 +115,18 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
                   {city} {country}
                 </span>
               </OptionalTextFields>
+              {/* website */}
+              <OptionalTextFields value={website}>
+                <Link
+                  href={`https://github.com/${website}`}
+                  target="_blank"
+                  className=" group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
+                >
+                  <Link2 />
+                    website
+                  <ExternalLink className="w-4 h-4 hidden group-hover:flex  absolute -right-5" />
+                </Link>
+              </OptionalTextFields>
               {/* github */}
               <OptionalTextFields value={github_username}>
                 <Link
@@ -118,7 +135,7 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
                   className=" group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
                 >
                   <FaGithub />
-                  {city} {github_username}
+                  {github_username}
                   <ExternalLink className="w-4 h-4 hidden group-hover:flex  absolute -right-5" />
                 </Link>
               </OptionalTextFields>

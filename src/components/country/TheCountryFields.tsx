@@ -21,7 +21,7 @@ export function TheCountryFields({
   // console.log("country query  === ",country)
   const [finishedSearch, setFinishedSearch] = useState(false);
   const [keyword, setKeyword] = React.useState({
-    word: (country.country as string) ??"",
+    word: (country.country as string) ?? "",
   });
 
   const { data, error } = useSuspenseQuery({
@@ -101,7 +101,7 @@ export function TheCountryFields({
 
   return (
     <div className="w-full min-h-sm flex cursor-pointer flex-col lg:flex-row items-center  gap-2 ">
-      <div className="w-full  flex  cursor-pointer flex-col items-center  gap-1 sm:pl-2">
+      <div className="w-full  flex  cursor-pointer flex-col items-center  gap-3 sm:pl-2">
         <Label className="text-sm">Country</Label>
         {editing && (
           <div className="w-full flex flex-col gap-[1px] ">
@@ -109,7 +109,7 @@ export function TheCountryFields({
               field_key={"word"}
               field_name={<MapPin className="w-4 h-4" />}
               autoComplete="off"
-              val={keyword.word??""}
+              val={keyword.word ?? ""}
               onChange={handleChange}
               container_classname="w-full flex-row items-center "
               className="w-full "
@@ -125,25 +125,25 @@ export function TheCountryFields({
         )}
         {editing && data && data?.length < 1 ? (
           <div className="flex h-full w-full items-center justify-center bg-error/5">
-          <div
-            className="flex h-full  cursor-pointer break-inside-auto p-7 flex-col items-center
+            <div
+              className="flex h-full  cursor-pointer break-inside-auto p-7 flex-col items-center
           justify-center text-sm text-error-content
         "
-          >
-          0 results found{" "}
-          </div>
+            >
+              0 results found{" "}
+            </div>
           </div>
         ) : null}
         {/* {!editing&&<div className="flex ">{country.country}</div>} */}
 
-        <div className=" flex flex-wrap items-center justify-center rounded-lg duration-500 animate-in fade-in">
+        <div className=" flex flex-wrap items-center justify-center rounded-lg gap-2">
           {data?.slice(0, 10).map((item, idx: number) => {
             return (
               <div
                 key={item.name.official + idx}
                 onClick={() => finishSearch(item)}
                 className="flex min-w-fit items-center justify-center rounded-lg border-2 px-2
-                py-1 text-center duration-100 ease-in hover:bg-accent/30"
+                py-1 text-center duration-100 ease-in glass bg-base-200 hover:bg-accent/30"
               >
                 <div> {item.name.common} </div>
                 <img className="mx-1 h-3 w-5" src={item.flags.svg} />
@@ -183,7 +183,7 @@ export function TheCountryCityPhoneFields({
     <div className="flex  w-fit flex-wrap items-center justify-start gap-2 ">
       {editing ? (
         <TheTextInput
-          val={country?.city??""}
+          val={country?.city ?? ""}
           field_key={"city"}
           field_name={"city"}
           container_classname="w-fit flex-row items-center justify-center"
@@ -200,7 +200,7 @@ export function TheCountryCityPhoneFields({
 
       {editing ? (
         <TheTextInput
-          val={country?.phone??""}
+          val={country?.phone ?? ""}
           field_key={"phone"}
           type="tel"
           field_name={"phone"}

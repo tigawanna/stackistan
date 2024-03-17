@@ -1,20 +1,19 @@
 import { useFormHook } from "@/components/form/useForm";
-import { Button } from "@/components/shadcn/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/ui/card";
-import { Input } from "@/components/shadcn/ui/input";
 import { Label } from "@/components/shadcn/ui/label";
-import { Textarea } from "@/components/shadcn/ui/textarea";
 import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
 import { StackistanUsersUpdate } from "@/lib/pb/database";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 import { ProfileImage } from "./ProfileImage";
 import { useMutation } from "@tanstack/react-query";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
-import { usePageContext } from "rakkasjs";
+import { ClientSuspense, usePageContext } from "rakkasjs";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
-import { useEffect } from "react";
+import { Suspense, useEffect, useTransition } from "react";
 import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
 import { PbTheTextAreaInput } from "@/lib/pb/components/form/PBTheTextAreaInput";
+import { TheCountryFields } from "@/components/country/TheCountryFields";
+import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
 
 interface UpdateProfileFormProps {}
 
@@ -23,26 +22,29 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
     locals: { pb },
   } = usePageContext();
   const { data } = useViewer();
+  const [_, startTransition] = useTransition();
 
   const { error, handleChange, input, setError, validateInputs, setInput } =
     useFormHook<StackistanUsersUpdate>({
       initialValues: {
         name: data?.user?.record?.name || "",
         bio: data?.user?.record?.bio || "",
-        city: data?.user?.record?.city || "",
-        phone: data?.user?.record?.phone || "",
         website: data?.user?.record?.website || "",
         skills: data?.user?.record?.skills || "",
         linkedin_username: data?.user?.record?.linkedin_username || "",
         github_username: data?.user?.record?.github_username || "",
         country: data?.user?.record?.country || "",
+        city: data?.user?.record?.city || "",
+        phone: data?.user?.record?.phone || "",
         avatar_url: data?.user?.record?.avatar_url || "",
         cover_image_url: data?.user?.record?.cover_image_url || "",
         username: data?.user?.record?.username || "",
       },
     });
   useEffect(() => {
-    setInput(data?.user?.record as StackistanUsersUpdate);
+    startTransition(() => {
+      setInput(data?.user?.record as StackistanUsersUpdate);
+    });
   }, [data?.user?.record]);
 
   const mutation = useMutation({
@@ -136,7 +138,36 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
               />
             </PBFieldWrapper>
           </div>
+          {/* profile country */}
+          {/* country , city , phone */}
+          <ClientSuspense
+            fallback={<div className="h-10 skeleton bg-base-300"></div>}
+          >
+            <ClientSuspenseWrapper>
+              <TheCountryFields
+                editing={true}
+                country={{
+                  city: input?.city ?? "",
+                  country: input?.country ?? "",
+                  phone: input?.phone ?? "",
+                }}
+                setInput={(value) =>
+                  startTransition(() => {
+                    setInput((prev) => {
+                      return {
+                        ...prev,
+                        country: value.country,
+                        phone: value.phone,
+                        city: value.city,
+                      };
+                    });
+                  })
+                }
+              />
+            </ClientSuspenseWrapper>
+          </ClientSuspense>
 
+          {/* profile details */}
           <div className="w-full flex flex-wrap items-ceneter justify-center">
             <div className="w-full flex flex-wrap gap-3 justify-center items-center">
               <PbTheTextInput

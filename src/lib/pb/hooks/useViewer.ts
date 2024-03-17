@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { usePageContext } from "rakkasjs";
 
 export function useViewer() {
   const {
     locals: { pb },
   } = usePageContext();
-  const query = useQuery({
+  const query = useSuspenseQuery({
     queryKey: ["viewer"],
     queryFn: async (ctx) => {
       try {

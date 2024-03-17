@@ -44,7 +44,7 @@ export function PbTheTextInput<T>({
       field_key={field_key}
       field_name={field_name}
       editing={editing}
-      val={props.val ?? props.value}
+      val={props.val ?? props.value ?? ""}
       error_message={validation_field_error ?? pb_field_error?.message}
     />
   );

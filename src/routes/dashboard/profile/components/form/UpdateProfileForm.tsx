@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { ClientSuspense, usePageContext } from "rakkasjs";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
-import { Suspense, useEffect, useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
 import { PbTheTextAreaInput } from "@/lib/pb/components/form/PBTheTextAreaInput";
 import { TheCountryFields } from "@/components/country/TheCountryFields";
@@ -96,7 +96,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
       return true;
     });
     if (isValid) {
-      console.log(" === updating  ==== ",input)
+      console.log(" === updating  ==== ", input);
       mutation.mutate({ id: data?.user?.record?.id || "", input });
     }
   }
@@ -186,7 +186,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
             </ClientSuspense>
 
             {/* profile details */}
-            <div className="w-full flex flex-wrap items-ceneter justify-center gap-4">
+            <div className="w-full flex flex-wrap items-ceneter justify-start gap-4">
               <div className="w-full flex flex-wrap gap-3 justify-center items-center">
                 <PbTheTextInput
                   container_classname="w-full md:w-[40%]"
@@ -244,12 +244,8 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
                   field_key="skills"
                   input={input}
                   setInput={setInput}
-                  // input={input}
                   field_name={"skills"}
-                  // className="input input-bordered input-sm "
-                  // container_classname="w-full min-w-[100px] flex flex-row items-center gap-1"
                   label_classname="flex"
-                  // onChange={handleChange}
                   editing={true}
                 />
               </PBFieldWrapper>
@@ -257,7 +253,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
             {/* submit button */}
             <div className="w-full py-5 flex items-center justify-center">
               <Button
-                className="min-w-[50%] flax gap-3"
+                className="min-w-full  md:min-w-[50%] flax gap-3"
                 disabled={mutation.isPending}
               >
                 Submit{" "}

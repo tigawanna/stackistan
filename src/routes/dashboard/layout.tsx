@@ -23,22 +23,22 @@ function Layout({ children }: LayoutProps) {
             isAnimating={location && location?.pending ? true : false}
           />
         </ClientSuspense>
-        <div className="w-full flex  gap-3">
+        <div className="w-full flex ">
           <div className="min-w-[5%] w-fit hidden sm:flex h-screen gap-2">
             <Sidebar />
           </div>
-          <div className="fixed top-[2%] left-[2%] sm:hidden">
+          <div className="fixed top-[2%] left-[2%] sm:hidden ">
             <ClientSuspense fallback={<div className="h-8 "></div>}>
               <SideDrawer />
             </ClientSuspense>
           </div>
-          <div className="w-full  flex flex-col  gap-2 ">
-            <div className="w-fit flex rounded-xl">
+          <div className="w-full h-full flex flex-col ">
+            <div className="w-fit flex rounded-xl fixed top-[1%] left-[15%] z-30 bg-base-300 px-2 ">
               <ClientSuspense fallback={<div className="h-5 "></div>}>
                 <BreadCrumbs />
               </ClientSuspense>
             </div>
-            <div className="w-full  h-[95vh] md:pl-6 px-1 flex flex-col overflow-y-auto gap-2  ">
+            <div className="w-full  h-full  flex flex-col overflow-y-auto gap-2  ">
               <ErrorBoundaryComponent>{children}</ErrorBoundaryComponent>
             </div>
           </div>

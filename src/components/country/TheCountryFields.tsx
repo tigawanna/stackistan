@@ -101,7 +101,7 @@ export function TheCountryFields({
 
   return (
     <div className="w-full min-h-sm flex cursor-pointer flex-col lg:flex-row items-center  gap-2 ">
-      <div className="w-full  flex  cursor-pointer flex-col items-center  gap-3 sm:pl-2">
+      <div className="w-full  flex  cursor-pointer flex-col items-center  gap-1 sm:pl-2">
         <Label className="text-sm">Country</Label>
         {editing && (
           <div className="w-full flex flex-col gap-[1px] ">

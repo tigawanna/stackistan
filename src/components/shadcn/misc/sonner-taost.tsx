@@ -9,11 +9,14 @@ interface SonnerToastProps {
 export function sonnerToast({ title, type, options }: SonnerToastProps) {
   if (!type || type === "success") {
     return toast.success(title ?? "Success", {
-      icon: <Check className="h-q0 w-q0 text-success " />,
+      icon: <Check className="text-success " />,
       action: {
         label: "dismiss",
+
         onClick: () => {},
       },
+      position: "top-center",
+      duration: 2000,
 
       ...options,
     });
@@ -21,24 +24,41 @@ export function sonnerToast({ title, type, options }: SonnerToastProps) {
   if (type === "error") {
     return toast.error(title ?? "Something went wrong", {
       icon: <XCircle className="h-10 w-10 text-error " />,
+      position: "top-center",
+      duration: 20000,
+      dismissible: false,
+      action: {
+        label: "dismiss",
 
-      important: true,
-      duration: 5000,
+        onClick: () => {},
+      },
       ...options,
     });
   }
   if (type === "warning") {
     return toast.warning(title ?? "Something went wrong", {
       icon: <TriangleAlert className="h-10 w-10 text-warning " />,
-
+      position: "top-center",
       important: true,
-      duration: 4000,
+      duration: 10000,
+      action: {
+        label: "dismiss",
+
+        onClick: () => {},
+      },
       ...options,
     });
   }
   if (type === "info") {
     return toast.info(title ?? "Something went wrong", {
-      icon: <Info className="h-10 w-10 text-info " />,...options,
+      position: "top-center",
+      action: {
+        label: "dismiss",
+
+        onClick: () => {},
+      },
+      icon: <Info className="h-10 w-10 text-info " />,
+      ...options,
     });
   }
 }

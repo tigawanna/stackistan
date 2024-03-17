@@ -15,7 +15,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         // },
         
         classNames: {
-          toast: `group toast rounded-lg  
+          toast: `group toast rounded-lg  min-h-fit
             group-[.toaster]:border-border group-[.toaster]:shadow-lg`,
           
           title: " text-xl font-bold ",

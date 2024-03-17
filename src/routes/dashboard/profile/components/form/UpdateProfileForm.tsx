@@ -14,6 +14,8 @@ import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
 import { PbTheTextAreaInput } from "@/lib/pb/components/form/PBTheTextAreaInput";
 import { TheCountryFields } from "@/components/country/TheCountryFields";
 import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
+import { Button } from "@/components/shadcn/ui/button";
+import { Loader } from "lucide-react";
 
 interface UpdateProfileFormProps {}
 
@@ -85,6 +87,18 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
       });
     },
   });
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const isValid = validateInputs((inp) => {
+      //  do validation here
+      return true;
+    });
+    if (isValid) {
+      console.log(" === updating  ==== ",input)
+      mutation.mutate({ id: data?.user?.record?.id || "", input });
+    }
+  }
   const pb_error = mutation.data?.error;
   return (
     <div className="w-full h-full  p-5">
@@ -98,123 +112,144 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
           </div>
         </CardHeader>
         <CardContent className="grid gap-6 pt-6">
-          {/* cover image */}
-          <div className="w-full min-h-[200px] flex flex-col  justify-center ">
-            <Label className="text-sm" htmlFor="cover_image_url">
-              Cover Image URL
-            </Label>
-            <PBFieldWrapper field_key={"cover_image_url"} pb_error={pb_error}>
-              <ProfileImage
-                field_key={"cover_image_url"}
-                // @ts-expect-error
-                image={input?.cover_image_url}
-                setImage={(img) => {
-                  setInput((prev) => {
-                    return {
-                      ...prev,
-                      cover_image_url:img,
-                    };
-                  });
-                }}
-              />
-            </PBFieldWrapper>
-          </div>
-          {/* profile image */}
-          <div className="w-full min-h-[200px] flex flex-col  justify-center ">
-            <Label className="text-sm" htmlFor="avatar_url">
-              Avatar URL
-            </Label>
-            <PBFieldWrapper field_key={"avatar_url"} pb_error={pb_error}>
-              <ProfileImage
-                field_key={"avatar_url"}
-                // @ts-expect-error
-                image={input?.avatar_url}
-                setImage={(img) => {
-                  setInput((prev) => {
-                    return {
-                      ...prev,
-                      avatar_url:img,
-                    };
-                  });
-                }}
-              />
-            </PBFieldWrapper>
-          </div>
-          {/* profile country */}
-          {/* country , city , phone */}
-          <ClientSuspense
-            fallback={<div className="h-[150px] skeleton bg-base-300"></div>}
-          >
-            <ClientSuspenseWrapper>
-              <TheCountryFields
-                editing={true}
-                country={{
-                  city: input?.city ?? "",
-                  country: input?.country ?? "",
-                  phone: input?.phone ?? "",
-                }}
-                setInput={(value) =>
-                  startTransition(() => {
+          <form className="" onSubmit={handleSubmit}>
+            {/* cover image */}
+            <div className="w-full min-h-[200px] flex flex-col  justify-center ">
+              <Label className="text-sm" htmlFor="cover_image_url">
+                Cover Image URL
+              </Label>
+              <PBFieldWrapper field_key={"cover_image_url"} pb_error={pb_error}>
+                <ProfileImage
+                  field_key={"cover_image_url"}
+                  // @ts-expect-error
+                  image={input?.cover_image_url}
+                  setImage={(img) => {
                     setInput((prev) => {
                       return {
                         ...prev,
-                        country: value.country,
-                        phone: value.phone,
-                        city: value.city,
+                        cover_image_url: img,
                       };
                     });
-                  })
-                }
-              />
-            </ClientSuspenseWrapper>
-          </ClientSuspense>
+                  }}
+                />
+              </PBFieldWrapper>
+            </div>
+            {/* profile image */}
+            <div className="w-full min-h-[200px] flex flex-col  justify-center ">
+              <Label className="text-sm" htmlFor="avatar_url">
+                Avatar URL
+              </Label>
+              <PBFieldWrapper field_key={"avatar_url"} pb_error={pb_error}>
+                <ProfileImage
+                  field_key={"avatar_url"}
+                  // @ts-expect-error
+                  image={input?.avatar_url}
+                  setImage={(img) => {
+                    setInput((prev) => {
+                      return {
+                        ...prev,
+                        avatar_url: img,
+                      };
+                    });
+                  }}
+                />
+              </PBFieldWrapper>
+            </div>
+            {/* profile country */}
+            {/* country , city , phone */}
+            <ClientSuspense
+              fallback={<div className="h-[150px] skeleton bg-base-300"></div>}
+            >
+              <ClientSuspenseWrapper>
+                <TheCountryFields
+                  editing={true}
+                  country={{
+                    city: input?.city ?? "",
+                    country: input?.country ?? "",
+                    phone: input?.phone ?? "",
+                  }}
+                  setInput={(value) =>
+                    startTransition(() => {
+                      setInput((prev) => {
+                        return {
+                          ...prev,
+                          country: value.country,
+                          phone: value.phone,
+                          city: value.city,
+                        };
+                      });
+                    })
+                  }
+                />
+              </ClientSuspenseWrapper>
+            </ClientSuspense>
 
-          {/* profile details */}
-          <div className="w-full flex flex-wrap items-ceneter justify-center">
-            <div className="w-full flex flex-wrap gap-3 justify-center items-center">
-              <PbTheTextInput
-                container_classname="w-full md:w-[40%]"
-                field_key={"name"}
-                field_name={"Name"}
+            {/* profile details */}
+            <div className="w-full flex flex-wrap items-ceneter justify-center">
+              <div className="w-full flex flex-wrap gap-3 justify-center items-center">
+                <PbTheTextInput
+                  container_classname="w-full md:w-[40%]"
+                  field_key={"name"}
+                  field_name={"Name"}
+                  pb_error={pb_error}
+                  val={input?.name}
+                  onChange={handleChange}
+                />
+                <PbTheTextInput
+                  container_classname="w-full md:w-[40%]"
+                  field_key={"username"}
+                  field_name={"Username"}
+                  pb_error={pb_error}
+                  val={input?.username}
+                  onChange={handleChange}
+                />
+                <PbTheTextInput
+                  container_classname="w-full md:w-[40%]"
+                  field_key={"github_username"}
+                  field_name={"Github Username"}
+                  pb_error={pb_error}
+                  val={input?.github_username}
+                  onChange={handleChange}
+                />
+                <PbTheTextInput
+                  container_classname="w-full md:w-[40%]"
+                  field_key={"linkedin_username"}
+                  field_name={"Linkedin Username"}
+                  pb_error={pb_error}
+                  val={input?.linkedin_username}
+                  onChange={handleChange}
+                />
+              </div>
+              <PbTheTextAreaInput
+                className="min-h-[150px]"
+                rows={4}
+                field_key={"bio"}
+                field_name={"Bio"}
                 pb_error={pb_error}
-                val={input?.name}
+                value={input?.bio}
                 onChange={handleChange}
               />
               <PbTheTextInput
                 container_classname="w-full md:w-[40%]"
-                field_key={"username"}
-                field_name={"Username"}
+                field_key={"website"}
+                field_name={"Website"}
                 pb_error={pb_error}
-                val={input?.username}
-                onChange={handleChange}
-              />
-              <PbTheTextInput
-                container_classname="w-full md:w-[40%]"
-                field_key={"github_username"}
-                field_name={"Github Username"}
-                pb_error={pb_error}
-                val={input?.github_username}
-                onChange={handleChange}
-              />
-              <PbTheTextInput
-                container_classname="w-full md:w-[40%]"
-                field_key={"linkedin_username"}
-                field_name={"Linkedin Username"}
-                pb_error={pb_error}
-                val={input?.linkedin_username}
+                val={input?.website}
+                type="url"
                 onChange={handleChange}
               />
             </div>
-            <PbTheTextAreaInput
-              className="min-h-[150px]"
-              rows={4}
-              field_key={"bio"}
-              field_name={"Bio"}
-              pb_error={pb_error}
-              value={input?.bio}
-              onChange={handleChange}
-            />
-          </div>
+            {/* submit button */}
+            <div className="w-full py-5 flex items-center justify-center">
+              <Button
+                className="min-w-[50%] flax gap-3"
+                disabled={mutation.isPending}
+              >
+                Submit{" "}
+                {mutation.isPending && <Loader className="animate-spin" />}
+              </Button>
+            </div>
+          </form>
         </CardContent>
       </Card>
     </div>

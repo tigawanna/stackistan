@@ -5,11 +5,12 @@ import { PageProps } from "rakkasjs"
 import { Suspense } from "react";
 import { toast } from "sonner";
 import { ProfileContainer } from "./components/profile/ProfileContainer";
+import { ProfileComponentSuspenseFallback } from "./profile/components/ProfileComponent";
 export default function DashboardPage({}:PageProps) {
 return (
   <div className="w-full h-full  flex flex-col items-center justify-center">
-  <Suspense fallback={<div className="h-8 ">loading .....</div>}>
-      <ProfileContainer/>
+    <Suspense fallback={<ProfileComponentSuspenseFallback />}>
+      <ProfileContainer />
     </Suspense>
   </div>
 );}

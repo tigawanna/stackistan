@@ -20,6 +20,11 @@ import { TheStringListInput } from "@/components/form/inputs/StringListInput";
 
 interface UpdateProfileFormProps {}
 
+
+type StackistanUsersUpdateFormInput = Omit<StackistanUsersUpdate,"avatar"|"cover_image">&{
+  avatar?:null;
+  cover_image?:null;
+}
 export function UpdateProfileForm({}: UpdateProfileFormProps) {
   const {
     locals: { pb },
@@ -28,9 +33,11 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
   const [_, startTransition] = useTransition();
 
   const { error, handleChange, input, setError, validateInputs, setInput } =
-    useFormHook<StackistanUsersUpdate>({
+    useFormHook<StackistanUsersUpdateFormInput>({
       initialValues: {
         name: data?.user?.record?.name || "",
+        // avatar: data?.user?.record?.avatar||null,
+        // cover_image: data?.user?.record?.cover_image||null,
         bio: data?.user?.record?.bio || "",
         website: data?.user?.record?.website || "",
         skills: data?.user?.record?.skills || "",
@@ -46,7 +53,8 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
     });
   useEffect(() => {
     startTransition(() => {
-      setInput(data?.user?.record as StackistanUsersUpdate);
+      // @ts-expect-error
+      setInput(data?.user?.record as StackistanUsersUpdateFormInput);
     });
   }, [data?.user?.record]);
 
@@ -239,16 +247,18 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
                 type="url"
                 onChange={handleChange}
               />
-              <PBFieldWrapper field_key={"date_of_birth"} pb_error={pb_error}>
-                <TheStringListInput<StackistanUsersUpdate>
-                  field_key="skills"
-                  input={input}
-                  setInput={setInput}
-                  field_name={"skills"}
-                  label_classname="flex"
-                  editing={true}
-                />
-              </PBFieldWrapper>
+              {input?.skills && (
+                <PBFieldWrapper field_key={"date_of_birth"} pb_error={pb_error}>
+                  <TheStringListInput<StackistanUsersUpdateFormInput>
+                    field_key="skills"
+                    input={input}
+                    setInput={setInput}
+                    field_name={"skills"}
+                    label_classname="flex"
+                    editing={true}
+                  />
+                </PBFieldWrapper>
+              )}
             </div>
             {/* submit button */}
             <div className="w-full py-5 flex items-center justify-center">

@@ -14,7 +14,7 @@ interface ProfileImageProps {
   setInput: React.Dispatch<React.SetStateAction<StackistanUsersUpdate>>;
 }
 
-export function ProfileImage({
+export function PBImageInput({
   file_name,
   avatar_url,
   record_id,

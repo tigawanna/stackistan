@@ -1,6 +1,7 @@
 import { Badge } from "@/components/shadcn/ui/badge";
 import { OptionalTextFields } from "@/components/wrappers/OptionalTextFields";
 import { TimeCompponent } from "@/components/wrappers/TimeCompponent";
+import { getFileURL } from "@/lib/pb/client";
 import { StackistanUsersResponse } from "@/lib/pb/database";
 import {
   ChevronLeft,
@@ -25,7 +26,8 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
     phone,
     website,
     skills,
-    avatar_url,
+    avatar,
+    cover_image,
     verified,
     bio,
     city,
@@ -34,9 +36,21 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
     email,
     github_username,
     username,
-    cover_image_url,
     linkedin_username,
   } = profile;
+
+  const avatar_url = getFileURL({
+    collection_id_or_name: "stackistan_users",
+    file_name: avatar,
+    record_id:id,
+    fallback:"/default/profile-image.jpeg"
+  })
+  const cover_image_url = getFileURL({
+    collection_id_or_name: "stackistan_users",
+    file_name: cover_image,
+    record_id:id,
+        fallback:"/default/core-image.jpeg"
+  })
   return (
     <div className="w-full h-full flex flex-col items-center  relative gap-2">
       {/* back button */}

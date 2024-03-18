@@ -1,10 +1,8 @@
 import { useFormHook } from "@/components/form/useForm";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/ui/card";
-import { Label } from "@/components/shadcn/ui/label";
 import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
 import { StackistanUsersUpdate } from "@/lib/pb/database";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
-import { ProfileImage } from "./ProfileImage";
 import { useMutation } from "@tanstack/react-query";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { ClientSuspense, usePageContext } from "rakkasjs";
@@ -17,14 +15,10 @@ import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
 import { Button } from "@/components/shadcn/ui/button";
 import { Loader } from "lucide-react";
 import { TheStringListInput } from "@/components/form/inputs/StringListInput";
+import { PBTheImagePicker } from "@/lib/pb/components/form/PbTheImagePicker";
 
 interface UpdateProfileFormProps {}
 
-
-type StackistanUsersUpdateFormInput = Omit<StackistanUsersUpdate,"avatar"|"cover_image">&{
-  avatar?:null;
-  cover_image?:null;
-}
 export function UpdateProfileForm({}: UpdateProfileFormProps) {
   const {
     locals: { pb },
@@ -33,11 +27,11 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
   const [_, startTransition] = useTransition();
 
   const { error, handleChange, input, setError, validateInputs, setInput } =
-    useFormHook<StackistanUsersUpdateFormInput>({
+    useFormHook<StackistanUsersUpdate>({
       initialValues: {
         name: data?.user?.record?.name || "",
-        // avatar: data?.user?.record?.avatar||null,
-        // cover_image: data?.user?.record?.cover_image||null,
+        avatar: null,
+        cover_image: null,
         bio: data?.user?.record?.bio || "",
         website: data?.user?.record?.website || "",
         skills: data?.user?.record?.skills || "",
@@ -54,9 +48,11 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
   useEffect(() => {
     startTransition(() => {
       // @ts-expect-error
-      setInput(data?.user?.record as StackistanUsersUpdateFormInput);
+      setInput(data?.user?.record as StackistanUsersUpdate);
     });
   }, [data?.user?.record]);
+
+
 
   const mutation = useMutation({
     mutationFn: ({
@@ -104,7 +100,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
       return true;
     });
     if (isValid) {
-      console.log(" === updating  ==== ", input);
+      // console.log(" === updating  ==== ", input);
       mutation.mutate({ id: data?.user?.record?.id || "", input });
     }
   }
@@ -123,7 +119,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
         <CardContent className="grid gap-6 pt-6">
           <form className="" onSubmit={handleSubmit}>
             {/* cover image */}
-            <div className="w-full min-h-[200px] flex flex-col  justify-center ">
+            {/* <div className="w-full min-h-[200px] flex flex-col  justify-center ">
               <Label className="text-sm" htmlFor="cover_image_url">
                 Cover Image URL
               </Label>
@@ -142,9 +138,10 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
                   }}
                 />
               </PBFieldWrapper>
-            </div>
+            </div> */}
+            
             {/* profile image */}
-            <div className="w-full min-h-[200px] flex flex-col  justify-center ">
+            {/* <div className="w-full min-h-[200px] flex flex-col  justify-center ">
               <Label className="text-sm" htmlFor="avatar_url">
                 Avatar URL
               </Label>
@@ -163,7 +160,47 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
                   }}
                 />
               </PBFieldWrapper>
+            </div> */}
+
+            <div className="w-full  flex flex-col md:flex-row gap-2  justify-center ">
+              <div className="w-full md:w-[30%]">
+                <PBTheImagePicker
+                  img_classname="aspect-square"
+                  label="Profile Image"
+                  file_name={data?.user?.record?.avatar}
+                  collection_id_or_name="stackistan_users"
+                  show_preview={true}
+                  setFileImage={(e) => {
+                    setInput((prev) => {
+                      return {
+                        ...prev,
+                        avatar: e,
+                      };
+                    });
+                  }}
+                />
+              </div>
+              <div className="w-full">
+                <PBTheImagePicker
+                  label="Cover image"
+                  img_classname="w-full"
+                  file_name={data?.user?.record?.cover_image}
+                  collection_id_or_name="stackistan_users"
+                  show_preview={true}
+                  setFileImage={(e) => {
+                    setInput((prev) => {
+                      return {
+                        ...prev,
+                        cover_image: e,
+                      };
+                    });
+                  }}
+                />
+              </div>
             </div>
+
+            {/* profile image */}
+
             {/* profile country */}
             {/* country , city , phone */}
             <ClientSuspense
@@ -249,7 +286,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
               />
               {input?.skills && (
                 <PBFieldWrapper field_key={"date_of_birth"} pb_error={pb_error}>
-                  <TheStringListInput<StackistanUsersUpdateFormInput>
+                  <TheStringListInput<StackistanUsersUpdate>
                     field_key="skills"
                     input={input}
                     setInput={setInput}

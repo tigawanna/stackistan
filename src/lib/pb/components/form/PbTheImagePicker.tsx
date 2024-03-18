@@ -8,6 +8,7 @@ interface PbTheImagePickerProps {
   show_preview?: boolean;
   label?: React.ReactNode;
   label_classname?: string;
+  img_classname?: string;
   collection_id_or_name?: keyof Schema;
   record_id?: string;
   file_name?: string;
@@ -17,6 +18,7 @@ interface PbTheImagePickerProps {
 export function PBTheImagePicker({
   label,
   label_classname,
+  img_classname,
   show_preview = true,
   collection_id_or_name,
   record_id,
@@ -41,26 +43,26 @@ export function PBTheImagePicker({
     }
   }
   return (
-    <div className="w-full h-full flex flex-col gap-1">
+    <div className="w-full  flex flex-col items-center gap-1 relative min-h-24 p-2 bg-base-200/70 rounded-md">
       <div className={twMerge("font-serif text-sm", label_classname)}>
         {label}
       </div>
       {/* <h2 className="text-sm text-accent">{label}</h2> */}
-      <div className="md:min-w-[200px]  bg-accent/20 flex flex-col items-center justify-center border">
+      <div className="md:min-w-[200px]   flex  items-center justify-center">
         {typeof pic === "string" && pic.length > 0 && show_preview ? (
-          <div className="avatar" onClick={() => ref.current?.click()}>
-            <div className="">
+          <div className="" onClick={() => ref.current?.click()}>
+            <div className="w-full">
               <img
-                className="max-w-md"
+                className={twMerge("w-auto h-[200px]  object-cover", img_classname)}
                 src={pic}
-                height={"300"}
+                height={"200"}
                 width={"400"}
               />
             </div>
           </div>
         ) : null}
 
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center absolute top-[50%]  bg-base-300/50 p-3 rounded-lg">
           <input
             id="image_picket"
             type="file"

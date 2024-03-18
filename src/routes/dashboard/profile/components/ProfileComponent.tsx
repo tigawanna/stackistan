@@ -42,15 +42,15 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
   const avatar_url = getFileURL({
     collection_id_or_name: "stackistan_users",
     file_name: avatar,
-    record_id:id,
-    fallback:"/default/profile-image.jpeg"
-  })
+    record_id: id,
+    fallback: "/default/profile-image.jpeg",
+  });
   const cover_image_url = getFileURL({
     collection_id_or_name: "stackistan_users",
     file_name: cover_image,
-    record_id:id,
-        fallback:"/default/core-image.jpeg"
-  })
+    record_id: id,
+    fallback: "/default/core-image.jpeg",
+  });
   return (
     <div className="w-full h-full flex flex-col items-center  relative gap-2">
       {/* back button */}
@@ -137,7 +137,7 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
                   className=" group brightness-90 flex flex-wrap gap-1 hover:text-blue-300 items-center justify-center"
                 >
                   <Link2 />
-                    website
+                  website
                   <ExternalLink className="w-4 h-4 hidden group-hover:flex  absolute -right-5" />
                 </Link>
               </OptionalTextFields>

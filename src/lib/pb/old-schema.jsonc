@@ -294,6 +294,7 @@
         "deleteRule": "@request.auth.verified = true && @request.auth.id !=\"\" && @request.auth.id = user",
         "options": {}
     },
+    // education
     {
         "id": "pxcw0ing5irbeln",
         "name": "sherpa_education",
@@ -397,6 +398,7 @@
         "deleteRule": "@request.auth.verified = true && @request.auth.id !=\"\" && @request.auth.id = user",
         "options": {}
     },
+//    experience
     {
         "id": "p2jghljn8ui4yb1",
         "name": "sherpa_experience",
@@ -496,6 +498,7 @@
         "deleteRule": "@request.auth.verified = true && @request.auth.id !=\"\" && @request.auth.id = user",
         "options": {}
     },
+//   hackahons
     {
         "id": "8fxbokb9tx7tb31",
         "name": "sherpa_hackathon",
@@ -608,6 +611,7 @@
         "deleteRule": "@request.auth.verified = true && @request.auth.id !=\"\" && @request.auth.id = user",
         "options": {}
     },
+//   internsips
     {
         "id": "1drmbc5pextvec1",
         "name": "sherpa_internship",
@@ -707,6 +711,7 @@
         "deleteRule": "@request.auth.verified = true && @request.auth.id !=\"\" && @request.auth.id = user",
         "options": {}
     },
+//    job appication
     {
         "id": "qw5z9dkd7443bfw",
         "name": "sherpa_job_application",
@@ -803,6 +808,7 @@
         "deleteRule": "@request.auth.verified = true && @request.auth.id !=\"\" && @request.auth.id = user",
         "options": {}
     },
+    // projects
     {
         "id": "s5o7w1pgfdcqm6f",
         "name": "sherpa_projects",
@@ -938,6 +944,7 @@
         "deleteRule": "@request.auth.verified = true && @request.auth.id !=\"\" && @request.auth.id = user",
         "options": {}
     },
+    // resume
     {
         "id": "a4fxdhn0qbp2edh",
         "name": "sherpa_resume",

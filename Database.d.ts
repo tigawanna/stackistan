@@ -999,26 +999,45 @@ export interface StackistanUsersCollection {
 // ===== stackistan_resume_profile =====
 
 export interface StackistanResumeProfileResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_resume_profile';
-	user: string;
-	type: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other';
-	education: any;
-	projects: any;
-	activities: any;
-	other: any;
-	experience: string;
-	skills: any;
+  collectionName: "stackistan_resume_profile";
+  user: string;
+  type:
+    | "general"
+    | "frontend"
+    | "backend"
+    | "fullstack"
+    | "mobile"
+    | "gamedev"
+    | "data"
+    | "devops"
+    | "other";
+  education: any;
+  projects: any;
+  activities: any;
+  other: any;
+  experience: string;
+  skills: any;
 }
 
 export interface StackistanResumeProfileCreate extends BaseCollectionCreate {
-	user: string;
-	type: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other';
-	education?: any;
-	projects?: any;
-	activities?: any;
-	other?: any;
-	experience?: string;
-	skills?: any;
+  user: string;
+  type:
+    | "general"
+    | "general"
+    | "frontend"
+    | "backend"
+    | "fullstack"
+    | "mobile"
+    | "gamedev"
+    | "data"
+    | "devops"
+    | "other";
+  education?: any;
+  projects?: any;
+  activities?: any;
+  other?: any;
+  experience?: string;
+  skills?: any;
 }
 
 export interface StackistanResumeProfileUpdate extends BaseCollectionUpdate {

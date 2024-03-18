@@ -214,6 +214,7 @@ export interface StackistanResumeProfileResponse extends BaseCollectionResponse 
   collectionName: "stackistan_resume_profile";
   user: string;
   type:
+    | "general"
     | "frontend"
     | "backend"
     | "fullstack"
@@ -226,23 +227,23 @@ export interface StackistanResumeProfileResponse extends BaseCollectionResponse 
     list?: StackistanResumeProfileEducation[];
   };
   projects: {
-    list?: StackistanResumeProfileProjects[]
+    list?: StackistanResumeProfileProjects[];
   };
   activities: {
-    list?: StackistanResumeProfileActivities[]
+    list?: StackistanResumeProfileActivities[];
   };
   other: {
-    list?:{[key: string]: string}[]
-  }
+    list?: { [key: string]: string }[];
+  };
   experience: string;
   skills: {
-    list?: StackistanResumeProfileSkills[]
+    list?: StackistanResumeProfileSkills[];
   };
 }
 
 export interface StackistanResumeProfileCreate extends BaseCollectionCreate {
   user: string;
-  type:
+  type:"general"
     | "frontend"
     | "backend"
     | "fullstack"
@@ -272,6 +273,7 @@ export interface StackistanResumeProfileCreate extends BaseCollectionCreate {
 export interface StackistanResumeProfileUpdate extends BaseCollectionUpdate {
   user?: string;
   type?:
+    | "general"
     | "frontend"
     | "backend"
     | "fullstack"

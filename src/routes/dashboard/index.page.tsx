@@ -1,14 +1,16 @@
 import { PageProps } from "rakkasjs"
 import { Suspense } from "react";
-
-import { ProfileComponentSuspenseFallback } from "./profile/components/ProfileComponent";
-import { LoggedInProfile } from "./profile/components/LoggedInProfile";
+import {
+  DashBoardMainSection,
+  DashBoardMainSectionSuspenseFallback,
+} from "./components/dashboard/DashBoardMainSection";
 
 export default function DashboardPage({}:PageProps) {
+
 return (
   <div className="w-full h-full  flex flex-col items-center justify-center">
-    <Suspense fallback={<ProfileComponentSuspenseFallback />}>
-      <LoggedInProfile />
+    <Suspense fallback={<DashBoardMainSectionSuspenseFallback />}>
+      <DashBoardMainSection />
     </Suspense>
   </div>
 );}

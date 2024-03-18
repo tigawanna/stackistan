@@ -14,6 +14,9 @@ interface BreadCrumbsProps {}
 
 export default function BreadCrumbs({}: BreadCrumbsProps) {
   const { breadcrumb_routes } = useRakkasBreadCrumbs();
+  if(breadcrumb_routes.length === 1){
+    return null
+  }
   return (
     <Breadcrumb>
       <BreadcrumbList>

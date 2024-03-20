@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { ArrayFormFields } from "./ArrayFormFields";
 import { StackistanResumeProfileEducation } from "@/lib/pb/custom-db-types";
+import { ResumeProfileProjects } from "./resume-parts/ResumeProfileProjects";
 
 interface ResumeFormProps {}
 
@@ -85,8 +86,14 @@ export function ResumeForm({}: ResumeFormProps) {
             </PBFieldWrapper>
           </ClientSuspenseWrapper>
         </ClientSuspense>
+        <ResumeProfileProjects
+          projects={input.projects}
+          setProjects={(projects) =>
+            setInput((prev) => ({ ...prev, projects }))
+          }
+        />
         {/* projects */}
-        <div className="w-full">
+        {/* <div className="w-full">
           <span className="text-2xl font-bold">Projects</span>
           <ArrayFormFields
             items_shape={{
@@ -104,10 +111,9 @@ export function ResumeForm({}: ResumeFormProps) {
               });
             }}
           />
-        </div>
-
+        </div> */}
         {/* skills */}
-        <div className="w-full">
+        {/* <div className="w-full">
           <span className="text-2xl font-bold">Skills</span>
           <ArrayFormFields
             items_shape={{
@@ -124,9 +130,8 @@ export function ResumeForm({}: ResumeFormProps) {
               });
             }}
           />
-        </div>
-
-        {/* activities */}
+        </div> */}
+        activities
         <div className="w-full">
           <span className="text-2xl font-bold">Activities</span>
           <ArrayFormFields
@@ -146,9 +151,8 @@ export function ResumeForm({}: ResumeFormProps) {
             }}
           />
         </div>
-
         {/* education */}
-        <div className="w-full">
+        {/* <div className="w-full">
           <span className="text-2xl font-bold">Education</span>
           <ArrayFormFields<StackistanResumeProfileEducation>
             items_shape={{
@@ -168,7 +172,7 @@ export function ResumeForm({}: ResumeFormProps) {
               });
             }}
           />
-        </div>
+        </div> */}
       </form>
     </div>
   );

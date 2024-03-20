@@ -3,47 +3,46 @@ import { Edit, Plus } from "lucide-react";
 import { useState } from "react";
 import { RowFormEditor } from "./RowFormEditor";
 
-type StackistanResumeProfileItem =
-  StackistanResumeProfileCreate["projects"];
+type StackistanResumeProfileItem = StackistanResumeProfileCreate["other"];
 type StackistanResumeProfileItemRow =
   NonNullable<StackistanResumeProfileItem>["list"][number];
-interface ResumeProfileProjectsProps {
+interface ResumeProfileOthersProps {
   items: StackistanResumeProfileItem;
-  setItem: (items: StackistanResumeProfileItem) => void;
+  setItems: (items: StackistanResumeProfileItem) => void;
 }
 
-export function ResumeProfileProjects({
+export function ResumeProfileOthers({
   items,
-  setItem,
-}: ResumeProfileProjectsProps) {
+  setItems,
+}: ResumeProfileOthersProps) {
   function addNewProject(
-    project: NonNullable<StackistanResumeProfileItem>["list"][number],
+    one_item: NonNullable<StackistanResumeProfileItem>["list"][number],
   ) {
     const old_list = [...(items?.list ?? [])];
-    const new_list = [...old_list, project];
+    const new_list = [...old_list, one_item];
     console.log({ old_list, new_list });
-    setItem({
+    setItems({
       list: new_list,
     });
   }
   function updateProject(
     idx: number,
-    project: StackistanResumeProfileItemRow,
+    one_item: StackistanResumeProfileItemRow,
   ) {
     const old_list = [...(items?.list ?? [])];
     const new_list = old_list.map((p, i) => {
       if (i === idx) {
-        return project;
+        return one_item;
       }
       return p;
     });
 
-    setItem({ list: new_list });
+    setItems({ list: new_list });
   }
   function deleteProject(idx: number) {
     const old_list = [...(items?.list ?? [])];
     const new_list = old_list.filter((_, i) => i !== idx);
-    setItem({
+    setItems({
       list: new_list,
     });
   }
@@ -55,31 +54,32 @@ export function ResumeProfileProjects({
   });
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center ">
+    <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="w-full  flex  gap-4 p-1">
-        <h1 className="text-2xl font-bold">Projects</h1>
-        <RowFormEditor
+        <h1 className="text-2xl font-bold">Other</h1>
+        <RowFormEditor<StackistanResumeProfileItemRow>
           newRow={true}
           input={arrayRow}
           setInput={setArrayRow}
           addNewRow={() => addNewProject(arrayRow)}
           icon={<Plus className="size-8" />}
+
         />
       </div>
       <div className="overflow-x-auto w-full px-2 ">
         <table className="w-full table bg-base-300/40 ">
           <thead className="w-full bg-base-300">
             <tr className="w-full text-lg">
-              <th>Name</th>
-              <th>Description</th>
-              <th>Link</th>
+              <th>name</th>
+              <th>description</th>
+              <th>link</th>
             </tr>
           </thead>
 
           <tbody className="w-full">
             {items?.list?.map((one_item, index) => {
               return (
-                <tr key={index + one_item.name} className="w-full relative">
+                <tr key={index} className="w-full relative">
                   {Object.entries(one_item).map(([k, v]) => {
                     return <td key={k + index}>{v}</td>;
                   })}

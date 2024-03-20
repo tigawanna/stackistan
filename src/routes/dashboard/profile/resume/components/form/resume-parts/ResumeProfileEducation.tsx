@@ -48,11 +48,11 @@ export function ResumeProfileEducation({
   }
 
   const [arrayRow, setArrayRow] = useState<StackistanResumeProfileItemRow>({
+    school: "",
     fieldOfStudy: "",
+    qualification: "Certificate",
     from: "",
     to: "",
-    qualification: "Certificate",
-    school: "",
   });
   const qualification_select_options: {
     label: string;
@@ -81,8 +81,8 @@ export function ResumeProfileEducation({
     },
   ];
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
-      <div className="w-full  flex justify-center gap-4 p-1">
+    <div className="w-full h-full flex flex-col items-center justify-center glass">
+      <div className="w-full  flex  gap-4 p-1">
         <h1 className="text-2xl font-bold">Education</h1>
         <RowFormEditor<StackistanResumeProfileItemRow>
           newRow={true}
@@ -118,11 +118,9 @@ export function ResumeProfileEducation({
                   key={index + one_item.school + one_item.qualification}
                   className="w-full relative"
                 >
-                  <td>{one_item?.school}</td>
-                  <td>{one_item?.fieldOfStudy}</td>
-                  <td>{one_item?.qualification}</td>
-                  <td>{one_item?.from}</td>
-                  <td>{one_item?.to}</td>
+                  {Object.entries(one_item).map(([k, v]) => {
+                    return <td key={k + index}>{v}</td>;
+                  })}
                   <td className="absolute right-2  cursor-pointer z-30">
                     {" "}
                     <RowFormEditor

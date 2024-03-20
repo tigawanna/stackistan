@@ -44,7 +44,7 @@ link: string
 
 export interface StackistanResumeProfileSkills{
   name: string;
-  level: number;
+  level: "10%" | "20%" | "30%" | "40%" | "50%" | "60%" | "70%" | "80%" | "90%" | "100%";
 }
 
 export interface StackistanResumeProfileActivities{

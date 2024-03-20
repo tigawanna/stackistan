@@ -7,9 +7,10 @@ import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
 import { ClientSuspense, usePageContext } from "rakkasjs";
 import { useMutation } from "@tanstack/react-query";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
-import { ArrayFormFields } from "./array-stuff/ArrayFormFields";
-import { StackistanResumeProfileEducation } from "@/lib/pb/custom-db-types";
 import { ResumeProfileProjects } from "./resume-parts/ResumeProfileProjects";
+import { ResumeProfileSkills } from "./resume-parts/ResumeProfileSkills";
+import { ResumeProfileActivities } from "./resume-parts/ResumeProfileActivities";
+import { ResumeProfileOthers } from "./resume-parts/ResumeProfileOthers";
 import { ResumeProfileEducation } from "./resume-parts/ResumeProfileEducation";
 
 interface ResumeFormProps {}
@@ -27,9 +28,7 @@ export function ResumeForm({}: ResumeFormProps) {
         user: user?.record.id!,
         type: "general",
         projects: {
-          list: [
-            { name: "name 1", description: "description 1", link: "link 1" },
-          ],
+          list: [],
         },
         skills: {
           list: [],
@@ -56,7 +55,7 @@ export function ResumeForm({}: ResumeFormProps) {
   });
   const pb_error = mutation?.data?.error;
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center pl-3">
+    <div className="w-full h-fit flex flex-col items-center justify-center pl-3 overflow-auto pb-4">
       {/*  intro */}
       <div className="w-full h-fit flex-col px-2 pt-10">
         <h1 className="text-3xl fonr bold">Create resume profile</h1>
@@ -66,7 +65,7 @@ export function ResumeForm({}: ResumeFormProps) {
           one for backead frontend developer if you are fullstack
         </p>
       </div>
-      <form className="h-full w-full flex flex-col justify-center items-center overflow-auto ">
+      <form className="h-fit w-full flex flex-col justify-center items-center  gap-5 ">
         {/* select resume profile type */}
         <ClientSuspense
           fallback={<div className="h-8 bg-base-300 skeleton"></div>}
@@ -94,8 +93,8 @@ export function ResumeForm({}: ResumeFormProps) {
         >
           <ClientSuspenseWrapper>
             <ResumeProfileProjects
-              projects={input.projects}
-              setProjects={(projects) =>
+              items={input.projects}
+              setItem={(projects) =>
                 setInput((prev) => ({ ...prev, projects }))
               }
             />
@@ -103,11 +102,18 @@ export function ResumeForm({}: ResumeFormProps) {
         </ClientSuspense>
 
         {/* skills */}
-
-        {/* activities */}
+        <ClientSuspense
+          fallback={<div className="h-8 bg-base-300 skeleton"></div>}
+        >
+          <ClientSuspenseWrapper>
+            <ResumeProfileSkills
+              items={input.skills}
+              setItems={(skills) => setInput((prev) => ({ ...prev, skills }))}
+            />
+          </ClientSuspenseWrapper>
+        </ClientSuspense>
 
         {/* education */}
-
         <ClientSuspense
           fallback={<div className="h-8 bg-base-300 skeleton"></div>}
         >
@@ -120,7 +126,31 @@ export function ResumeForm({}: ResumeFormProps) {
             />
           </ClientSuspenseWrapper>
         </ClientSuspense>
+
+        {/* activities */}
+        <ClientSuspense
+          fallback={<div className="h-8 bg-base-300 skeleton"></div>}
+        >
+          <ClientSuspenseWrapper>
+            <ResumeProfileActivities
+              items={input.activities}
+              setItems={(activities) =>
+                setInput((prev) => ({ ...prev, activities }))
+              }
+            />
+          </ClientSuspenseWrapper>
+        </ClientSuspense>
         {/* others */}
+        <ClientSuspense
+          fallback={<div className="h-8 bg-base-300 skeleton"></div>}
+        >
+          <ClientSuspenseWrapper>
+            <ResumeProfileOthers
+              items={input.other}
+              setItems={(other) => setInput((prev) => ({ ...prev, other }))}
+            />
+          </ClientSuspenseWrapper>
+        </ClientSuspense>
       </form>
     </div>
   );

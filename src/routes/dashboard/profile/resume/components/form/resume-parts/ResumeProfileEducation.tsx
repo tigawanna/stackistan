@@ -82,22 +82,27 @@ export function ResumeProfileEducation({
   ];
   return (
     <div className="w-full h-full flex flex-col items-center justify-center glass">
-      <div className="w-full  flex  gap-4 p-1">
-        <h1 className="text-2xl font-bold">Education</h1>
-        <RowFormEditor<StackistanResumeProfileItemRow>
-          newRow={true}
-          input={arrayRow}
-          setInput={setArrayRow}
-          addNewRow={() => addNewProject(arrayRow)}
-          icon={<Plus className="size-8" />}
-          inputOptions={{
-            qualification: {
-              select: {
-                fields: qualification_select_options
+      <div className="w-full  flex flex-col   gap-1 p-2 ">
+        <div className="w-full  flex gap-4 p-1">
+          <h1 className="text-2xl font-bold">Education</h1>
+          <RowFormEditor<StackistanResumeProfileItemRow>
+            newRow={true}
+            input={arrayRow}
+            setInput={setArrayRow}
+            addNewRow={() => addNewProject(arrayRow)}
+            icon={<Plus className="size-8" />}
+            inputOptions={{
+              qualification: {
+                select: {
+                  fields: qualification_select_options,
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
+        <p className="text-sm brightness-75">
+          Add your education history , focus on the most recent.
+        </p>
       </div>
       <div className="overflow-x-auto w-full px-2 ">
         <table className="w-full table bg-base-300/40 ">

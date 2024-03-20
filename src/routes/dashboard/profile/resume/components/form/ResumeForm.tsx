@@ -12,6 +12,8 @@ import { ResumeProfileSkills } from "./resume-parts/ResumeProfileSkills";
 import { ResumeProfileActivities } from "./resume-parts/ResumeProfileActivities";
 import { ResumeProfileOthers } from "./resume-parts/ResumeProfileOthers";
 import { ResumeProfileEducation } from "./resume-parts/ResumeProfileEducation";
+import { Button } from "@/components/shadcn/ui/button";
+import { Loader } from "lucide-react";
 
 interface ResumeFormProps {}
 
@@ -55,7 +57,7 @@ export function ResumeForm({}: ResumeFormProps) {
   });
   const pb_error = mutation?.data?.error;
   return (
-    <div className="w-full h-fit flex flex-col items-center justify-center pl-3 overflow-auto pb-4">
+    <div className="w-full h-fit flex flex-col items-center justify-center gap-6 pl-3 overflow-auto pb-4">
       {/*  intro */}
       <div className="w-full h-fit flex-col px-2 pt-10">
         <h1 className="text-3xl fonr bold">Create resume profile</h1>
@@ -151,6 +153,11 @@ export function ResumeForm({}: ResumeFormProps) {
             />
           </ClientSuspenseWrapper>
         </ClientSuspense>
+        <div className="w-full flex justify-center">
+          <Button type="button" variant={"outline"} className="flex gap-2 min-w-[70&] md:min-w-[40%]">
+            Submit {mutation.isPending && <Loader className="size-5 animate-spin" />}
+          </Button>
+        </div>
       </form>
     </div>
   );

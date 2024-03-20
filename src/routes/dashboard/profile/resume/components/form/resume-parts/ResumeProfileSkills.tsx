@@ -68,29 +68,34 @@ export function ResumeProfileSkills({
   ];
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <div className="w-full  flex  gap-4 p-1">
-        <h1 className="text-2xl font-bold">Skills</h1>
-        <RowFormEditor<StackistanResumeProfileItemRow>
-          newRow={true}
-          input={arrayRow}
-          setInput={setArrayRow}
-          addNewRow={() => addNewProject(arrayRow)}
-          icon={<Plus className="size-8" />}
-          inputOptions={{
-            level: {
-              select: {
-                fields: skills_select_options,
+      <div className="w-full  flex flex-col   gap-1 p-2 ">
+        <div className="w-full  flex gap-4 p-1">
+          <h1 className="text-2xl font-bold">Skills</h1>
+          <RowFormEditor<StackistanResumeProfileItemRow>
+            newRow={true}
+            input={arrayRow}
+            setInput={setArrayRow}
+            addNewRow={() => addNewProject(arrayRow)}
+            icon={<Plus className="size-8" />}
+            inputOptions={{
+              level: {
+                select: {
+                  fields: skills_select_options,
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
+        <p className="text-sm brightness-75">
+          Add specific skills like HTML, CSS, Docker, Linux...
+        </p>
       </div>
       <div className="overflow-x-auto w-full px-2 ">
         <table className="w-full table bg-base-300/40 ">
           <thead className="w-full bg-base-300">
             <tr className="w-full text-lg">
-                <th>name</th>
-                <th>level</th>
+              <th>name</th>
+              <th>level</th>
             </tr>
           </thead>
 

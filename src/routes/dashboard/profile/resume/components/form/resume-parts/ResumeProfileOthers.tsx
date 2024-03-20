@@ -55,16 +55,21 @@ export function ResumeProfileOthers({
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <div className="w-full  flex  gap-4 p-1">
-        <h1 className="text-2xl font-bold">Other</h1>
-        <RowFormEditor<StackistanResumeProfileItemRow>
-          newRow={true}
-          input={arrayRow}
-          setInput={setArrayRow}
-          addNewRow={() => addNewProject(arrayRow)}
-          icon={<Plus className="size-8" />}
+      <div className="w-full  flex flex-col   gap-1 p-2 ">
+        <div className="w-full  flex gap-4 p-1">
+          <h1 className="text-2xl font-bold">Others</h1>
 
-        />
+          <RowFormEditor<StackistanResumeProfileItemRow>
+            newRow={true}
+            input={arrayRow}
+            setInput={setArrayRow}
+            addNewRow={() => addNewProject(arrayRow)}
+            icon={<Plus className="size-8" />}
+          />
+        </div>
+        <p className="text-sm brightness-75">
+          Highlight any other defining attributes
+        </p>
       </div>
       <div className="overflow-x-auto w-full px-2 ">
         <table className="w-full table bg-base-300/40 ">

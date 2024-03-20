@@ -56,7 +56,8 @@ export function ResumeProfileProjects({
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center ">
-      <div className="w-full  flex  gap-4 p-1">
+      <div className="w-full  flex flex-col   gap-1 p-2 ">
+        <div className="w-full  flex gap-4 p-1">
         <h1 className="text-2xl font-bold">Projects</h1>
         <RowFormEditor
           newRow={true}
@@ -65,6 +66,10 @@ export function ResumeProfileProjects({
           addNewRow={() => addNewProject(arrayRow)}
           icon={<Plus className="size-8" />}
         />
+      </div>
+      <p className="text-sm brightness-75">
+        Add projects that you have worked on , include the link to the project if possible
+      </p>
       </div>
       <div className="overflow-x-auto w-full px-2 ">
         <table className="w-full table bg-base-300/40 ">

@@ -7,7 +7,7 @@ import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
 import { ClientSuspense, usePageContext } from "rakkasjs";
 import { useMutation } from "@tanstack/react-query";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
-import { ArrayFormFields } from "./ArrayFormFields";
+import { ArrayFormFields } from "./array-stuff/ArrayFormFields";
 import { StackistanResumeProfileEducation } from "@/lib/pb/custom-db-types";
 import { ResumeProfileProjects } from "./resume-parts/ResumeProfileProjects";
 import { ResumeProfileEducation } from "./resume-parts/ResumeProfileEducation";
@@ -87,97 +87,40 @@ export function ResumeForm({}: ResumeFormProps) {
             </PBFieldWrapper>
           </ClientSuspenseWrapper>
         </ClientSuspense>
-        <ResumeProfileProjects
-          projects={input.projects}
-          setProjects={(projects) =>
-            setInput((prev) => ({ ...prev, projects }))
-          }
-        />
+
         {/* projects */}
-        {/* <div className="w-full">
-          <span className="text-2xl font-bold">Projects</span>
-          <ArrayFormFields
-            items_shape={{
-              name: "",
-              description: "",
-              link: "",
-            }}
-            items={input.projects}
-            setArrayValues={(value) => {
-              setInput((prev) => {
-                return {
-                  ...prev,
-                  projects: { list: value },
-                };
-              });
-            }}
-          />
-        </div> */}
+        <ClientSuspense
+          fallback={<div className="h-8 bg-base-300 skeleton"></div>}
+        >
+          <ClientSuspenseWrapper>
+            <ResumeProfileProjects
+              projects={input.projects}
+              setProjects={(projects) =>
+                setInput((prev) => ({ ...prev, projects }))
+              }
+            />
+          </ClientSuspenseWrapper>
+        </ClientSuspense>
+
         {/* skills */}
-        {/* <div className="w-full">
-          <span className="text-2xl font-bold">Skills</span>
-          <ArrayFormFields
-            items_shape={{
-              name: "",
-              level: 0,
-            }}
-            items={input.skills}
-            setArrayValues={(value) => {
-              setInput((prev) => {
-                return {
-                  ...prev,
-                  skills: { list: value },
-                };
-              });
-            }}
-          />
-        </div> */}
-        activities
-        <div className="w-full">
-          <span className="text-2xl font-bold">Activities</span>
-          <ArrayFormFields
-            items_shape={{
-              name: "",
-              description: "",
-              link: "",
-            }}
-            items={input.activities}
-            setArrayValues={(value) => {
-              setInput((prev) => {
-                return {
-                  ...prev,
-                  activities: { list: value },
-                };
-              });
-            }}
-          />
-        </div>
+
+        {/* activities */}
+
         {/* education */}
-        <ResumeProfileEducation
-          items={input.education}
-          setItems={(education) => setInput((prev) => ({ ...prev, education }))}
-        />
-        {/* <div className="w-full">
-          <span className="text-2xl font-bold">Education</span>
-          <ArrayFormFields<StackistanResumeProfileEducation>
-            items_shape={{
-              school: "",
-              fieldOfStudy: "",
-              qualification: "Certificate",
-              from: "",
-              to: "",
-            }}
-            items={input.education}
-            setArrayValues={(value) => {
-              setInput((prev) => {
-                return {
-                  ...prev,
-                  education: { list: value },
-                };
-              });
-            }}
-          />
-        </div> */}
+
+        <ClientSuspense
+          fallback={<div className="h-8 bg-base-300 skeleton"></div>}
+        >
+          <ClientSuspenseWrapper>
+            <ResumeProfileEducation
+              items={input.education}
+              setItems={(education) =>
+                setInput((prev) => ({ ...prev, education }))
+              }
+            />
+          </ClientSuspenseWrapper>
+        </ClientSuspense>
+        {/* others */}
       </form>
     </div>
   );

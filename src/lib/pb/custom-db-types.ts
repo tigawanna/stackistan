@@ -30,7 +30,7 @@ export const industries = [
 
 export interface StackistanResumeProfileEducation {
   school: string;
-  qualification: "Certificate" | "Bachelors" | "Masters" | "PhD" | "other";
+  qualification: "Certificate" | "Bachelors" | "Masters" | "PhD" | "other" | "Diploma";
   fieldOfStudy: string;
   from: string;
   to: string;

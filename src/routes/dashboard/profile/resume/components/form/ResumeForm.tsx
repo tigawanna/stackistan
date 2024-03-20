@@ -10,6 +10,7 @@ import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { ArrayFormFields } from "./ArrayFormFields";
 import { StackistanResumeProfileEducation } from "@/lib/pb/custom-db-types";
 import { ResumeProfileProjects } from "./resume-parts/ResumeProfileProjects";
+import { ResumeProfileEducation } from "./resume-parts/ResumeProfileEducation";
 
 interface ResumeFormProps {}
 
@@ -152,6 +153,10 @@ export function ResumeForm({}: ResumeFormProps) {
           />
         </div>
         {/* education */}
+        <ResumeProfileEducation
+          items={input.education}
+          setItems={(education) => setInput((prev) => ({ ...prev, education }))}
+        />
         {/* <div className="w-full">
           <span className="text-2xl font-bold">Education</span>
           <ArrayFormFields<StackistanResumeProfileEducation>

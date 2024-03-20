@@ -1,5 +1,5 @@
 import { StackistanResumeProfileCreate } from "@/lib/pb/database";
-import { Edit } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
 import { useState } from "react";
 import { RowFormEditor } from "./RowFormEditor";
 
@@ -19,9 +19,11 @@ export function ResumeProfileProjects({
   function addNewProject(
     project: NonNullable<StackistanResumeProfileProjects>["list"][number],
   ) {
+    const old_list = [...(projects?.list ?? [])];
+    const new_list = [...old_list, project];
+    console.log({ old_list,new_list });
     setProjects({
-      ...projects,
-      list: [...(projects?.list ?? []), project],
+      list: new_list,
     });
   }
   function updateProject(
@@ -45,18 +47,29 @@ export function ResumeProfileProjects({
       list: new_list,
     });
   }
-  console.log({ projects });
+
   const [arrayRow, setArrayRow] = useState<StackistanResumeProfileProjectRow>({
     description: "",
     link: "",
     name: "",
   });
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <h1 className="text-1xl font-bold">Projects</h1>
+      <div className="w-full  flex justify-center gap-4 p-1">
+        <h1 className="text-2xl font-bold">Projects</h1>
+        <RowFormEditor
+          newRow={true}
+          input={arrayRow}
+          setInput={setArrayRow}
+          addNewRow={() => addNewProject(arrayRow)}
+          icon={<Plus className="size-8" />}
+ 
+        />
+      </div>
       <div className="overflow-x-auto w-full px-2 ">
-        <table className="w-full table bg-base-300/40">
-          <thead className="w-full bg-base-100">
+        <table className="w-full table bg-base-300/40 ">
+          <thead className="w-full bg-base-300">
             <tr className="w-full text-lg">
               <th>Name</th>
               <th>Description</th>
@@ -76,7 +89,6 @@ export function ResumeProfileProjects({
                     <RowFormEditor
                       input={arrayRow}
                       setInput={setArrayRow}
-                      addNewRow={() => addNewProject(arrayRow)}
                       updateRow={() => updateProject(index, arrayRow)}
                       deleteRow={() => deleteProject(index)}
                       icon={

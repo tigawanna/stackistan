@@ -3,9 +3,7 @@ import { useState } from "react";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { usePageContext, useSSM } from "rakkasjs";
-
 import { useMutation } from "@tanstack/react-query";
-
 import { TheStringListInput } from "@/components/form/inputs/StringListInput";
 import { StackistanResumeProfileCreate } from "@/lib/pb/database";
 

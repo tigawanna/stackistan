@@ -11,7 +11,8 @@
     "test:typecheck": "tsc -p tsconfig.json --noEmit",
     "test:format": "prettier --check --ignore-unknown src",
     "test:lint": "eslint . --ignore-pattern dist",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "pb-types":"tsx src/scripts/pb.ts stackistan"
   },
   "devDependencies": {
     "@rakkasjs/eslint-config": "0.7.0-next.45",

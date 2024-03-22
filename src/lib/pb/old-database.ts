@@ -2,7 +2,13 @@
  * This file was @generated using typed-pocketbase
  */
 
-import { StackistanResumeProfileActivities, StackistanResumeProfileEducation, StackistanResumeProfileProjects, StackistanResumeProfileSkills, industries } from "./custom-db-types";
+import {
+  StackistanResumeProfileActivities,
+  StackistanResumeProfileEducation,
+  StackistanResumeProfileProjects,
+  StackistanResumeProfileSkills,
+  industries,
+} from "./custom-db-types";
 
 // https://pocketbase.io/docs/collections/#base-collection
 export interface BaseCollectionResponse {
@@ -135,82 +141,80 @@ export interface ViewCollectionRecord {
 
 type MaybeArray<T> = T | T[];
 
-
-
 // ===== stackistan_users =====
 
 export interface StackistanUsersResponse extends AuthCollectionResponse {
-	collectionName: 'stackistan_users';
-	name: string;
-	avatar_url: string;
-	bio: string;
-	google_access_token: string;
-	github_access_token: string;
-	cover_image_url: string;
-	github_username: string;
-	linkedin_username: string;
-	city: string;
-	country: string;
-	phone: string;
-	skills: string;
-	website: string;
-	avatar: string;
-	cover_image: string;
+  collectionName: "stackistan_users";
+  name: string;
+  avatar_url: string;
+  bio: string;
+  google_access_token: string;
+  github_access_token: string;
+  cover_image_url: string;
+  github_username: string;
+  linkedin_username: string;
+  city: string;
+  country: string;
+  phone: string;
+  skills: string;
+  website: string;
+  avatar: string;
+  cover_image: string;
 }
 
 export interface StackistanUsersCreate extends AuthCollectionCreate {
-	name: string;
-	avatar_url?: string | URL;
-	bio?: string;
-	google_access_token?: string;
-	github_access_token?: string;
-	cover_image_url?: string | URL;
-	github_username?: string;
-	linkedin_username?: string;
-	city?: string;
-	country?: string;
-	phone?: string;
-	skills?: string;
-	website?: string | URL;
-	avatar?: File | null;
-	cover_image?: File | null;
+  name: string;
+  avatar_url?: string | URL;
+  bio?: string;
+  google_access_token?: string;
+  github_access_token?: string;
+  cover_image_url?: string | URL;
+  github_username?: string;
+  linkedin_username?: string;
+  city?: string;
+  country?: string;
+  phone?: string;
+  skills?: string;
+  website?: string | URL;
+  avatar?: File | null;
+  cover_image?: File | null;
 }
 
 export interface StackistanUsersUpdate extends AuthCollectionUpdate {
-	name?: string;
-	avatar_url?: string | URL;
-	bio?: string;
-	google_access_token?: string;
-	github_access_token?: string;
-	cover_image_url?: string | URL;
-	github_username?: string;
-	linkedin_username?: string;
-	city?: string;
-	country?: string;
-	phone?: string;
-	skills?: string;
-	website?: string | URL;
-	avatar?: File | null;
-	cover_image?: File | null;
+  name?: string;
+  avatar_url?: string | URL;
+  bio?: string;
+  google_access_token?: string;
+  github_access_token?: string;
+  cover_image_url?: string | URL;
+  github_username?: string;
+  linkedin_username?: string;
+  city?: string;
+  country?: string;
+  phone?: string;
+  skills?: string;
+  website?: string | URL;
+  avatar?: File | null;
+  cover_image?: File | null;
 }
 
 export interface StackistanUsersCollection {
-	type: 'auth';
-	collectionId: string;
-	collectionName: 'stackistan_users';
-	response: StackistanUsersResponse;
-	create: StackistanUsersCreate;
-	update: StackistanUsersUpdate;
-	relations: {
-		'stackistan_resume_profile(user)': StackistanResumeProfileCollection[];
-		'stackistan_job_application(user)': StackistanJobApplicationCollection[];
-	};
+  type: "auth";
+  collectionId: string;
+  collectionName: "stackistan_users";
+  response: StackistanUsersResponse;
+  create: StackistanUsersCreate;
+  update: StackistanUsersUpdate;
+  relations: {
+    "stackistan_resume_profile(user)": StackistanResumeProfileCollection[];
+    "stackistan_job_application(user)": StackistanJobApplicationCollection[];
+  };
 }
-
 
 // ===== stackistan_resume_profile =====
 // === modified start ===
-export interface StackistanResumeProfileResponse extends BaseCollectionResponse {
+export interface StackistanResumeProfileResponse
+  extends BaseCollectionResponse {
   collectionName: "stackistan_resume_profile";
   user: string;
   type:
@@ -243,7 +247,8 @@ export interface StackistanResumeProfileResponse extends BaseCollectionResponse 
 
 export interface StackistanResumeProfileCreate extends BaseCollectionCreate {
   user: string;
-  type:"general"
+  type:
+    | "general"
     | "frontend"
     | "backend"
     | "fullstack"
@@ -302,197 +307,281 @@ export interface StackistanResumeProfileUpdate extends BaseCollectionUpdate {
 // === modified end===
 
 export interface StackistanResumeProfileCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_resume_profile';
-	response: StackistanResumeProfileResponse;
-	create: StackistanResumeProfileCreate;
-	update: StackistanResumeProfileUpdate;
-	relations: {
-		user: StackistanUsersCollection;
-		experience: StackistanJobExperienceCollection;
-		'stackistan_job_application(resume_details)': StackistanJobApplicationCollection[];
-	};
+  type: "base";
+  collectionId: string;
+  collectionName: "stackistan_resume_profile";
+  response: StackistanResumeProfileResponse;
+  create: StackistanResumeProfileCreate;
+  update: StackistanResumeProfileUpdate;
+  relations: {
+    user: StackistanUsersCollection;
+    experience: StackistanJobExperienceCollection;
+    "stackistan_job_application(resume_details)": StackistanJobApplicationCollection[];
+  };
 }
 
 // ===== stackistan_job_application =====
 
-export interface StackistanJobApplicationResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_job_application';
-	user: string;
-	posting: string;
-	resume_details: string;
-	resume: string;
-	cover_letter: string;
-	status: '' | 'applied' | 'rejected' | 'accepted';
+export interface StackistanJobApplicationResponse
+  extends BaseCollectionResponse {
+  collectionName: "stackistan_job_application";
+  user: string;
+  posting: string;
+  resume_details: string;
+  resume: string;
+  cover_letter: string;
+  status: "" | "applied" | "rejected" | "accepted";
 }
 
 export interface StackistanJobApplicationCreate extends BaseCollectionCreate {
-	user: string;
-	posting: string;
-	resume_details: string;
-	resume: string;
-	cover_letter?: string;
-	status?: '' | 'applied' | 'rejected' | 'accepted';
+  user: string;
+  posting: string;
+  resume_details: string;
+  resume: string;
+  cover_letter?: string;
+  status?: "" | "applied" | "rejected" | "accepted";
 }
 
 export interface StackistanJobApplicationUpdate extends BaseCollectionUpdate {
-	user?: string;
-	posting?: string;
-	resume_details?: string;
-	resume?: string;
-	cover_letter?: string;
-	status?: '' | 'applied' | 'rejected' | 'accepted';
+  user?: string;
+  posting?: string;
+  resume_details?: string;
+  resume?: string;
+  cover_letter?: string;
+  status?: "" | "applied" | "rejected" | "accepted";
 }
 
 export interface StackistanJobApplicationCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_job_application';
-	response: StackistanJobApplicationResponse;
-	create: StackistanJobApplicationCreate;
-	update: StackistanJobApplicationUpdate;
-	relations: {
-		user: StackistanUsersCollection;
-		posting: StackistanJobPostingsCollection;
-		resume_details: StackistanResumeProfileCollection;
-		'stackistan_job_experience(job)': StackistanJobExperienceCollection[];
-	};
+  type: "base";
+  collectionId: string;
+  collectionName: "stackistan_job_application";
+  response: StackistanJobApplicationResponse;
+  create: StackistanJobApplicationCreate;
+  update: StackistanJobApplicationUpdate;
+  relations: {
+    user: StackistanUsersCollection;
+    posting: StackistanJobPostingsCollection;
+    resume_details: StackistanResumeProfileCollection;
+    "stackistan_job_experience(job)": StackistanJobExperienceCollection[];
+  };
 }
 
 // ===== stackistan_companies =====
 
 export interface StackistanCompaniesResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_companies';
-	name: string;
-	website: string;
-	location: string;
-	tech_stack: string;
-	industry: '' | 'Education' | 'Research' | 'Construction' | 'Design' | 'Accounting' | 'EnvironmentalServices' | 'HumanResources' | 'Consulting' | 'Trading' | 'EnergyMining' | 'Manufacturing' | 'Automotive' | 'AviationAerospace' | 'Chemicals' | 'FoodProduction' | 'Healthcare' | 'Finance' | 'Hospitality' | 'Sports' | 'ArtsEntertainment' | 'RealEstate' | 'Legal' | 'ConsumerGoods' | 'Agriculture' | 'MediaCommunications' | 'SoftwareITServices' | 'TransportationLogistics';
+  collectionName: "stackistan_companies";
+  name: string;
+  website: string;
+  location: string;
+  tech_stack: string;
+  industry:
+    | ""
+    | "Education"
+    | "Research"
+    | "Construction"
+    | "Design"
+    | "Accounting"
+    | "EnvironmentalServices"
+    | "HumanResources"
+    | "Consulting"
+    | "Trading"
+    | "EnergyMining"
+    | "Manufacturing"
+    | "Automotive"
+    | "AviationAerospace"
+    | "Chemicals"
+    | "FoodProduction"
+    | "Healthcare"
+    | "Finance"
+    | "Hospitality"
+    | "Sports"
+    | "ArtsEntertainment"
+    | "RealEstate"
+    | "Legal"
+    | "ConsumerGoods"
+    | "Agriculture"
+    | "MediaCommunications"
+    | "SoftwareITServices"
+    | "TransportationLogistics";
 }
 
 export interface StackistanCompaniesCreate extends BaseCollectionCreate {
-	name?: string;
-	website?: string | URL;
-	location?: string;
-	tech_stack?: string;
-	industry?: '' | 'Education' | 'Research' | 'Construction' | 'Design' | 'Accounting' | 'EnvironmentalServices' | 'HumanResources' | 'Consulting' | 'Trading' | 'EnergyMining' | 'Manufacturing' | 'Automotive' | 'AviationAerospace' | 'Chemicals' | 'FoodProduction' | 'Healthcare' | 'Finance' | 'Hospitality' | 'Sports' | 'ArtsEntertainment' | 'RealEstate' | 'Legal' | 'ConsumerGoods' | 'Agriculture' | 'MediaCommunications' | 'SoftwareITServices' | 'TransportationLogistics';
+  name?: string;
+  website?: string | URL;
+  location?: string;
+  tech_stack?: string;
+  industry?:
+    | ""
+    | "Education"
+    | "Research"
+    | "Construction"
+    | "Design"
+    | "Accounting"
+    | "EnvironmentalServices"
+    | "HumanResources"
+    | "Consulting"
+    | "Trading"
+    | "EnergyMining"
+    | "Manufacturing"
+    | "Automotive"
+    | "AviationAerospace"
+    | "Chemicals"
+    | "FoodProduction"
+    | "Healthcare"
+    | "Finance"
+    | "Hospitality"
+    | "Sports"
+    | "ArtsEntertainment"
+    | "RealEstate"
+    | "Legal"
+    | "ConsumerGoods"
+    | "Agriculture"
+    | "MediaCommunications"
+    | "SoftwareITServices"
+    | "TransportationLogistics";
 }
 
 export interface StackistanCompaniesUpdate extends BaseCollectionUpdate {
-	name?: string;
-	website?: string | URL;
-	location?: string;
-	tech_stack?: string;
-	industry?: '' | 'Education' | 'Research' | 'Construction' | 'Design' | 'Accounting' | 'EnvironmentalServices' | 'HumanResources' | 'Consulting' | 'Trading' | 'EnergyMining' | 'Manufacturing' | 'Automotive' | 'AviationAerospace' | 'Chemicals' | 'FoodProduction' | 'Healthcare' | 'Finance' | 'Hospitality' | 'Sports' | 'ArtsEntertainment' | 'RealEstate' | 'Legal' | 'ConsumerGoods' | 'Agriculture' | 'MediaCommunications' | 'SoftwareITServices' | 'TransportationLogistics';
+  name?: string;
+  website?: string | URL;
+  location?: string;
+  tech_stack?: string;
+  industry?:
+    | ""
+    | "Education"
+    | "Research"
+    | "Construction"
+    | "Design"
+    | "Accounting"
+    | "EnvironmentalServices"
+    | "HumanResources"
+    | "Consulting"
+    | "Trading"
+    | "EnergyMining"
+    | "Manufacturing"
+    | "Automotive"
+    | "AviationAerospace"
+    | "Chemicals"
+    | "FoodProduction"
+    | "Healthcare"
+    | "Finance"
+    | "Hospitality"
+    | "Sports"
+    | "ArtsEntertainment"
+    | "RealEstate"
+    | "Legal"
+    | "ConsumerGoods"
+    | "Agriculture"
+    | "MediaCommunications"
+    | "SoftwareITServices"
+    | "TransportationLogistics";
 }
 
 export interface StackistanCompaniesCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_companies';
-	response: StackistanCompaniesResponse;
-	create: StackistanCompaniesCreate;
-	update: StackistanCompaniesUpdate;
-	relations: {
-		'stackistan_job_postings(company)': StackistanJobPostingsCollection[];
-		'stackistan_job_experience(company)': StackistanJobExperienceCollection[];
-	};
+  type: "base";
+  collectionId: string;
+  collectionName: "stackistan_companies";
+  response: StackistanCompaniesResponse;
+  create: StackistanCompaniesCreate;
+  update: StackistanCompaniesUpdate;
+  relations: {
+    "stackistan_job_postings(company)": StackistanJobPostingsCollection[];
+    "stackistan_job_experience(company)": StackistanJobExperienceCollection[];
+  };
 }
 
 // ===== stackistan_job_postings =====
 
 export interface StackistanJobPostingsResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_job_postings';
-	title: string;
-	description: string;
-	description_screenshot: string;
-	location: string;
-	company: string;
-	level: '' | 'entry' | 'junior' | 'mid' | 'senior' | 'lead' | 'other';
+  collectionName: "stackistan_job_postings";
+  title: string;
+  description: string;
+  description_screenshot: string;
+  location: string;
+  company: string;
+  level: "" | "entry" | "junior" | "mid" | "senior" | "lead" | "other";
 }
 
 export interface StackistanJobPostingsCreate extends BaseCollectionCreate {
-	title?: string;
-	description?: string;
-	description_screenshot?: File | null;
-	location?: string;
-	company?: string;
-	level?: '' | 'entry' | 'junior' | 'mid' | 'senior' | 'lead' | 'other';
+  title?: string;
+  description?: string;
+  description_screenshot?: File | null;
+  location?: string;
+  company?: string;
+  level?: "" | "entry" | "junior" | "mid" | "senior" | "lead" | "other";
 }
 
 export interface StackistanJobPostingsUpdate extends BaseCollectionUpdate {
-	title?: string;
-	description?: string;
-	description_screenshot?: File | null;
-	location?: string;
-	company?: string;
-	level?: '' | 'entry' | 'junior' | 'mid' | 'senior' | 'lead' | 'other';
+  title?: string;
+  description?: string;
+  description_screenshot?: File | null;
+  location?: string;
+  company?: string;
+  level?: "" | "entry" | "junior" | "mid" | "senior" | "lead" | "other";
 }
 
 export interface StackistanJobPostingsCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_job_postings';
-	response: StackistanJobPostingsResponse;
-	create: StackistanJobPostingsCreate;
-	update: StackistanJobPostingsUpdate;
-	relations: {
-		'stackistan_job_application(posting)': StackistanJobApplicationCollection[];
-		company: StackistanCompaniesCollection;
-	};
+  type: "base";
+  collectionId: string;
+  collectionName: "stackistan_job_postings";
+  response: StackistanJobPostingsResponse;
+  create: StackistanJobPostingsCreate;
+  update: StackistanJobPostingsUpdate;
+  relations: {
+    "stackistan_job_application(posting)": StackistanJobApplicationCollection[];
+    company: StackistanCompaniesCollection;
+  };
 }
 
 // ===== stackistan_job_experience =====
 
-export interface StackistanJobExperienceResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_job_experience';
-	company: string;
-	job: string;
-	achievements: string;
-	from: string;
-	to: string;
+export interface StackistanJobExperienceResponse
+  extends BaseCollectionResponse {
+  collectionName: "stackistan_job_experience";
+  company: string;
+  job: string;
+  achievements: string;
+  from: string;
+  to: string;
 }
 
 export interface StackistanJobExperienceCreate extends BaseCollectionCreate {
-	company: string;
-	job: string;
-	achievements?: string;
-	from?: string | Date;
-	to?: string | Date;
+  company: string;
+  job: string;
+  achievements?: string;
+  from?: string | Date;
+  to?: string | Date;
 }
 
 export interface StackistanJobExperienceUpdate extends BaseCollectionUpdate {
-	company?: string;
-	job?: string;
-	achievements?: string;
-	from?: string | Date;
-	to?: string | Date;
+  company?: string;
+  job?: string;
+  achievements?: string;
+  from?: string | Date;
+  to?: string | Date;
 }
 
 export interface StackistanJobExperienceCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_job_experience';
-	response: StackistanJobExperienceResponse;
-	create: StackistanJobExperienceCreate;
-	update: StackistanJobExperienceUpdate;
-	relations: {
-		'stackistan_resume_profile(experience)': StackistanResumeProfileCollection[];
-		company: StackistanCompaniesCollection;
-		job: StackistanJobApplicationCollection;
-	};
+  type: "base";
+  collectionId: string;
+  collectionName: "stackistan_job_experience";
+  response: StackistanJobExperienceResponse;
+  create: StackistanJobExperienceCreate;
+  update: StackistanJobExperienceUpdate;
+  relations: {
+    "stackistan_resume_profile(experience)": StackistanResumeProfileCollection[];
+    company: StackistanCompaniesCollection;
+    job: StackistanJobApplicationCollection;
+  };
 }
 
 // ===== Schema =====
 
 export type Schema = {
-
-
-	stackistan_users: StackistanUsersCollection;
-	stackistan_resume_profile: StackistanResumeProfileCollection;
-	stackistan_job_application: StackistanJobApplicationCollection;
-	stackistan_companies: StackistanCompaniesCollection;
-	stackistan_job_postings: StackistanJobPostingsCollection;
-	stackistan_job_experience: StackistanJobExperienceCollection;
+  stackistan_users: StackistanUsersCollection;
+  stackistan_resume_profile: StackistanResumeProfileCollection;
+  stackistan_job_application: StackistanJobApplicationCollection;
+  stackistan_companies: StackistanCompaniesCollection;
+  stackistan_job_postings: StackistanJobPostingsCollection;
+  stackistan_job_experience: StackistanJobExperienceCollection;
 };

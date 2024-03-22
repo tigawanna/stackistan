@@ -32,9 +32,12 @@ export async function getPBType() {
   }
 }
 
-export async function filterByCollection(
-  collection: ValidSubset<CollectionName>,
-) {
+export async function filterByCollection() {
+  const collection = process.argv[2];
+  if (!collection) {
+    throw new Error("Please provide a collection name");
+  }
+  // console.log("process args === ", process.argv[2]);
   try {
     let text_output = "";
     let currentBlock: string | null = null;
@@ -111,6 +114,7 @@ export async function filterByCollection(
           filtered_schema_lines.push(line);
         }
       }
+      console.log({ filtered_schema_lines });
 
       text_output += filtered_schema_lines.join("\n");
     }
@@ -122,7 +126,7 @@ export async function filterByCollection(
   }
 }
 
-filterByCollection("stackistan")
+filterByCollection()
   .then((res) => {
     console.log("===== succesfull types generation ==== ");
   })

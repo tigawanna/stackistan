@@ -9,7 +9,7 @@ export function DashBoardMainSection({}: DashBoardMainSectionProps) {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-3">
       <h1 className="text-3xl">Welcome {viewer?.name}</h1>
-      <div className="w-full p-2">
+      <div className="p-2">
         <Link href="/dashboard/profile/details" className="text-lg hover:text-secondary">Profile details</Link>
       </div>
     </div>

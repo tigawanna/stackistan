@@ -1,13 +1,11 @@
 import { CollectionName } from "@/lib/pb/client";
 import { runCommand } from "@/utils/fs";
 import { config as dotenvConfig } from "dotenv";
-import { createReadStream } from "fs";
-import { readFile, appendFile } from "fs/promises";
-import { createInterface, ReadLine } from "readline";
+import { writeFile } from "fs/promises";
 
 dotenvConfig();
-const TYPES_OUTPUT_PATH = "./pb_types.ts";
-const CHUNKED_TYPES_OUTPUT_DIR = "./pb-out"
+
+const CHUNKED_TYPES_OUTPUT_DIR = "./src/lib/pb/database.ts";
 
 type ValidSubset<T extends string> = T extends `${infer Prefix}_${infer Suffix}`
   ? Prefix
@@ -25,8 +23,6 @@ export async function getPBType() {
       PB_ADMIN_EMAIL,
       "--password",
       PB_ADMIN_PASSWORD,
-      "--out",
-      TYPES_OUTPUT_PATH,
     ];
     console.log(" ================ running command =============== ", commands);
     const output = await runCommand(commands.join(" "));
@@ -36,81 +32,91 @@ export async function getPBType() {
   }
 }
 
-async function copyStackistanData(filePath: string) {
-  try {
-    const data = await readFile(filePath, "utf-8");
-    let currentBlock: string | null = null; // Track the current comment block
-    let stackistanData = "";
-
-    for (const line of data.split("\n")) {
-      // Check if the line starts a comment block
-      if (line.startsWith("// ===== ")) {
-        currentBlock = line.slice("// ===== ".length).trim(); // Extract the comment block name
-        stackistanData = ""; // Clear data for the new block
-      } else if (currentBlock) {
-        // Check if the line ends the current comment block (empty line after comment)
-        if (line.trim() === "") {
-          // Write the extracted data for the block
-          stackistanData += "\n"; // Add newline after each block
-        appendFile("stackistan_data.txt", stackistanData);
-          currentBlock = null;
-        } else {
-          // Append line to the current block data
-          stackistanData += line + "\n";
-        }
-      }
-    }
-  } catch (error) {
-    console.error("Error reading file:", error);
-  }
-}
-
 export async function filterByCollection(
   collection: ValidSubset<CollectionName>,
 ) {
   try {
-    let output: string[] = [];
-    const fileStream = createReadStream(TYPES_OUTPUT_PATH);
-    const rl: ReadLine = createInterface({
-      input: fileStream,
-      crlfDelay: Infinity,
-    });
-    let currentBlock: string | null = null; // Track the current comment block
-    let stackistanData = "";
-    for await (const line of rl) {
-      // if(line.includes(`${collection}`)){
-      //   output.push(line);
-      //     console.log("Line from file:", line);
-      // }
-    
-        if (line.startsWith("// ===== ") ) {
-        const current_block = line.split("=====")[1].trim();
-        // console.log(" ====  current_block  === ", current_block);
-          currentBlock = current_block;// Extract the comment block name
-          stackistanData = "";
-        } 
-      else if (currentBlock) {
-            if (line.trim() === "") {
-                console.log(" ====  stackistanData  === ", stackistanData);
-                // console.log(" === line  === ",line)
-                // console.log(" ====  stackistanData  === ", stackistanData);
-              // Write the extracted data for the block
-              stackistanData += "\n"; // Add newline after each block
-            //   appendFile(`${CHUNKED_TYPES_OUTPUT_DIR}/${currentBlock}/data.ts`,
-            //     stackistanData,
-            //   );
-              currentBlock = null;
-            } else {
-              // Append line to the current block data
-              console.log(" ==  append new === ", line);
-              stackistanData += line + "\n";
-            }
+    let text_output = "";
+    let currentBlock: string | null = null;
+    let first_block_index = 0;
+    let current_block_indexes = [0, 0];
+    const all_block_indexes: { [key: string]: number[] } = {};
+
+    // const file_string = await readFile(TYPES_OUTPUT_PATH, "utf-8");
+    const file_string = await getPBType();
+    const lines = file_string.split("\n");
+    for (const [index, line] of lines.entries()) {
+      if (currentBlock) {
+        // mark the end current block if at the end of the file
+        if (lines.length - 1 === index) {
+          current_block_indexes[1] = index;
+          all_block_indexes[currentBlock] = [...current_block_indexes];
         }
-      
+      }
+      if (line.startsWith("// ===== ")) {
+        const current_block_name = line.split("=====")[1].trim();
+        // currentBlck is not null after the first // ===== encount eredor a new block
+        if (currentBlock) {
+          // current block is not the same as the current block name
+          if (currentBlock !== current_block_name) {
+            // mark where the currennt block index ends at
+            current_block_indexes[1] = index;
+            // save the current block index to the all_block_indexes
+            all_block_indexes[currentBlock] = [...current_block_indexes];
+          }
+          //   nullify the current block name to start the new one
+          currentBlock = null;
+        }
+        // current block is null after the first // ===== encount eredor a new block
+        if (!currentBlock) {
+          // mark where the first // ===== block index is encountered ,this will be used to determine where the glbal/shared types end
+          if (Object.entries(all_block_indexes).length === 0) {
+            first_block_index = index;
+          }
+          // mark where the currennt block index starts at
+          current_block_indexes[0] = index;
+          //   set the current block name
+          currentBlock = current_block_name;
+        }
+      }
     }
-    console.log(" ====  current block  === ", currentBlock);
-    console.log(" ====  stackistanData  === ", stackistanData);
-    return output;
+
+    //  add init types ( shared pocketbase types )
+    const init_types = lines.slice(0, first_block_index);
+
+    text_output = init_types.join("\n");
+
+    //  Main types section
+    for (const [key, value] of Object.entries(all_block_indexes)) {
+      // filter inly for specified collection
+      if (!key.includes(collection)) continue;
+      const selected_lines = lines.slice(value[0], value[1]);
+      selected_lines.splice(0, 1, "// ==== start of " + key + " block =====\n");
+      selected_lines.push("// ==== end of " + key + " block =====\n");
+      const data = selected_lines.join("\n");
+      //   concatenate the selected lines
+      text_output += data + "\n";
+    }
+    //  add the final schema block
+    const schema_block = all_block_indexes["Schema"];
+    // filter only for specified collection
+    if (schema_block) {
+      const schema_lines = lines.slice(schema_block[0], schema_block[1]);
+      const filtered_schema_lines = [];
+      for (const line of schema_lines) {
+        if (line.includes(collection)) {
+          filtered_schema_lines.push(line);
+        }
+        if (line.includes("{") || line.includes("}")) {
+          filtered_schema_lines.push(line);
+        }
+      }
+
+      text_output += filtered_schema_lines.join("\n");
+    }
+
+    await writeFile(CHUNKED_TYPES_OUTPUT_DIR, text_output, "utf-8");
+    return { text_output, all_block_indexes, first_block_index };
   } catch (error) {
     throw error;
   }
@@ -118,7 +124,7 @@ export async function filterByCollection(
 
 filterByCollection("stackistan")
   .then((res) => {
-    console.log("===== succesfull types generation ==== ", res);
+    console.log("===== succesfull types generation ==== ");
   })
   .catch((err) => {
     console.log("===== error types generation ==== ", err);

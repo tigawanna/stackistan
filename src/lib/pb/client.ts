@@ -1,7 +1,7 @@
 import PocketBase from "pocketbase";
 import { RequestContext } from "rakkasjs";
 import { TypedPocketBase } from "typed-pocketbase";
-import { Schema } from "./database";
+import { Schema } from "./old-database";
 
 export type PocketBaseClient = TypedPocketBase<Schema>;
 

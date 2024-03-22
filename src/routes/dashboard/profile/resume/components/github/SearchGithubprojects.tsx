@@ -4,7 +4,7 @@ import { useDebouncedValue } from "@/utils/hooks/debounce";
 import { useQuery, useSSM } from "rakkasjs";
 import { githubApi } from "@/routes/api/helpers/github/github";
 import { RepositoryResponse } from "@/routes/api/helpers/github/types";
-import { StackistanResumeProfileCreate } from "@/lib/pb/database";
+import { StackistanResumeProfileCreate } from "@/lib/pb/old-database";
 
 
 

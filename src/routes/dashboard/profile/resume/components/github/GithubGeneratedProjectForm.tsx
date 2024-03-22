@@ -5,7 +5,7 @@ import { TheTextAreaInput } from "@/components/form/inputs/TheTextArea";
 import { usePageContext, useSSM } from "rakkasjs";
 import { useMutation } from "@tanstack/react-query";
 import { TheStringListInput } from "@/components/form/inputs/StringListInput";
-import { StackistanResumeProfileCreate } from "@/lib/pb/database";
+import { StackistanResumeProfileCreate } from "@/lib/pb/old-database";
 
 
 type StackistanResumeProfileItem = StackistanResumeProfileCreate["projects"];

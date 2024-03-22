@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { getFileURL } from "@/lib/pb/client";
 import { ImagePlus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
-import { Schema } from "@/lib/pb/database";
+import { Schema } from "@/lib/pb/old-database";
 
 interface PbTheImagePickerProps {
   show_preview?: boolean;

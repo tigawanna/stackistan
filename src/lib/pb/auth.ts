@@ -1,5 +1,5 @@
 import { CollectionName, PocketBaseClient } from "./client";
-import { Schema } from "./database";
+import { Schema } from "./old-database";
 import { OAuth2AuthConfig } from "pocketbase";
 import { pbTryCatchWrapper } from "./utils";
 

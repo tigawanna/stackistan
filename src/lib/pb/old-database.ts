@@ -2,37 +2,39 @@
  * This file was @generated using typed-pocketbase
  */
 
+import { StackistanResumeProfileActivities, StackistanResumeProfileEducation, StackistanResumeProfileProjects, StackistanResumeProfileSkills, industries } from "./custom-db-types";
+
 // https://pocketbase.io/docs/collections/#base-collection
 export interface BaseCollectionResponse {
-	/**
-	 * 15 characters string to store as record ID.
-	 */
-	id: string;
-	/**
-	 * Date string representation for the creation date.
-	 */
-	created: string;
-	/**
-	 * Date string representation for the creation date.
-	 */
-	updated: string;
-	/**
-	 * The collection id.
-	 */
-	collectionId: string;
-	/**
-	 * The collection name.
-	 */
-	collectionName: string;
+  /**
+   * 15 characters string to store as record ID.
+   */
+  id: string;
+  /**
+   * Date string representation for the creation date.
+   */
+  created: string;
+  /**
+   * Date string representation for the creation date.
+   */
+  updated: string;
+  /**
+   * The collection id.
+   */
+  collectionId: string;
+  /**
+   * The collection name.
+   */
+  collectionName: string;
 }
 
 // https://pocketbase.io/docs/api-records/#create-record
 export interface BaseCollectionCreate {
-	/**
-	 * 15 characters string to store as record ID.
-	 * If not set, it will be auto generated.
-	 */
-	id?: string;
+  /**
+   * 15 characters string to store as record ID.
+   * If not set, it will be auto generated.
+   */
+  id?: string;
 }
 
 // https://pocketbase.io/docs/api-records/#update-record
@@ -40,100 +42,102 @@ export interface BaseCollectionUpdate {}
 
 // https://pocketbase.io/docs/collections/#auth-collection
 export interface AuthCollectionResponse extends BaseCollectionResponse {
-	/**
-	 * The username of the auth record.
-	 */
-	username: string;
-	/**
-	 * Auth record email address.
-	 */
-	email: string;
-	/**
-	 * Whether to show/hide the auth record email when fetching the record data.
-	 */
-	emailVisibility: boolean;
-	/**
-	 * Indicates whether the auth record is verified or not.
-	 */
-	verified: boolean;
+  /**
+   * The username of the auth record.
+   */
+  username: string;
+  /**
+   * Auth record email address.
+   */
+  email: string;
+  /**
+   * Whether to show/hide the auth record email when fetching the record data.
+   */
+  emailVisibility: boolean;
+  /**
+   * Indicates whether the auth record is verified or not.
+   */
+  verified: boolean;
 }
 
 // https://pocketbase.io/docs/api-records/#create-record
 export interface AuthCollectionCreate extends BaseCollectionCreate {
-	/**
-	 * The username of the auth record.
-	 * If not set, it will be auto generated.
-	 */
-	username?: string;
-	/**
-	 * Auth record email address.
-	 */
-	email?: string;
-	/**
-	 * Whether to show/hide the auth record email when fetching the record data.
-	 */
-	emailVisibility?: boolean;
-	/**
-	 * Auth record password.
-	 */
-	password: string;
-	/**
-	 * Auth record password confirmation.
-	 */
-	passwordConfirm: string;
-	/**
-	 * Indicates whether the auth record is verified or not.
-	 * This field can be set only by admins or auth records with "Manage" access.
-	 */
-	verified?: boolean;
+  /**
+   * The username of the auth record.
+   * If not set, it will be auto generated.
+   */
+  username?: string;
+  /**
+   * Auth record email address.
+   */
+  email?: string;
+  /**
+   * Whether to show/hide the auth record email when fetching the record data.
+   */
+  emailVisibility?: boolean;
+  /**
+   * Auth record password.
+   */
+  password: string;
+  /**
+   * Auth record password confirmation.
+   */
+  passwordConfirm: string;
+  /**
+   * Indicates whether the auth record is verified or not.
+   * This field can be set only by admins or auth records with "Manage" access.
+   */
+  verified?: boolean;
 }
 
 // https://pocketbase.io/docs/api-records/#update-record
 export interface AuthCollectionUpdate {
-	/**
-	 * The username of the auth record.
-	 */
-	username?: string;
-	/**
-	 * The auth record email address.
-	 * This field can be updated only by admins or auth records with "Manage" access.
-	 * Regular accounts can update their email by calling "Request email change".
-	 */
-	email?: string;
-	/**
-	 * Whether to show/hide the auth record email when fetching the record data.
-	 */
-	emailVisibility?: boolean;
-	/**
-	 * Old auth record password.
-	 * This field is required only when changing the record password. Admins and auth records with "Manage" access can skip this field.
-	 */
-	oldPassword?: string;
-	/**
-	 * New auth record password.
-	 */
-	password?: string;
-	/**
-	 * New auth record password confirmation.
-	 */
-	passwordConfirm?: string;
-	/**
-	 * Indicates whether the auth record is verified or not.
-	 * This field can be set only by admins or auth records with "Manage" access.
-	 */
-	verified?: boolean;
+  /**
+   * The username of the auth record.
+   */
+  username?: string;
+  /**
+   * The auth record email address.
+   * This field can be updated only by admins or auth records with "Manage" access.
+   * Regular accounts can update their email by calling "Request email change".
+   */
+  email?: string;
+  /**
+   * Whether to show/hide the auth record email when fetching the record data.
+   */
+  emailVisibility?: boolean;
+  /**
+   * Old auth record password.
+   * This field is required only when changing the record password. Admins and auth records with "Manage" access can skip this field.
+   */
+  oldPassword?: string;
+  /**
+   * New auth record password.
+   */
+  password?: string;
+  /**
+   * New auth record password confirmation.
+   */
+  passwordConfirm?: string;
+  /**
+   * Indicates whether the auth record is verified or not.
+   * This field can be set only by admins or auth records with "Manage" access.
+   */
+  verified?: boolean;
 }
 
 // https://pocketbase.io/docs/collections/#view-collection
 export interface ViewCollectionRecord {
-	id: string;
+  id: string;
 }
 
 // utilities
 
 type MaybeArray<T> = T | T[];
-// ==== start of stackistan_users block =====
 
+
+
+// ===== stackistan_users =====
 
 export interface StackistanUsersResponse extends AuthCollectionResponse {
 	collectionName: 'stackistan_users';
@@ -203,50 +207,99 @@ export interface StackistanUsersCollection {
 	};
 }
 
-// ==== end of stackistan_users block =====
 
-// ==== start of stackistan_resume_profile block =====
-
-
+// ===== stackistan_resume_profile =====
+// === modified start ===
 export interface StackistanResumeProfileResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_resume_profile';
-	user: string;
-	type: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other' | 'general';
-	experience: Array<string>;
-	education: Array<string>;
-	projects: Array<string>;
-	skills: any;
-	other: any;
-	config: any;
+  collectionName: "stackistan_resume_profile";
+  user: string;
+  type:
+    | "general"
+    | "frontend"
+    | "backend"
+    | "fullstack"
+    | "mobile"
+    | "gamedev"
+    | "data"
+    | "devops"
+    | "other";
+  education: {
+    list?: StackistanResumeProfileEducation[];
+  };
+  projects: {
+    list?: StackistanResumeProfileProjects[];
+  };
+  activities: {
+    list?: StackistanResumeProfileActivities[];
+  };
+  other: {
+    list?: { [key: string]: string }[];
+  };
+  experience: string;
+  skills: {
+    list?: StackistanResumeProfileSkills[];
+  };
 }
 
 export interface StackistanResumeProfileCreate extends BaseCollectionCreate {
-	user: string;
-	type: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other' | 'general';
-	experience?: MaybeArray<string>;
-	education?: MaybeArray<string>;
-	projects?: MaybeArray<string>;
-	skills?: any;
-	other?: any;
-	config?: any;
+  user: string;
+  type:"general"
+    | "frontend"
+    | "backend"
+    | "fullstack"
+    | "mobile"
+    | "gamedev"
+    | "data"
+    | "devops"
+    | "other";
+  education?: {
+    list: StackistanResumeProfileEducation[];
+  };
+  projects?: {
+    list: StackistanResumeProfileProjects[];
+  };
+  activities?: {
+    list: StackistanResumeProfileActivities[];
+  };
+  other?: {
+    list: { [key: string]: string }[];
+  };
+  experience?: string;
+  skills: {
+    list: StackistanResumeProfileSkills[];
+  };
 }
 
 export interface StackistanResumeProfileUpdate extends BaseCollectionUpdate {
-	user?: string;
-	type?: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other' | 'general';
-	experience?: MaybeArray<string>;
-	'experience+'?: MaybeArray<string>;
-	'experience-'?: MaybeArray<string>;
-	education?: MaybeArray<string>;
-	'education+'?: MaybeArray<string>;
-	'education-'?: MaybeArray<string>;
-	projects?: MaybeArray<string>;
-	'projects+'?: MaybeArray<string>;
-	'projects-'?: MaybeArray<string>;
-	skills?: any;
-	other?: any;
-	config?: any;
+  user?: string;
+  type?:
+    | "general"
+    | "frontend"
+    | "backend"
+    | "fullstack"
+    | "mobile"
+    | "gamedev"
+    | "data"
+    | "devops"
+    | "other";
+  education?: {
+    list: StackistanResumeProfileEducation[];
+  };
+  projects?: {
+    list: StackistanResumeProfileProjects[];
+  };
+  activities?: {
+    list: StackistanResumeProfileActivities[];
+  };
+  other?: {
+    list: { [key: string]: string }[];
+  };
+  experience?: string;
+  skills: {
+    list: StackistanResumeProfileSkills[];
+  };
 }
+// === modified end===
 
 export interface StackistanResumeProfileCollection {
 	type: 'base';
@@ -257,17 +310,12 @@ export interface StackistanResumeProfileCollection {
 	update: StackistanResumeProfileUpdate;
 	relations: {
 		user: StackistanUsersCollection;
-		experience: StackistanJobExperienceCollection[];
-		education: StackistanUserEducationCollection[];
-		projects: StackistanUserProjectsCollection[];
+		experience: StackistanJobExperienceCollection;
 		'stackistan_job_application(resume_details)': StackistanJobApplicationCollection[];
 	};
 }
 
-// ==== end of stackistan_resume_profile block =====
-
-// ==== start of stackistan_job_application block =====
-
+// ===== stackistan_job_application =====
 
 export interface StackistanJobApplicationResponse extends BaseCollectionResponse {
 	collectionName: 'stackistan_job_application';
@@ -312,10 +360,7 @@ export interface StackistanJobApplicationCollection {
 	};
 }
 
-// ==== end of stackistan_job_application block =====
-
-// ==== start of stackistan_companies block =====
-
+// ===== stackistan_companies =====
 
 export interface StackistanCompaniesResponse extends BaseCollectionResponse {
 	collectionName: 'stackistan_companies';
@@ -355,10 +400,7 @@ export interface StackistanCompaniesCollection {
 	};
 }
 
-// ==== end of stackistan_companies block =====
-
-// ==== start of stackistan_job_postings block =====
-
+// ===== stackistan_job_postings =====
 
 export interface StackistanJobPostingsResponse extends BaseCollectionResponse {
 	collectionName: 'stackistan_job_postings';
@@ -401,10 +443,7 @@ export interface StackistanJobPostingsCollection {
 	};
 }
 
-// ==== end of stackistan_job_postings block =====
-
-// ==== start of stackistan_job_experience block =====
-
+// ===== stackistan_job_experience =====
 
 export interface StackistanJobExperienceResponse extends BaseCollectionResponse {
 	collectionName: 'stackistan_job_experience';
@@ -445,146 +484,15 @@ export interface StackistanJobExperienceCollection {
 	};
 }
 
-// ==== end of stackistan_job_experience block =====
-
-// ==== start of stackistan_user_education block =====
-
-
-export interface StackistanUserEducationResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_user_education';
-	school: string;
-	field_of_study: string;
-	qualification: '' | 'Certificate' | 'Diploma' | 'Bachelors' | 'Masters' | 'PhD';
-	from: string;
-	to: string;
-}
-
-export interface StackistanUserEducationCreate extends BaseCollectionCreate {
-	school?: string;
-	field_of_study?: string;
-	qualification?: '' | 'Certificate' | 'Diploma' | 'Bachelors' | 'Masters' | 'PhD';
-	from?: string | Date;
-	to?: string | Date;
-}
-
-export interface StackistanUserEducationUpdate extends BaseCollectionUpdate {
-	school?: string;
-	field_of_study?: string;
-	qualification?: '' | 'Certificate' | 'Diploma' | 'Bachelors' | 'Masters' | 'PhD';
-	from?: string | Date;
-	to?: string | Date;
-}
-
-export interface StackistanUserEducationCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_user_education';
-	response: StackistanUserEducationResponse;
-	create: StackistanUserEducationCreate;
-	update: StackistanUserEducationUpdate;
-	relations: {
-		'stackistan_resume_profile(education)': StackistanResumeProfileCollection[];
-	};
-}
-
-// ==== end of stackistan_user_education block =====
-
-// ==== start of stackistan_user_projects block =====
-
-
-export interface StackistanUserProjectsResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_user_projects';
-	name: string;
-	description: string;
-	link: string;
-	tech_stack: Array<string>;
-}
-
-export interface StackistanUserProjectsCreate extends BaseCollectionCreate {
-	name?: string;
-	description?: string;
-	link?: string | URL;
-	tech_stack?: MaybeArray<string>;
-}
-
-export interface StackistanUserProjectsUpdate extends BaseCollectionUpdate {
-	name?: string;
-	description?: string;
-	link?: string | URL;
-	tech_stack?: MaybeArray<string>;
-	'tech_stack+'?: MaybeArray<string>;
-	'tech_stack-'?: MaybeArray<string>;
-}
-
-export interface StackistanUserProjectsCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_user_projects';
-	response: StackistanUserProjectsResponse;
-	create: StackistanUserProjectsCreate;
-	update: StackistanUserProjectsUpdate;
-	relations: {
-		'stackistan_resume_profile(projects)': StackistanResumeProfileCollection[];
-		tech_stack: StackistanTechnologiesCollection[];
-	};
-}
-
-// ==== end of stackistan_user_projects block =====
-
-// ==== start of stackistan_technologies block =====
-
-
-export interface StackistanTechnologiesResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_technologies';
-	name: string;
-	description: string;
-	link: string;
-	logo: string;
-	dependancies: Array<string>;
-}
-
-export interface StackistanTechnologiesCreate extends BaseCollectionCreate {
-	name?: string;
-	description?: string;
-	link?: string | URL;
-	logo?: File | null;
-	dependancies?: MaybeArray<string>;
-}
-
-export interface StackistanTechnologiesUpdate extends BaseCollectionUpdate {
-	name?: string;
-	description?: string;
-	link?: string | URL;
-	logo?: File | null;
-	dependancies?: MaybeArray<string>;
-	'dependancies+'?: MaybeArray<string>;
-	'dependancies-'?: MaybeArray<string>;
-}
-
-export interface StackistanTechnologiesCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'stackistan_technologies';
-	response: StackistanTechnologiesResponse;
-	create: StackistanTechnologiesCreate;
-	update: StackistanTechnologiesUpdate;
-	relations: {
-		'stackistan_user_projects(tech_stack)': StackistanUserProjectsCollection[];
-		dependancies: StackistanTechnologiesCollection[];
-		'stackistan_technologies(dependancies)': StackistanTechnologiesCollection[];
-	};
-}
-
-// ==== end of stackistan_technologies block =====
+// ===== Schema =====
 
 export type Schema = {
+
+
 	stackistan_users: StackistanUsersCollection;
 	stackistan_resume_profile: StackistanResumeProfileCollection;
 	stackistan_job_application: StackistanJobApplicationCollection;
 	stackistan_companies: StackistanCompaniesCollection;
 	stackistan_job_postings: StackistanJobPostingsCollection;
 	stackistan_job_experience: StackistanJobExperienceCollection;
-	stackistan_user_education: StackistanUserEducationCollection;
-	stackistan_user_projects: StackistanUserProjectsCollection;
-	stackistan_technologies: StackistanTechnologiesCollection;
 };

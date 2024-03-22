@@ -1,7 +1,7 @@
 import { useFormHook } from "@/components/form/useForm";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/ui/card";
 import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
-import { StackistanUsersUpdate } from "@/lib/pb/database";
+import { StackistanUsersUpdate } from "@/lib/pb/old-database";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 import { useMutation } from "@tanstack/react-query";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";

@@ -16,7 +16,7 @@ import {
 // import { SherpaUserResponse } from "@/lib/pb/db-types";
 import { Mail, Verified } from "lucide-react";
 import { VerifyEmailModal } from "./VerifyEmailModal";
-import { StackistanUsersResponse } from "@/lib/pb/database";
+import { StackistanUsersResponse } from "@/lib/pb/old-database";
 
 interface ProfileEmailProps {
   profile: StackistanUsersResponse

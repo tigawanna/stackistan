@@ -1,7 +1,7 @@
 import { RequestContext } from "rakkasjs";
 import type { ServerPluginFactory } from "rakkasjs/server";
 import { TypedPocketBase } from "typed-pocketbase";
-import { Schema } from "../database";
+import { Schema } from "../old-database";
 
 function pocketbaseMiddleware(ctx: RequestContext) {
   ctx.locals.pb = new TypedPocketBase<Schema>(import.meta.env.RAKKAS_PB_URL);

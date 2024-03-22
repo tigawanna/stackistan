@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shadcn/ui/popover";
-import { StackistanResumeProfileCreate } from "@/lib/pb/database";
+import { StackistanResumeProfileCreate } from "@/lib/pb/old-database";
 import { CheckIcon, ChevronUp } from "lucide-react";
 import React from "react";
 

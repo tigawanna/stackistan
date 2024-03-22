@@ -1,4 +1,4 @@
-import { StackistanResumeProfileCreate } from "@/lib/pb/database";
+import { StackistanResumeProfileCreate } from "@/lib/pb/old-database";
 import { Edit, Plus } from "lucide-react";
 import { useState } from "react";
 import { RowFormEditor } from "./RowFormEditor";

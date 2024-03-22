@@ -2,7 +2,7 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import { OptionalTextFields } from "@/components/wrappers/OptionalTextFields";
 import { TimeCompponent } from "@/components/wrappers/TimeCompponent";
 import { getFileURL } from "@/lib/pb/client";
-import { StackistanUsersResponse } from "@/lib/pb/database";
+import { StackistanUsersResponse } from "@/lib/pb/old-database";
 import {
   ChevronLeft,
   ExternalLink,

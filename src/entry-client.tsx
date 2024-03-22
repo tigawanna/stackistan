@@ -1,7 +1,7 @@
 /* eslint-disable no-var */
 import { startClient } from "rakkasjs/client";
 import { TypedPocketBase } from "typed-pocketbase";
-import { Schema } from "@/lib/pb/database";
+import { Schema } from "@/lib/pb/old-database";
 
 startClient({
   hooks: {

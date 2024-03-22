@@ -13,7 +13,7 @@ import { TheStringListInput } from "@/components/form/inputs/StringListInput";
 import { usePageContext } from "rakkasjs";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
-import { StackistanUsersUpdate } from "@/lib/pb/old-database";
+import { StackistanUsersUpdate } from "@/lib/pb/database";
 
 interface ProfileComponentProps {
   id: string;

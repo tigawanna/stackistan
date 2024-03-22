@@ -25,27 +25,27 @@ const pocketbaseServerHooksFactory: ServerPluginFactory = (_, options) => ({
             request.headers.get("cookie") || "",
           );
         }
-        try {
-          if (pageContext.locals.pb.authStore.isValid) {
-            const user = pageContext?.locals?.pb;
-            pageContext.tanstackQueryClient.setQueryData(
-              ["viewer"],
-              user?.authStore?.model,
-            );
-            // pageContext.queryClient.setQueryData(
-            //   "user",
-            //   user?.authStore?.model,
-            // );
-            console.log("===VALID USER , UPDATING POCKETBASE USER= ===");
-          } else {
-            console.log("====INVALID USER , LOGGING OUT POCKETBASE= ===");
-            pageContext.locals.pb.authStore.clear();
-            pageContext.tanstackQueryClient.setQueryData(["viewer"], null);
-          }
-        } catch (_) {
-          // clear the auth store on failed refresh
-          pageContext.locals.pb.authStore.clear();
-        }
+        // try {
+        //   if (pageContext.locals.pb.authStore.isValid) {
+        //     const user = pageContext?.locals?.pb;
+        //     pageContext.tanstackQueryClient.setQueryData(
+        //       ["viewer"],
+        //       user?.authStore?.model,
+        //     );
+        //     // pageContext.queryClient.setQueryData(
+        //     //   "user",
+        //     //   user?.authStore?.model,
+        //     // );
+        //     console.log("===VALID USER , UPDATING POCKETBASE USER= ===");
+        //   } else {
+        //     console.log("====INVALID USER , LOGGING OUT POCKETBASE= ===");
+        //     pageContext.locals.pb.authStore.clear();
+        //     pageContext.tanstackQueryClient.setQueryData(["viewer"], null);
+        //   }
+        // } catch (_) {
+        //   // clear the auth store on failed refresh
+        //   pageContext.locals.pb.authStore.clear();
+        // }
       },
 
       wrapApp(app) {

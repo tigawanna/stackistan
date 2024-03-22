@@ -3,7 +3,7 @@ import { GithubIcon, Loader } from "lucide-react";
 import { Suspense, useState } from "react";
 import { SearchGithubprojects } from "./SearchGithubprojects";
 import { TheDaisyUIFormModal } from "@/components/modal/TheDaisyUiFormModal";
-import { StackistanResumeProfileCreate } from "@/lib/pb/old-database";
+import { StackistanResumeProfileCreate } from "@/lib/pb/database";
 import { StackistanUsersResponse } from "Database";
 
 type StackistanResumeProfileItem = StackistanResumeProfileCreate["projects"];

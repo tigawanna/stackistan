@@ -1,5 +1,5 @@
 import { getFileURL } from "@/lib/pb/client";
-import { StackistanUsersUpdate } from "@/lib/pb/old-database";
+import { StackistanUsersUpdate } from "@/lib/pb/database";
 import { Image } from "@unpic/react";
 import { ImagePlus, Save } from "lucide-react";
 import { useRef, useState } from "react";

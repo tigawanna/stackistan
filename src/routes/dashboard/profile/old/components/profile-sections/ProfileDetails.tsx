@@ -15,7 +15,7 @@ import { usePageContext } from "rakkasjs";
 import {
   StackistanUsersResponse,
   StackistanUsersUpdate,
-} from "@/lib/pb/old-database";
+} from "@/lib/pb/database";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 

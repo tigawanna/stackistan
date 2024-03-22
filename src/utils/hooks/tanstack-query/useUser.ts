@@ -1,4 +1,4 @@
-import { StackistanUsersResponse } from "@/lib/pb/old-database";
+import { StackistanUsersResponse } from "@/lib/pb/database";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePageContext } from "rakkasjs";
 

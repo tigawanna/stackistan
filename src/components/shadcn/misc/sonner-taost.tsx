@@ -10,6 +10,9 @@ export function sonnerToast({ title, type, options }: SonnerToastProps) {
   if (!type || type === "success") {
     return toast.success(title ?? "Success", {
       icon: <Check className="text-success " />,
+      classNames:{
+        title: "text-xl font-bold",
+      },
       action: {
         label: "dismiss",
 
@@ -25,6 +28,9 @@ export function sonnerToast({ title, type, options }: SonnerToastProps) {
     return toast.error(title ?? "Something went wrong", {
       icon: <XCircle className="h-10 w-10 text-error " />,
       position: "top-center",
+      classNames: {
+        title: "text-xl font-bold",
+      },
       duration: 20000,
       dismissible: false,
       action: {
@@ -39,6 +45,9 @@ export function sonnerToast({ title, type, options }: SonnerToastProps) {
     return toast.warning(title ?? "Something went wrong", {
       icon: <TriangleAlert className="h-10 w-10 text-warning " />,
       position: "top-center",
+      classNames: {
+        title: "text-xl font-bold",
+      },
       important: true,
       duration: 10000,
       action: {
@@ -52,6 +61,9 @@ export function sonnerToast({ title, type, options }: SonnerToastProps) {
   if (type === "info") {
     return toast.info(title ?? "Something went wrong", {
       position: "top-center",
+      classNames: {
+        title: "text-xl font-bold",
+      },
       action: {
         label: "dismiss",
 

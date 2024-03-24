@@ -1,10 +1,9 @@
 import { CollectionName, PocketBaseClient } from "./client";
-import { Schema } from "./old-database";
+import { Schema } from "./database";
 import { OAuth2AuthConfig } from "pocketbase";
 import { pbTryCatchWrapper } from "./utils";
 
-
-//  Base interface 
+//  Base interface
 export interface BasePocketbaseOperations<T extends CollectionName> {
   pb: PocketBaseClient;
   collection: T;
@@ -62,7 +61,6 @@ export async function confirmResetPassword<T extends CollectionName>({
   );
 }
 
-
 export interface CreatePocketbaseUser<T extends CollectionName>
   extends BasePocketbaseOperations<T> {
   data: Schema[T]["create"];
@@ -87,16 +85,15 @@ export async function createUser<T extends CollectionName>({
 }
 export interface UpdatePocketbaseUser<T extends CollectionName>
   extends BasePocketbaseOperations<T> {
-  id:string;  
+  id: string;
   data: Schema[T]["update"];
 }
-
 
 export async function updateUser<T extends CollectionName>({
   pb,
   id,
   data,
-  collection,
+  collection
 }: UpdatePocketbaseUser<T>) {
   const res = await pbTryCatchWrapper(
     pb.collection(collection).update(id, data),
@@ -104,7 +101,6 @@ export async function updateUser<T extends CollectionName>({
   document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
   return res;
 }
-
 
 export interface VerifyPocketbaseUserEmail<T extends CollectionName>
   extends BasePocketbaseOperations<T> {
@@ -177,23 +173,32 @@ export async function oneClickOauthLogin<T extends CollectionName>({
       .collection(collection)
       .authWithOAuth2<RecordManualTypes>(oauth_config);
 
-  const provider = oauth_config.provider
-  const userToUpdate = provider ==="github"? {
-    accessToken: authData?.meta?.accessToken,
-    avatar: authData?.meta?.avatarUrl,
-  }: {
-    accessToken: authData?.meta?.accessToken,
-    avatar: authData?.meta?.avatarUrl,
-  }
+    const provider = oauth_config.provider;
+    function useToUpdate() {
+      if (provider === "github") {
+        return {
+          github_access_token: authData?.meta?.accessToken,
+          avatar_url: authData?.meta?.avatarUrl,
+        };
+      }
+      if (provider === "google") {
+        return {
+          google_access_token: authData?.meta?.accessToken,
+          avatar_url: authData?.meta?.avatarUrl,
+        };
+      }
+    }
+    const userToUpdate = useToUpdate();
+    if (userToUpdate) {
+      const updated_user = await pb
+        .collection(collection)
+        .update(authData.record.id, userToUpdate);
+      document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
 
-    const updated_user = await pb
-      .collection(collection)
-      .update(authData.record.id, {
-        accessToken: authData?.meta?.accessToken,
-        avatar: authData?.meta?.avatarUrl,
-      });
+      return updated_user;
+    }
     document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
-    return updated_user;
+    return authData.record;
   } catch (error) {
     throw error;
   }

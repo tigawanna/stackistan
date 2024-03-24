@@ -5,6 +5,7 @@ interface DashBoardMainSectionProps {}
 
 export function DashBoardMainSection({}: DashBoardMainSectionProps) {
   const { data: { user } } = useViewer();
+
   const viewer = user?.record;
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-3">

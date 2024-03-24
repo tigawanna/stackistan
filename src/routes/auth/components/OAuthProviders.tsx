@@ -12,6 +12,8 @@ import { Loader } from "lucide-react";
 import { navigate } from "rakkasjs";
 import { Button } from "@/components/shadcn/ui/button";
 import { toast } from "sonner";
+import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
+import { OAuth2AuthConfig } from "pocketbase";
 
 interface OAuthprovidersProps {}
 
@@ -21,14 +23,13 @@ export function OAuthproviders({}: OAuthprovidersProps) {
   const { current } = useLocation();
 
   const mutation = useMutation(
-    ({ provider }: { provider: "github" | "google" | "oidc" }) => {
+    ({ provider }: OAuth2AuthConfig) => {
       return tryCatchWrapper(
         oneClickOauthLogin({
           pb: locals.pb,
           collection: "stackistan_users",
           oauth_config: {
             provider,
-            scopes: ["openid", "profile", "email"],
           },
         }),
       );
@@ -45,9 +46,34 @@ export function OAuthproviders({}: OAuthprovidersProps) {
           const return_to = current.searchParams.get("return_to");
           navigate(return_to ?? "/");
         }
-        if (data.error) {
-          toast.error("Something went wrong: " + data?.error?.message);
+        if (data && data?.data) {
+          // qc.invalidateQueries({ queryKey: ["viewer"] });
+          const return_to = current.searchParams.get("return_to");
+          navigate(return_to ?? "/");
+          sonnerToast({
+            title: "welcome",
+            options: {
+              description: `${data?.data?.username}`,
+            },
+          });
         }
+        if (data && data?.error) {
+          console.log(" === data === ", data.error.message);
+          sonnerToast({
+            type: "error",
+            options: {
+              description: `${data?.error?.message}`,
+            },
+          });
+        }
+      },
+      onError(error: any) {
+        sonnerToast({
+          type: "error",
+          options: {
+            description: error?.message,
+          },
+        });
       },
     },
   );
@@ -75,15 +101,7 @@ export function OAuthproviders({}: OAuthprovidersProps) {
             <FaGoogle />
             Google
           </Button>
-          {/* <Button
-            variant={"outline"}
-            onClick={() => mutation.mutate({ provider: "oidc" })}
-            disabled={mutation.isLoading}
-            className="btn btn-wide flex gap-4 rounded-md text-lg"
-          >
-            <FaLinkedin />
-            Linkedin
-          </Button> */}
+
         </div>
         {mutation.isLoading && <Loader className="animate-spin" />}
       </div>

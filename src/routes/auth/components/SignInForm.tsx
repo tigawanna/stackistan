@@ -3,15 +3,12 @@ import { Button } from "@/components/shadcn/ui/button";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useFormHook } from "@/components/form/useForm";
 import { useState } from "react";
-import { Link, Loader, Unlock } from "lucide-react";
-
+import { Loader, Unlock } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { emailPasswordLogin, resetPassword } from "@/lib/pb/auth";
-import { toast } from "sonner";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { Label } from "@/components/shadcn/ui/label";
-import { usePageContext, navigate } from "rakkasjs";
+import { usePageContext, navigate, Link } from "rakkasjs";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 
 interface SignInFormProps {
@@ -21,8 +18,6 @@ interface SignInFormProps {
 export function SignInForm({ current }: SignInFormProps) {
   const page_ctx = usePageContext();
   const [show, setShow] = useState(false);
-  // const { current } = useLocation();
-  const qc = useQueryClient();
 
   const { handleChange, input, setError, setInput, validateInputs } =
     useFormHook<{ usernameOrEmail: string; password: string }>({
@@ -44,15 +39,6 @@ export function SignInForm({ current }: SignInFormProps) {
     meta: {
       invalidates: ["viewer"],
     },
-
-    onError(error: any) {
-      sonnerToast({
-        type: "error",
-        options: {
-          description: error?.message,
-        },
-      });
-    },
     onSuccess(data) {
       if (data && data?.data) {
         // qc.invalidateQueries({ queryKey: ["viewer"] });
@@ -66,9 +52,7 @@ export function SignInForm({ current }: SignInFormProps) {
         });
       }
       if (data && data?.error) {
-        toast.error("Something went wrong", {
-          description: data?.error?.message,
-        });
+        console.log(" === data === ", data.error.message);
         sonnerToast({
           type: "error",
           options: {
@@ -76,6 +60,14 @@ export function SignInForm({ current }: SignInFormProps) {
           },
         });
       }
+    },
+    onError(error: any) {
+      sonnerToast({
+        type: "error",
+        options: {
+          description: error?.message,
+        },
+      });
     },
   });
 
@@ -120,8 +112,10 @@ export function SignInForm({ current }: SignInFormProps) {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     email_login_mutation.mutate(input);
   }
+
   return (
     <div className="w-full h-fit flex flex-col items-center justify-center p-5 gap-5">
       <div className="w-full h-full md:w-[60%] lg:w-[40%] flex flex-col gap-5">
@@ -129,7 +123,6 @@ export function SignInForm({ current }: SignInFormProps) {
 
         <form
           className="w-full h-full  flex flex-col items-center justify-center gap-4"
-          // method="POST"
           onSubmit={handleSubmit}
         >
           <TheTextInput
@@ -177,7 +170,7 @@ export function SignInForm({ current }: SignInFormProps) {
 
         <div className="w-full flex items-center justify-center">
           <span className="w-full border-t" />
-          <span className="bg-background px-2 text-muted-foreground min-w-fit">
+          <span className="px-2 text-muted-foreground min-w-fit">
             Or continue with
           </span>
           <span className="w-full border-t" />

@@ -28,6 +28,7 @@ const tanstackQueryServerHooksFactory: ServerPluginFactory = (_, options) => ({
       },
       ...options.defaultTanstackQueryOptions,
     },
+    
   });
     queryClient.getQueryCache().subscribe(({ type, query }) => {
       if (type !== "updated" || query.state.status !== "success") return;

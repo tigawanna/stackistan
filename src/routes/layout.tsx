@@ -1,6 +1,7 @@
 import { LayoutProps, PreloadContext } from "rakkasjs";
 import ErrorBoundaryComponent from "@/components/wrappers/ErrorBoundaryComponent";
 import "./index.css";
+import "cherry-markdown/dist/cherry-markdown.css";
 
 function Layout({ children }: LayoutProps) {
   return (

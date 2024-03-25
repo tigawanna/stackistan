@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { PbTheTextInput } from "../input-parts/PBTheTextInput";
+import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
 import { Link, Mail, TimerIcon } from "lucide-react";
 
 export type TextFieldType = "text" | "number" | "email" | "url" | "date";
@@ -10,7 +10,7 @@ interface GenericFormTextInputProps<T extends Record<string, any>> {
   fieldLabel?: string;
   setInput: React.Dispatch<React.SetStateAction<T>>;
   fieldType?: TextFieldType;
-  fieldError?: ClientResponseError;
+  fieldError?: ClientResponseError | null | undefined;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 

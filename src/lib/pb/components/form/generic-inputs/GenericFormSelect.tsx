@@ -6,7 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/ui/select";
-import { SelectField } from "../../table/types";
+import { SelectField } from "@/lib/pb/components/table/types";
+import { ClientResponseError } from "pocketbase";
+import { PBFieldWrapper } from "../input-parts/PBFieldWrapper";
 
 interface GenericFormSelectProps<T extends Record<string, any>> {
   input: T;
@@ -14,6 +16,7 @@ interface GenericFormSelectProps<T extends Record<string, any>> {
   fieldLabel?: string;
   setInput: React.Dispatch<React.SetStateAction<T>>;
   fieldOptions: SelectField;
+  fieldError?: ClientResponseError | null | undefined;
 }
 
 export function GenericFormSelect<T extends Record<string, any>>({
@@ -22,10 +25,13 @@ export function GenericFormSelect<T extends Record<string, any>>({
   fieldKey,
   fieldLabel,
   fieldOptions,
+  fieldError,
 }: GenericFormSelectProps<T>) {
   const input_options = fieldOptions.fields;
   return (
+    <PBFieldWrapper field_key={fieldKey} pb_error={fieldError} >
     <Select
+      value={input[fieldKey]}
       onValueChange={(v) => setInput((prev) => ({ ...prev, [fieldKey]: v }))}
     >
       <SelectTrigger className="w-[180px]">
@@ -43,5 +49,7 @@ export function GenericFormSelect<T extends Record<string, any>>({
         </SelectGroup>
       </SelectContent>
     </Select>
+
+    </PBFieldWrapper>
   );
 }

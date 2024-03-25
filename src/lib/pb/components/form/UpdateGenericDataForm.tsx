@@ -3,24 +3,22 @@ import { usePageContext } from "rakkasjs";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
 import { CollectionName } from "@/lib/pb/client";
-import { BaseCollectionUpdate, Schema, StackistanTechnologiesUpdate } from "@/lib/pb/database";
-import { PBColumnField } from "./types";
-import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { GenericFormSelect } from "../form/generic-inputs/GenericFormSelect";
-import { GenericFormTextInput } from "../form/generic-inputs/GenericFormTextInput";
-
+import { PBColumnField } from "../table/types";
+import { GenericFormSelect } from "./generic-inputs/GenericFormSelect";
+import { GenericFormTextInput } from "./generic-inputs/GenericFormTextInput";
+import { GenericFormBoolean } from "./generic-inputs/GenericFormBoolean";
 
 type InputUpdateType = Record<string, any>;
 // type InputUpdateType = StackistanTechnologiesUpdate;
 // type InputUpdateType = BaseCollectionUpdate;
 // type InputUpdateType = Schema[CollectionName]["update"];
 
-  type InputOptions<T extends InputUpdateType> = {
-    fieldkey: keyof T;
-    fieldLabel: string;
-    fieldOptions: PBColumnField;
-    inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-  };
+type InputOptions<T extends InputUpdateType> = {
+  fieldkey: keyof T;
+  fieldLabel: string;
+  fieldOptions: PBColumnField;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+};
 type InputFieldType<T extends InputUpdateType> = {
   [key in keyof T]: InputOptions<T>;
 };
@@ -28,7 +26,7 @@ interface GenericDataFormProps<T extends InputUpdateType> {
   collection: CollectionName;
   rowId: string;
   field: InputFieldType<T>;
-  initialValues:T;
+  initialValues: T;
 }
 
 export function GenericUpdateDataForm<T extends InputUpdateType>({
@@ -64,7 +62,6 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
           update_mutation.mutate({ inp: input });
         }}
       >
-
         {Object.entries(field).map(([key, value]) => {
           if (value.fieldOptions?.type === "select") {
             return (
@@ -75,26 +72,36 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
                   fieldKey={value.fieldkey}
                   fieldLabel={value.fieldLabel}
                   fieldOptions={value.fieldOptions}
+                  fieldError={pb_error}
                 />
               </div>
             );
           }
-          if(value.fieldOptions?.type === "editor"){
-            return
+          if (value.fieldOptions?.type === "editor") {
+            return;
           }
-          if(value.fieldOptions?.type === "json"){
-            return
+          if (value.fieldOptions?.type === "json") {
+            return;
           }
-          if(value.fieldOptions?.type === "file"){
-            return
+          if (value.fieldOptions?.type === "file") {
+            return;
           }
-          if(value.fieldOptions?.type === "relation"){
-            return
+          if (value.fieldOptions?.type === "relation") {
+            return;
           }
-          if(value.fieldOptions?.type === "bool"){
-            return
+          if (value.fieldOptions?.type === "bool") {
+            return (
+              <div key={key}>
+                <GenericFormBoolean<T>
+                  input={input}
+                  setInput={setInput}
+                  fieldKey={value.fieldkey as any}
+                  fieldLabel={value.fieldLabel}
+                  fieldError={pb_error}
+                />
+              </div>
+            );
           }
-
 
           return (
             <div key={key}>
@@ -105,6 +112,7 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
                 fieldLabel={value.fieldLabel}
                 inputProps={value?.inputProps}
                 fieldType={value.fieldOptions?.type}
+                fieldError={pb_error}
               />
             </div>
           );

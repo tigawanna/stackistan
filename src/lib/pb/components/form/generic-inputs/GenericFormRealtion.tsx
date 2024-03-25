@@ -1,8 +1,8 @@
-interface GenericFormRealtionProps {
+interface GenericFormRelationProps {
 
 }
 
-export function GenericFormRealtion({}:GenericFormRealtionProps){
+export function GenericFormRelation({}:GenericFormRelationProps){
 return (
  <div className='w-full h-full flex flex-col items-center justify-center'>
 

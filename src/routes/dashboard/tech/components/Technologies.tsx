@@ -1,3 +1,4 @@
+import { GenericDataTable } from "@/lib/pb/components/table/GenericDataTable";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { usePageContext } from "rakkasjs";
@@ -20,14 +21,39 @@ export function TechnoligiesList({}: TechnoligiesListProps) {
     },
   });
   const data = query?.data?.data;
+  if (!data?.items) return null;
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
-
-      <ul className="w-full flex flex-wrap justify-center items-center gap-10">
-        {data?.items?.map((t) => {
-          return <li key={t.id}>{t.name}</li>;
-        })}
-      </ul>
+    <div className="w-full h-full flex flex-col items-center justify-center mt-6">
+      <GenericDataTable
+        list={data?.items}
+        columns={{
+          name: {
+            fieldKey: "name",
+            fieldLabel: "Name",
+            fieldType: "text",
+          },
+          description: {
+            fieldKey: "description",
+            fieldLabel: "Description",
+            fieldType: "text",
+          },
+          link: {
+            fieldKey: "link",
+            fieldLabel: "Link",
+            fieldType: "url",
+          },
+          logo: {
+            fieldKey: "logo",
+            fieldLabel: "Logo",
+            fieldType: "url",
+          },
+          created: {
+            fieldKey: "created",
+            fieldLabel: "Created",
+            fieldType: "date",
+          },
+        }}
+      />
     </div>
   );
 }

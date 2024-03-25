@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "rakkasjs";
 import { useFormHook } from "@/components/form/useForm";
 import { useState } from "react";
 import { Loader } from "lucide-react";
-import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
+import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
 import { createUser } from "@/lib/pb/auth";
 import { toast } from "sonner";
 import { Label } from "@/components/shadcn/ui/label";

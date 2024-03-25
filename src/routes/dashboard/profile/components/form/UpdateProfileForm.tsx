@@ -1,6 +1,6 @@
 import { useFormHook } from "@/components/form/useForm";
 import { Card, CardContent, CardHeader } from "@/components/shadcn/ui/card";
-import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
+import { PBFieldWrapper } from "@/lib/pb/components/form/input-parts/PBFieldWrapper";
 import { StackistanUsersUpdate } from "@/lib/pb/database";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 import { useMutation } from "@tanstack/react-query";
@@ -8,14 +8,14 @@ import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { ClientSuspense, usePageContext } from "rakkasjs";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 import { useEffect, useTransition } from "react";
-import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
-import { PbTheTextAreaInput } from "@/lib/pb/components/form/PBTheTextAreaInput";
+import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
+import { PbTheTextAreaInput } from "@/lib/pb/components/form/input-parts/PBTheTextAreaInput";
 import { TheCountryFields } from "@/components/country/TheCountryFields";
 import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
 import { Button } from "@/components/shadcn/ui/button";
 import { Loader } from "lucide-react";
 import { TheStringListInput } from "@/components/form/inputs/StringListInput";
-import { PBTheImagePicker } from "@/lib/pb/components/form/PbTheImagePicker";
+import { PBTheImagePicker } from "@/lib/pb/components/form/input-parts/PbTheImagePicker";
 
 interface UpdateProfileFormProps {}
 

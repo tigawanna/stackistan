@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { PbTheTextInput } from "../../form/PBTheTextInput";
+import { PbTheTextInput } from "../input-parts/PBTheTextInput";
 import { Link, Mail, TimerIcon } from "lucide-react";
 
 export type TextFieldType = "text" | "number" | "email" | "url" | "date";

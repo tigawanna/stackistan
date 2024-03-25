@@ -1,5 +1,5 @@
 import { useFormHook } from "@/components/form/useForm";
-import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
+import { PBFieldWrapper } from "@/lib/pb/components/form/input-parts/PBFieldWrapper";
 import { StackistanResumeProfileCreate } from "@/lib/pb/database";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 import { SelectResumeProfileType } from "./SelectResumeProfileType";

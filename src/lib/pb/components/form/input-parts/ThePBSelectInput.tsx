@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { SelectField } from "../table/types";
+import { SelectField } from "../../table/types";
 import { PBFieldWrapper } from "./PBFieldWrapper";
 import {
   Select,

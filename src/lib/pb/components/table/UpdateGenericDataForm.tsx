@@ -6,8 +6,8 @@ import { CollectionName } from "@/lib/pb/client";
 import { BaseCollectionUpdate, Schema, StackistanTechnologiesUpdate } from "@/lib/pb/database";
 import { PBColumnField } from "./types";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { GenericFormSelect } from "./components/GenericFormSelect";
-import { GenericFormTextInput } from "./components/GenericFormTextInput";
+import { GenericFormSelect } from "../form/generic-inputs/GenericFormSelect";
+import { GenericFormTextInput } from "../form/generic-inputs/GenericFormTextInput";
 
 
 type InputUpdateType = Record<string, any>;

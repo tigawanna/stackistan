@@ -2,6 +2,7 @@ import { LayoutProps, PreloadContext } from "rakkasjs";
 import ErrorBoundaryComponent from "@/components/wrappers/ErrorBoundaryComponent";
 import "./index.css";
 import "cherry-markdown/dist/cherry-markdown.css";
+import "react-quill/dist/quill.snow.css";
 
 function Layout({ children }: LayoutProps) {
   return (

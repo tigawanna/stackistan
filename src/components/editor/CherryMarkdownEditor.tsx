@@ -13,11 +13,13 @@ import { useEffect, useRef, useState } from "react";
 interface CherryMarkdownEditorProps {
   input_string: string;
   custom_element?: (cherry: Cherry | null) => JSX.Element;
+
 }
 
 export default function CherryMarkdownEditor({
   input_string,
   custom_element,
+
 }: CherryMarkdownEditorProps) {
   const cherry = useRef<Cherry | null>(null);
 
@@ -37,6 +39,16 @@ export default function CherryMarkdownEditor({
         },
       });
     }
+    // cherry.current.editor.addListener("change", () => {
+    //   const html_as_markdwon = cherry.current?.engine.makeMarkdown(input_string);
+    //   if (html_as_markdwon) {
+    //     setMarkdown && setMarkdown(html_as_markdwon);
+    //   }
+    // })
+
+    // return () => {
+    //   cherry.current?.destroy();
+    // };
   }, []);
 
   useEffect(() => {
@@ -46,6 +58,7 @@ export default function CherryMarkdownEditor({
       // cherry.current?.setMarkdown(html_as_markdwon);
     }
   }, [cherry.current, input_string]);
+
   useEffect(() => {
     cherry.current?.switchModel(width > 850 ? "edit&preview" : "editOnly");
   }, [width]);
@@ -54,12 +67,13 @@ export default function CherryMarkdownEditor({
     cherry.current?.export("pdf", "resume.md");
   }
 
-
+  const editor_width = width > 650 ? width - 120 : width - 20;
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between gap-2 ">
-      <div className="w-full flex gap-3 items-center justify-end sticky top-10 z-50">
+    <div className="w-full h-fit flex flex-col items-center justify-between gap-2 relative  ">
+      <div className="flex gap-3 items-center justify-between absolute -top-6 left-[5%] right-[5%] px-2 z-50">
         {custom_element && custom_element(cherry?.current)}
+        <div className="flex gap-2">
         <button
           className="md:tooltip hover:md:tooltip-open md:tooltip-top text-xs font-normal rounded-full hover:text-accent "
           about={"print content"}
@@ -131,8 +145,14 @@ export default function CherryMarkdownEditor({
         >
           <GalleryThumbnails className="h-5 w-5" />
         </button>
+
+        </div>
       </div>
-      <div id="cherry-markdown" className="w-full " />
+      <div
+        style={{ width: editor_width }}
+        id="cherry-markdown"
+        className="w-full h-full min-h-[40vh]"
+      />
     </div>
   );
 }

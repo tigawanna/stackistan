@@ -1,5 +1,5 @@
 import { ClientSuspense, PageProps } from "rakkasjs";
-import CherryMarkdownEditor from "@/components/editor/CherryMarkdownEditor";
+import CherryMarkdownEditor from "@/components/editor/cherry-markdown/CherryMarkdownEditor";
 import { GenericFormEditor } from "@/lib/pb/components/form/generic-inputs/GenericFormEditor";
 import { useState } from "react";
 

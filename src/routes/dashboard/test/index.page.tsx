@@ -6,6 +6,7 @@ import { useState } from "react";
 
 
 
+
 export default function TestPage({}: PageProps) {
   const [input,setInput] = useState({
     name: "",
@@ -16,6 +17,8 @@ export default function TestPage({}: PageProps) {
   return (
     <div className="flex h-full mt-9  w-full flex-col items-center justify-center">   
       <GenericFormEditor fieldKey="message" input={input} setInput={setInput} />
+      {/* <PlateEditorReact /> */}
+      {/* <TinyMCEEditor/> */}
     </div>
   );
 }

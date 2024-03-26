@@ -1,3 +1,4 @@
+import { useSSRFriendlyTheme, useWindowTheme } from "@/lib/rakkas/theme";
 import { copytoClipBoard } from "@/utils/helpers/copy-to-clipboard";
 import { useWindowSize } from "@/utils/hooks/useWindowSize";
 import Cherry from "cherry-markdown/dist/cherry-markdown.core";
@@ -15,7 +16,7 @@ interface CherryMarkdownEditorProps {
   input_string: string;
   custom_element?: (cherry: Cherry | null) => JSX.Element;
   container_classname?: string;
-  setContent?: (html: string,text:string) => void;
+  setContent?: (html: string, text: string) => void;
 }
 
 export default function CherryMarkdownEditor({
@@ -25,7 +26,8 @@ export default function CherryMarkdownEditor({
   setContent,
 }: CherryMarkdownEditorProps) {
   const cherry = useRef<Cherry | null>(null);
-
+  const { theme } = useSSRFriendlyTheme();
+  console.log({ theme });
   const { width } = useWindowSize();
   useEffect(() => {
     if (!cherry.current) {
@@ -40,14 +42,14 @@ export default function CherryMarkdownEditor({
           // previewOnly: Preview mode (there is no edit box, the toolbar only displays the "return to edit" button, which can be switched to edit mode through the toolbar)
           defaultModel: width > 850 ? "edit&preview" : "editOnly",
         },
+
         // @ts-expect-error
         callback: {
           afterChange: (text, html) => {
             if (setContent) {
               setContent(html, text);
             }
-          }
-          ,
+          },
           beforeImageMounted: (srcProp: string, src: string) => {
             return {
               srcProp,
@@ -55,18 +57,22 @@ export default function CherryMarkdownEditor({
             };
           },
         },
+        
+        theme: [
+          { className: "default", label: "default" },
+          { className: "dark", label: "dark" },
+          { className: "light", label: "light" },
+          { className: "green", label: "green" },
+          { className: "red", label: "red" },
+          { className: "violet", label: "violet" },
+          { className: "blue", label: "blue" },
+        ],
+        toolbars: {
+          sidebar: ["mobilePreview", "copy", "theme"],
+          theme: theme === "dark" ? "dark" : "light",
+        },
       });
     }
-    // cherry.current.editor.addListener("change", () => {
-    //   const html_as_markdwon = cherry.current?.engine.makeMarkdown(input_string);
-    //   if (html_as_markdwon) {
-    //     setMarkdown && setMarkdown(html_as_markdwon);
-    //   }
-    // })
-
-    // return () => {
-    //   cherry.current?.destroy();
-    // };
   }, []);
 
   useEffect(() => {

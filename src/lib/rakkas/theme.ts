@@ -1,6 +1,6 @@
 import { RequestContext } from "rakkasjs";
 import { useRequestContext } from "rakkasjs";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 export function useSSRFriendlyTheme() {
   const ctx = useRequestContext();
@@ -13,6 +13,22 @@ export function useSSRFriendlyTheme() {
     }
   };
   return { theme, updateTheme };
+}
+
+const emptySubscribe = () => () => {};
+
+export function useWindowTheme() {
+  // const [theme,setTheme] = useState(() => window?.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+  const theme = useSyncExternalStore(
+    emptySubscribe,
+    () =>
+      (document.documentElement.getAttribute("data-theme") ?? "light") as
+        | "light"
+        | "dark",
+    () => "light",
+  );
+
+  return theme;
 }
 
 export function getSSRFriendlyTheme(ctx: RequestContext<unknown> | undefined) {

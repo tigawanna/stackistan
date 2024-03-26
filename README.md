@@ -14,3 +14,21 @@
  - dashboard/activities
  - dashboard/others
 
+
+
+> Info 
+ warning
+ no sucking allowed
+
+> [!WARNING]
+
+> [!NOTE]
+
+> [!IMPORTANT]
+
+> [!TIP]
+
+> [!CAUTION]
+
+
+The operation completed successfully!

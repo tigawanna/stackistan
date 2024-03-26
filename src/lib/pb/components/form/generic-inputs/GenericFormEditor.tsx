@@ -3,7 +3,7 @@ import { PBFieldWrapper } from "../input-parts/PBFieldWrapper";
 import { ClientSuspense } from "rakkasjs";
 import { lazy, useEffect, useRef, useState } from "react";
 import Cherry from "cherry-markdown";
-import { Loader } from "lucide-react";
+import { Loader, Save } from "lucide-react";
 
 const CherryMarkdownEditor = lazy(
   () => import("@/components/editor/cherry-markdown/CherryMarkdownEditor"),
@@ -76,39 +76,26 @@ export function GenericFormEditorControls({
   const [saving, setSaving] = useState(false);
 
 
-  // useEffect(() => {
-  //   if (!saving) return;
-  //   setTimeout(() => {
-  //     setSaving(false);
-  //   },2000)
-  // }, [saving]);
+  useEffect(() => {
+    if (!saving) return;
+    setTimeout(() => {
+      setSaving(false);
+    },2000)
+  }, [saving]);
 
-  // useEffect(() => {
-  //   console.log({ cherry });
-  //   const interval = setInterval(() => {
-  //     console.log("...... saving .......");
 
-  //     if (cherry) {
-  //       setSaving(true);
-  //       setMarkdown(cherry.getMarkdown());
-  //     }
-  //   }, 10000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [cherry]);
-  
   return (
-    <div className=" flex  items-center justify-start gap-2">
+    <div className=" flex  items-center justify-start gap-2 p-1">
       <button
-      className="p-2"
+      className=""
         onClick={() => {
           if (cherry) {
+            setSaving(true);
             setMarkdown(cherry.getMarkdown());
           }
         }}
       >
-        save
+        <Save className="size-6"/>
       </button>
       {saving && <Loader className="animate-spin"/>}
     </div>

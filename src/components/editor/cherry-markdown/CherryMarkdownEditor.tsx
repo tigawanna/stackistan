@@ -25,32 +25,6 @@ interface CherryMarkdownEditorProps {
   setContent?: (html: string, text: string) => void;
 }
 
-var customMenu = Cherry.createMenuHook("custom", {
-  iconName: "info",
-  // onClick: function (selection: any) {
-  //   return `> [!WARNING]
-  //   ${selection}`;
-  // },
-  subMenuConfig: [
-    {
-      noIcon: true,
-      name: "note",
-      onClick: function (selection: any) {
-        return `> [!NOTE]
-    ${selection}`;
-      },
-    },
-    {
-      noIcon: true,
-      name: "warning",
-      onClick: function (selection: any) {
-        return `> [!WARNING]
-    ${selection}`;
-      },
-    },
-  ],
-});
-
 export default function CherryMarkdownEditor({
   input_string,
   container_classname,
@@ -102,7 +76,6 @@ export default function CherryMarkdownEditor({
         ],
         toolbars: {
           customMenu: {
-            mymenu: customMenu,
             warn: warningBlock,
             tip: tipBlock,
             note: noteBlock,
@@ -141,7 +114,6 @@ export default function CherryMarkdownEditor({
             "settings",
             "codeTheme",
             "|",
-            "mymenu",
 
             // "panel",
           ],
@@ -159,7 +131,17 @@ export default function CherryMarkdownEditor({
             "color",
             "size",
           ],
-          sidebar: ["copy", "theme", "toc", "togglePreview", "mobilePreview","warn","note","tip","caution"],
+          sidebar: [
+            "copy",
+            "theme",
+            "toc",
+            "togglePreview",
+            "mobilePreview",
+            "warn",
+            "note",
+            "tip",
+            "caution",
+          ],
           theme: theme === "dark" ? "dark" : "light",
         },
       });
@@ -187,85 +169,12 @@ export default function CherryMarkdownEditor({
   return (
     <div
       className={twMerge(
-        "w-full h-[50vh]  flex flex-col items-center justify-between gap-2 relative ",
+        "w-full h-[50vh]  flex flex-col items-center justify-between gap- relative ",
         container_classname,
       )}
     >
-      <div className="flex gap-3 items-center justify-between absolute -top-6 left-[5%] right-[5%] px-2 z-50">
+      <div className="flex gap-3 items-center justify-between absolute -top-8 left-[5%] right-[5%] px-2 z-50">
         {custom_element && custom_element(cherry?.current)}
-        <div className="flex gap-2">
-          <button
-            className="md:tooltip hover:md:tooltip-open md:tooltip-top text-xs font-normal rounded-full hover:text-accent "
-            about={"print content"}
-            data-tip={"print content"}
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              exportMarkdown();
-            }}
-          >
-            <Printer className="w-5 h-5" />
-          </button>
-          <button
-            className="md:tooltip hover:md:tooltip-open md:tooltip-top text-xs font-normal rounded-full hover:text-accent"
-            about={"copy to clipboard"}
-            data-tip={"copy to clipboard"}
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              const markdown = cherry.current?.getMarkdown();
-              if (markdown) {
-                copytoClipBoard(markdown);
-              }
-            }}
-          >
-            <Copy className="w-5 h-5" />
-          </button>
-          {/* edit & preview mode */}
-
-          <button
-            className="md:tooltip hover:md:tooltip-open md:tooltip-top text-xs font-normal rounded-full hover:text-accent"
-            type="button"
-            about={"editor,preview split-view"}
-            data-tip={"editor,preview split-view"}
-            onClick={(e) => {
-              e.stopPropagation();
-              cherry.current?.switchModel("edit&preview");
-            }}
-          >
-            <SplitSquareHorizontal className="h-5 w-5" />
-          </button>
-
-          {/* edit only mode */}
-
-          <button
-            className="md:tooltip hover:md:tooltip-open md:tooltip-top text-xs font-normal hover:text-accent"
-            type="button"
-            data-tip="editor only view"
-            about="editor only view"
-            onClick={(e) => {
-              e.stopPropagation();
-              cherry.current?.switchModel("editOnly");
-            }}
-          >
-            <FileEdit className="h-5 w-5" />
-          </button>
-
-          {/* preview only mode */}
-
-          <button
-            className="md:tooltip hover:md:tooltip-open md:tooltip-top text-xs font-normal hover:text-accent"
-            type="button"
-            about="preview only view"
-            data-tip="preview only view"
-            onClick={(e) => {
-              e.stopPropagation();
-              cherry.current?.switchModel("previewOnly");
-            }}
-          >
-            <GalleryThumbnails className="h-5 w-5" />
-          </button>
-        </div>
       </div>
       <div
         style={{ width: editor_width }}

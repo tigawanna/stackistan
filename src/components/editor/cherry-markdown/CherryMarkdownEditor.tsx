@@ -11,6 +11,12 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import {
+  cautionBlock,
+  noteBlock,
+  tipBlock,
+  warningBlock,
+} from "./custom/blocks";
 
 interface CherryMarkdownEditorProps {
   input_string: string;
@@ -18,6 +24,32 @@ interface CherryMarkdownEditorProps {
   container_classname?: string;
   setContent?: (html: string, text: string) => void;
 }
+
+var customMenu = Cherry.createMenuHook("custom", {
+  iconName: "info",
+  // onClick: function (selection: any) {
+  //   return `> [!WARNING]
+  //   ${selection}`;
+  // },
+  subMenuConfig: [
+    {
+      noIcon: true,
+      name: "note",
+      onClick: function (selection: any) {
+        return `> [!NOTE]
+    ${selection}`;
+      },
+    },
+    {
+      noIcon: true,
+      name: "warning",
+      onClick: function (selection: any) {
+        return `> [!WARNING]
+    ${selection}`;
+      },
+    },
+  ],
+});
 
 export default function CherryMarkdownEditor({
   input_string,
@@ -29,6 +61,7 @@ export default function CherryMarkdownEditor({
   const { theme } = useSSRFriendlyTheme();
   console.log({ theme });
   const { width } = useWindowSize();
+
   useEffect(() => {
     if (!cherry.current) {
       cherry.current = new Cherry({
@@ -57,7 +90,7 @@ export default function CherryMarkdownEditor({
             };
           },
         },
-        
+
         theme: [
           { className: "default", label: "default" },
           { className: "dark", label: "dark" },
@@ -68,7 +101,65 @@ export default function CherryMarkdownEditor({
           { className: "blue", label: "blue" },
         ],
         toolbars: {
-          sidebar: ["mobilePreview", "copy", "theme"],
+          customMenu: {
+            mymenu: customMenu,
+            warn: warningBlock,
+            tip: tipBlock,
+            note: noteBlock,
+            caution: cautionBlock,
+          },
+          toolbar: [
+            "undo",
+            "redo",
+            "|",
+            "bold",
+            "italic",
+            "strikethrough",
+            "|",
+            "color",
+            "justify",
+            "header",
+            "ruby",
+            "detail",
+            "|",
+            "list",
+            {
+              insert: [
+                "image",
+                "audio",
+                "video",
+                "link",
+                "hr",
+                "br",
+                "code",
+                "formula",
+                "toc",
+                "table",
+                "drawIo",
+              ],
+            },
+            "settings",
+            "codeTheme",
+            "|",
+            "mymenu",
+
+            // "panel",
+          ],
+          toolbarRight: ["fullScreen", "export"],
+          float: ["bold", "size", "color", "table", "code"],
+          bubble: [
+            "bold",
+            "italic",
+            "underline",
+            "strikethrough",
+            "sub",
+            "sup",
+            "ruby",
+            "|",
+            "color",
+            "size",
+          ],
+          sidebar: ["copy", "theme", "toc", "togglePreview", "mobilePreview","warn","note","tip","caution"],
           theme: theme === "dark" ? "dark" : "light",
         },
       });

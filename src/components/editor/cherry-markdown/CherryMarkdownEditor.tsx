@@ -15,12 +15,14 @@ interface CherryMarkdownEditorProps {
   input_string: string;
   custom_element?: (cherry: Cherry | null) => JSX.Element;
   container_classname?: string;
+  setContent?: (html: string,text:string) => void;
 }
 
 export default function CherryMarkdownEditor({
   input_string,
   container_classname,
   custom_element,
+  setContent,
 }: CherryMarkdownEditorProps) {
   const cherry = useRef<Cherry | null>(null);
 
@@ -37,6 +39,21 @@ export default function CherryMarkdownEditor({
           // editOnly: Pure editing mode (without preview, you can switch to double column or preview mode through toolbar)
           // previewOnly: Preview mode (there is no edit box, the toolbar only displays the "return to edit" button, which can be switched to edit mode through the toolbar)
           defaultModel: width > 850 ? "edit&preview" : "editOnly",
+        },
+        // @ts-expect-error
+        callback: {
+          afterChange: (text, html) => {
+            if (setContent) {
+              setContent(html, text);
+            }
+          }
+          ,
+          beforeImageMounted: (srcProp: string, src: string) => {
+            return {
+              srcProp,
+              src,
+            };
+          },
         },
       });
     }

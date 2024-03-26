@@ -36,6 +36,12 @@ export function GenericFormEditor<T extends Record<string, any>>({
         <div className="z-40 min-w-[90%] ">
           <CherryMarkdownEditor
             input_string="ooga booga"
+            setContent={(html,text) => {
+              setInput((prev) => ({
+                ...prev,
+                [fieldKey]: text,
+              }));
+            }}
             custom_element={(cherry: Cherry | null) => {
               return (
                 <GenericFormEditorControls

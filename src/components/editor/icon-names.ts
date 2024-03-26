@@ -286,7 +286,7 @@
 //            icons.push(icon_name)
 //        }
 //    }
-//     console.log(icons);
+//    return icons
 
 // }
 // getIconNames()

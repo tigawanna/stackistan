@@ -1,28 +1,29 @@
-import * as React from "react"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import type { DataTableFilterOption } from "@/types"
+import * as React from "react";
+// import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { navigate, useLocation } from "rakkasjs";
+import type { DataTableFilterOption } from "../types/index";
 import {
   CopyIcon,
   DotsHorizontalIcon,
   TextAlignCenterIcon,
   TrashIcon,
-} from "@radix-ui/react-icons"
-import type { Table } from "@tanstack/react-table"
+} from "@radix-ui/react-icons";
+import type { Table } from "@tanstack/react-table";
 
-import { useDebounce } from "@/hooks/use-debounce"
-import { Button } from "@/components/ui/button"
+import { useDebounce } from "@/utils/hooks/use-debounce";
+import { Button } from "@/components/shadcn/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/shadcn/ui/dropdown-menu";
+import { Input } from "@/components/shadcn/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/shadcn/ui/popover";
 import {
   Select,
   SelectContent,
@@ -30,10 +31,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
+} from "@/components/shadcn/ui/select";
+import { Separator } from "@/components/shadcn/ui/separator";
 
-import { DataTableFacetedFilter } from "../data-table-faceted-filter"
+import { DataTableFacetedFilter } from "../data-table-faceted-filter";
 
 const operators = [
   {
@@ -44,15 +45,15 @@ const operators = [
     label: "Or",
     value: "or",
   },
-]
+];
 
 interface DataTableMultiFilterProps<TData> {
-  table: Table<TData>
-  allOptions: DataTableFilterOption<TData>[]
-  options: DataTableFilterOption<TData>[]
+  table: Table<TData>;
+  allOptions: DataTableFilterOption<TData>[];
+  options: DataTableFilterOption<TData>[];
   setSelectedOptions: React.Dispatch<
     React.SetStateAction<DataTableFilterOption<TData>[]>
-  >
+  >;
 }
 
 export function DataTableMultiFilter<TData>({
@@ -61,8 +62,8 @@ export function DataTableMultiFilter<TData>({
   options,
   setSelectedOptions,
 }: DataTableMultiFilterProps<TData>) {
-  const [open, setOpen] = React.useState(true)
-  const [operator, setOperator] = React.useState(operators[0])
+  const [open, setOpen] = React.useState(true);
+  const [operator, setOperator] = React.useState(operators[0]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -88,6 +89,7 @@ export function DataTableMultiFilter<TData>({
               options={options}
               setSelectedOptions={setSelectedOptions}
               operator={operator}
+              // @ts-expect-error
               setOperator={setOperator}
             />
           ))}
@@ -100,7 +102,9 @@ export function DataTableMultiFilter<TData>({
             size="sm"
             className="w-full justify-start"
             onClick={() => {
-              setSelectedOptions((prev) => prev.filter((item) => !item.isMulti))
+              setSelectedOptions((prev) =>
+                prev.filter((item) => !item.isMulti),
+              );
             }}
           >
             Delete filter
@@ -108,16 +112,16 @@ export function DataTableMultiFilter<TData>({
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
 interface MultiFilterRowProps<TData> extends DataTableMultiFilterProps<TData> {
-  i: number
-  option: DataTableFilterOption<TData>
-  operator?: (typeof operators)[number]
+  i: number;
+  option: DataTableFilterOption<TData>;
+  operator?: (typeof operators)[number];
   setOperator: React.Dispatch<
     React.SetStateAction<(typeof operators)[number] | undefined>
-  >
+  >;
 }
 
 export function MultiFilterRow<TData>({
@@ -130,51 +134,53 @@ export function MultiFilterRow<TData>({
   operator,
   setOperator,
 }: MultiFilterRowProps<TData>) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [value, setValue] = React.useState("")
-  const debounceValue = useDebounce(value, 500)
+  const { current } = useLocation();
+  // const router = useRouter()
+  const pathname = current.pathname;
+  const searchParams = current.searchParams
+
+  const [value, setValue] = React.useState("");
+  const debounceValue = useDebounce(value, 500);
 
   const [selectedOption, setSelectedOption] = React.useState<
     DataTableFilterOption<TData> | undefined
-  >(options[0])
+  >(options[0]);
 
   const filterVarieties = selectedOption?.items.length
     ? ["is", "is not"]
-    : ["contains", "does not contain", "is", "is not"]
+    : ["contains", "does not contain", "is", "is not"];
 
-  const [filterVariety, setFilterVariety] = React.useState(filterVarieties[0])
+  const [filterVariety, setFilterVariety] = React.useState(filterVarieties[0]);
 
   // Update filter variety
   React.useEffect(() => {
     if (selectedOption?.items.length) {
-      setFilterVariety("is")
+      setFilterVariety("is");
     }
-  }, [selectedOption?.items.length])
+  }, [selectedOption?.items.length]);
 
   // Create query string
   const createQueryString = React.useCallback(
     (params: Record<string, string | number | null>) => {
-      const newSearchParams = new URLSearchParams(searchParams?.toString())
+      const newSearchParams = new URLSearchParams(searchParams?.toString());
 
       for (const [key, value] of Object.entries(params)) {
         if (value === null) {
-          newSearchParams.delete(key)
+          newSearchParams.delete(key);
         } else {
-          newSearchParams.set(key, String(value))
+          newSearchParams.set(key, String(value));
         }
       }
 
-      return newSearchParams.toString()
+      return newSearchParams.toString();
     },
-    [searchParams]
-  )
+    [searchParams],
+  );
 
   // Update query string
   React.useEffect(() => {
     if (debounceValue.length > 0) {
-      router.push(
+      navigate(
         `${pathname}?${createQueryString({
           [selectedOption?.value ?? ""]: `${debounceValue}${
             debounceValue.length > 0 ? `.${filterVariety}` : ""
@@ -182,37 +188,67 @@ export function MultiFilterRow<TData>({
         })}`,
         {
           scroll: false,
-        }
-      )
+        },
+      );
+      // router.push(
+      // `${pathname}?${createQueryString({
+      //   [selectedOption?.value ?? ""]: `${debounceValue}${
+      //     debounceValue.length > 0 ? `.${filterVariety}` : ""
+      //   }`,
+      // })}`,
+      // {
+      //   scroll: false,
+      // }
+      // )
     }
 
     if (debounceValue.length === 0) {
-      router.push(
+      // const new_url = new URL(pathname);
+      // new_url.search = createQueryString({
+      //   [selectedOption?.value ?? ""]: null,
+      // });
+      navigate(
         `${pathname}?${createQueryString({
           [selectedOption?.value ?? ""]: null,
         })}`,
         {
           scroll: false,
-        }
-      )
+        },
+      );
+      // router.push(
+      // `${pathname}?${createQueryString({
+      //   [selectedOption?.value ?? ""]: null,
+      // })}`,
+      // {
+      //   scroll: false,
+      // }
+      // )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceValue, filterVariety, selectedOption?.value])
+  }, [debounceValue, filterVariety, selectedOption?.value]);
 
   // Update operator query string
   React.useEffect(() => {
     if (operator?.value) {
-      router.push(
+      navigate(
         `${pathname}?${createQueryString({
           operator: operator.value,
         })}`,
         {
           scroll: false,
-        }
-      )
+        },
+      );
+      // router.push(
+      //   `${pathname}?${createQueryString({
+      //     operator: operator.value,
+      //   })}`,
+      //   {
+      //     scroll: false,
+      //   }
+      // )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [operator?.value])
+  }, [operator?.value]);
 
   return (
     <div className="flex items-center space-x-2">
@@ -248,19 +284,21 @@ export function MultiFilterRow<TData>({
       <Select
         value={String(selectedOption?.value)}
         onValueChange={(value) => {
-          setSelectedOption(allOptions.find((option) => option.value === value))
+          setSelectedOption(
+            allOptions.find((option) => option.value === value),
+          );
           setSelectedOptions((prev) =>
             prev.map((item) => {
               if (item.id === option.id) {
                 return {
                   ...item,
                   value,
-                }
+                };
               } else {
-                return item
+                return item;
               }
-            })
-          )
+            }),
+          );
         }}
       >
         <SelectTrigger className="h-8 w-full text-xs capitalize">
@@ -302,7 +340,7 @@ export function MultiFilterRow<TData>({
           <DataTableFacetedFilter
             key={selectedOption.id}
             column={table.getColumn(
-              selectedOption.value ? String(selectedOption.value) : ""
+              selectedOption.value ? String(selectedOption.value) : "",
             )}
             title={selectedOption.label}
             options={selectedOption.items}
@@ -327,8 +365,8 @@ export function MultiFilterRow<TData>({
           <DropdownMenuItem
             onClick={() => {
               setSelectedOptions((prev) =>
-                prev.filter((item) => item.id !== option.id)
-              )
+                prev.filter((item) => item.id !== option.id),
+              );
             }}
           >
             <TrashIcon className="mr-2 size-4" aria-hidden="true" />
@@ -345,7 +383,7 @@ export function MultiFilterRow<TData>({
                   isMulti: true,
                   items: selectedOption?.items ?? [],
                 },
-              ])
+              ]);
             }}
           >
             <CopyIcon className="mr-2 size-4" aria-hidden="true" />
@@ -354,5 +392,5 @@ export function MultiFilterRow<TData>({
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

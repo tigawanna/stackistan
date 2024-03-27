@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FieldType } from "./types";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: {
@@ -17,22 +18,53 @@ export function GenericDataTable<T extends Record<string, any>>({
   list,
   columns,
 }: GenericDataTableProps<T>) {
+  const [tableRows, setTableRows] = useState(list);
+
+  function sortBy(key: keyof T, direction: "asc" | "desc") {
+    setTableRows((prev) => {
+      return [...prev].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return direction === "asc" ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+    });
+  }
   return (
     <div className="w-full h-full  p-5">
       <table className="w-fit table bg-base-300/40 ">
         <thead className="w-full bg-base-300 sticky top-0">
           <tr className="w-full text-lg">
             {Object.entries(columns).map(([key, value]) => {
-              return <th key={key}>{key}</th>;
+              return (
+                <th className="" key={key}>
+                  <span className="flex flex-col justify-center items-center  cursor-pointer">
+                    {key}{" "}
+                    <span className="flex text-primary">
+                      <ChevronUp
+                        className="hover:text-secondary "
+                        onClick={() => sortBy(key as keyof T, "asc")}
+                      />
+                      <ChevronDown
+                        className=" hover:text-secondary"
+                        onClick={() => sortBy(key as keyof T, "desc")}
+                      />
+                    </span>
+                  </span>
+                </th>
+              );
             })}
           </tr>
         </thead>
         <tbody>
-          {list.map((item) => (
+          {tableRows.map((item) => (
             <tr key={item.id}>
               {Object.entries(columns).map(([key, value]) => {
                 if (value?.fieldKey) {
-                  return <td key={item.id+key}>{item[value?.fieldKey]}</td>;
+                  return <td key={item.id + key}>{item[value?.fieldKey]}</td>;
                 }
               })}
             </tr>

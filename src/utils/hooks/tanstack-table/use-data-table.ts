@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import * as React from "react";
+// import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import type {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
-} from "@/types"
+} from "@/components/data-table/types/index";
 import {
   getCoreRowModel,
   getFacetedRowModel,
@@ -19,10 +19,11 @@ import {
   type PaginationState,
   type SortingState,
   type VisibilityState,
-} from "@tanstack/react-table"
-import { z } from "zod"
+} from "@tanstack/react-table";
+import { z } from "zod";
 
-import { useDebounce } from "@/hooks/use-debounce"
+import { useDebounce } from "@/utils/hooks/use-debounce";
+import { navigate, useLocation } from "rakkasjs";
 
 interface UseDataTableProps<TData, TValue> {
   /**
@@ -30,20 +31,20 @@ interface UseDataTableProps<TData, TValue> {
    * @default []
    * @type TData[]
    */
-  data: TData[]
+  data: TData[];
 
   /**
    * The columns of the table.
    * @default []
    * @type ColumnDef<TData, TValue>[]
    */
-  columns: ColumnDef<TData, TValue>[]
+  columns: ColumnDef<TData, TValue>[];
 
   /**
    * The number of pages in the table.
    * @type number
    */
-  pageCount: number
+  pageCount: number;
 
   /**
    * The searchable columns of the table.
@@ -51,7 +52,7 @@ interface UseDataTableProps<TData, TValue> {
    * @type {id: keyof TData, title: string}[]
    * @example searchableColumns={[{ id: "title", title: "titles" }]}
    */
-  searchableColumns?: DataTableSearchableColumn<TData>[]
+  searchableColumns?: DataTableSearchableColumn<TData>[];
 
   /**
    * The filterable columns of the table. When provided, renders dynamic faceted filters, and the advancedFilter prop is ignored.
@@ -59,14 +60,14 @@ interface UseDataTableProps<TData, TValue> {
    * @type {id: keyof TData, title: string, options: { label: string, value: string, icon?: React.ComponentType<{ className?: string }> }[]}[]
    * @example filterableColumns={[{ id: "status", title: "Status", options: ["todo", "in-progress", "done", "canceled"]}]}
    */
-  filterableColumns?: DataTableFilterableColumn<TData>[]
+  filterableColumns?: DataTableFilterableColumn<TData>[];
 }
 
 const schema = z.object({
   page: z.coerce.number().default(1),
   per_page: z.coerce.number().default(10),
   sort: z.string().optional(),
-})
+});
 
 export function useDataTable<TData, TValue>({
   data,
@@ -75,97 +76,110 @@ export function useDataTable<TData, TValue>({
   searchableColumns = [],
   filterableColumns = [],
 }: UseDataTableProps<TData, TValue>) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
+  const { current } = useLocation();
+  // const router = useRouter()
+  const pathname = current.pathname;
+  const searchParams = current.searchParams;
+  // const params = {
+  //   page: schema.parse({ page: searchParams.get("page") ?? 1 }).page,
+  //   per_page: schema.parse({ per_page: searchParams.get("per_page") ?? 10 }).per_page,
+  //   sort: searchParams.get("sort") ?? "",
+  // }
   // Search params
   const { page, per_page, sort } = schema.parse(
-    Object.fromEntries(searchParams)
-  )
-  const [column, order] = sort?.split(".") ?? []
+    Object.fromEntries(searchParams),
+  );
+  const [column, order] = sort?.split(".") ?? [];
 
   // Create query string
   const createQueryString = React.useCallback(
     (params: Record<string, string | number | null>) => {
-      const newSearchParams = new URLSearchParams(searchParams?.toString())
+      const newSearchParams = new URLSearchParams(searchParams?.toString());
 
       for (const [key, value] of Object.entries(params)) {
         if (value === null) {
-          newSearchParams.delete(key)
+          newSearchParams.delete(key);
         } else {
-          newSearchParams.set(key, String(value))
+          newSearchParams.set(key, String(value));
         }
       }
 
-      return newSearchParams.toString()
+      return newSearchParams.toString();
     },
-    [searchParams]
-  )
+    [searchParams],
+  );
   // Initial column filters
   const initialColumnFilters: ColumnFiltersState = React.useMemo(() => {
     return Array.from(searchParams.entries()).reduce<ColumnFiltersState>(
       (filters, [key, value]) => {
         const filterableColumn = filterableColumns.find(
-          (column) => column.id === key
-        )
+          (column) => column.id === key,
+        );
         const searchableColumn = searchableColumns.find(
-          (column) => column.id === key
-        )
+          (column) => column.id === key,
+        );
 
         if (filterableColumn) {
           filters.push({
             id: key,
             value: value.split("."),
-          })
+          });
         } else if (searchableColumn) {
           filters.push({
             id: key,
             value: [value],
-          })
+          });
         }
 
-        return filters
+        return filters;
       },
-      []
-    )
-  }, [filterableColumns, searchableColumns, searchParams])
+      [],
+    );
+  }, [filterableColumns, searchableColumns, searchParams]);
 
   // Table states
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] =
-    React.useState<ColumnFiltersState>(initialColumnFilters)
+    React.useState<ColumnFiltersState>(initialColumnFilters);
 
   // Handle server-side pagination
   const [{ pageIndex, pageSize }, setPagination] =
     React.useState<PaginationState>({
       pageIndex: page - 1,
       pageSize: per_page,
-    })
+    });
 
   const pagination = React.useMemo(
     () => ({
       pageIndex,
       pageSize,
     }),
-    [pageIndex, pageSize]
-  )
+    [pageIndex, pageSize],
+  );
 
   React.useEffect(() => {
-    router.push(
+    // router.push(
+    //   `${pathname}?${createQueryString({
+    //     page: pageIndex + 1,
+    //     per_page: pageSize,
+    //   })}`,
+    //   {
+    //     scroll: false,
+    //   }
+    // )
+    navigate(
       `${pathname}?${createQueryString({
         page: pageIndex + 1,
         per_page: pageSize,
       })}`,
       {
         scroll: false,
-      }
-    )
-
+      },
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageIndex, pageSize])
+  }, [pageIndex, pageSize]);
 
   // Handle server-side sorting
   const [sorting, setSorting] = React.useState<SortingState>([
@@ -173,64 +187,72 @@ export function useDataTable<TData, TValue>({
       id: column ?? "",
       desc: order === "desc",
     },
-  ])
+  ]);
 
   React.useEffect(() => {
-    router.push(
+    navigate(
       `${pathname}?${createQueryString({
         page,
         sort: sorting[0]?.id
           ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
           : null,
-      })}`
-    )
+      })}`,
+    );
+    // router.push(
+    //   `${pathname}?${createQueryString({
+    //     page,
+    //     sort: sorting[0]?.id
+    //       ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
+    //       : null,
+    //   })}`
+    // )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sorting])
+  }, [sorting]);
 
   // Handle server-side filtering
   const debouncedSearchableColumnFilters = JSON.parse(
     useDebounce(
       JSON.stringify(
         columnFilters.filter((filter) => {
-          return searchableColumns.find((column) => column.id === filter.id)
-        })
+          return searchableColumns.find((column) => column.id === filter.id);
+        }),
       ),
-      500
-    )
-  ) as ColumnFiltersState
+      500,
+    ),
+  ) as ColumnFiltersState;
 
   const filterableColumnFilters = columnFilters.filter((filter) => {
-    return filterableColumns.find((column) => column.id === filter.id)
-  })
+    return filterableColumns.find((column) => column.id === filter.id);
+  });
 
-  const [mounted, setMounted] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
     // Prevent resetting the page on initial render
     if (!mounted) {
-      setMounted(true)
-      return
+      setMounted(true);
+      return;
     }
 
     // Initialize new params
     const newParamsObject = {
       page: 1,
-    }
+    };
 
     // Handle debounced searchable column filters
     for (const column of debouncedSearchableColumnFilters) {
       if (typeof column.value === "string") {
         Object.assign(newParamsObject, {
           [column.id]: typeof column.value === "string" ? column.value : null,
-        })
+        });
       }
     }
 
     // Handle filterable column filters
     for (const column of filterableColumnFilters) {
       if (typeof column.value === "object" && Array.isArray(column.value)) {
-        Object.assign(newParamsObject, { [column.id]: column.value.join(".") })
+        Object.assign(newParamsObject, { [column.id]: column.value.join(".") });
       }
     }
 
@@ -239,17 +261,18 @@ export function useDataTable<TData, TValue>({
       if (
         (searchableColumns.find((column) => column.id === key) &&
           !debouncedSearchableColumnFilters.find(
-            (column) => column.id === key
+            (column) => column.id === key,
           )) ||
         (filterableColumns.find((column) => column.id === key) &&
           !filterableColumnFilters.find((column) => column.id === key))
       ) {
-        Object.assign(newParamsObject, { [key]: null })
+        Object.assign(newParamsObject, { [key]: null });
       }
     }
 
     // After cumulating all the changes, push new params
-    router.push(`${pathname}?${createQueryString(newParamsObject)}`)
+    // router.push(`${pathname}?${createQueryString(newParamsObject)}`)
+    navigate(`${pathname}?${createQueryString(newParamsObject)}`);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -257,7 +280,7 @@ export function useDataTable<TData, TValue>({
     JSON.stringify(debouncedSearchableColumnFilters),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     JSON.stringify(filterableColumnFilters),
-  ])
+  ]);
 
   const table = useReactTable({
     data,
@@ -285,7 +308,7 @@ export function useDataTable<TData, TValue>({
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
-  })
+  });
 
-  return { table }
+  return { table };
 }

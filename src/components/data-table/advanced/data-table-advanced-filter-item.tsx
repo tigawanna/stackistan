@@ -40,7 +40,7 @@ export function DataTableAdvancedFilterItem<TData>({
   const { current } = useLocation();
   // const router = useRouter()
   const pathname = current.pathname;
-  const searchParams = current.search;
+  const searchParams = current.searchParams
   const [value, setValue] = React.useState("");
   const debounceValue = useDebounce(value, 500);
   const [open, setOpen] = React.useState(true);

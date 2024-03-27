@@ -21,6 +21,7 @@ import {
 import { DataTableAdvancedToolbar } from "./advanced/data-table-advanced-toolbar"
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableToolbar } from "./data-table-toolbar"
+import { ScrollArea } from "../shadcn/ui/scroll-area"
 
 interface DataTableProps<TData, TValue> {
   /**
@@ -95,7 +96,7 @@ export function DataTable<TData, TValue>({
   deleteRowsAction,
 }: DataTableProps<TData, TValue>) {
   return (
-    <div className="w-full space-y-2.5 overflow-auto">
+    <div className="w-full space-y-2.5 max-h-[95vh] overflow-auto  bg-base-100">
       {advancedFilter ? (
         <DataTableAdvancedToolbar
           table={table}
@@ -111,11 +112,11 @@ export function DataTable<TData, TValue>({
           deleteRowsAction={deleteRowsAction}
         />
       )}
-      <div className="rounded-md border">
+      <div className="rounded-md border h-full">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-base-300 ">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -123,15 +124,16 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+
+          <TableBody className=" ">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -142,7 +144,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -160,13 +162,14 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+        <div className="rounded-md border h-10"></div>
       </div>
-      <div className="flex flex-col gap-2.5">
+      <div className="w-full flex flex-col gap-2.5 sticky bottom-0 right-0 z-50 bg-base-200">
         <DataTablePagination table={table} />
         {floatingBar && table.getFilteredSelectedRowModel().rows.length > 0
           ? floatingBar
           : null}
       </div>
     </div>
-  )
+  );
 }

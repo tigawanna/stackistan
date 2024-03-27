@@ -63,8 +63,8 @@ export function GenericDataTable<T extends Record<string, any>>({
   }
   return (
     <div className="w-full h-full  p-5">
-      <table className="w-fit table bg-base-300/40 ">
-        <thead className="w-full bg-base-300 sticky top-0">
+      <table className="w-full table bg-base-300/40 ">
+        <thead className="w-full bg-base-300 sticky top-0 rounded-lg">
           <tr className="w-full text-lg">
             <th className="">
               <Checkbox
@@ -75,7 +75,7 @@ export function GenericDataTable<T extends Record<string, any>>({
 
             {Object.entries(columns).map(([key, value]) => {
               return (
-                <th className="" key={key}>
+                <th className="p-1" key={key}>
                   <span className="flex flex-col justify-center items-center  cursor-pointer">
                     {key}{" "}
                     <span className="flex text-primary">
@@ -95,23 +95,32 @@ export function GenericDataTable<T extends Record<string, any>>({
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((item) => {
+          {(!tableRows || tableRows.length < 1) && (
+            <tr>
+              <td colSpan={Object.keys(columns).length}>
+                <p className="text-center">No data available</p>
+              </td>
+            </tr>
+          )}
+          {tableRows?.map((item) => {
             const checked = selectedRows.includes(item.id);
             return (
-            <tr key={item.id} className={checked ? "bg-primary/10" : ""}>
-              <td>
-                <Checkbox
-                  checked={checked}
-                  onCheckedChange={() => selectRow(item.id)}
-                />
-              </td>
-              {Object.entries(columns).map(([key, value]) => {
-                if (value?.fieldKey) {
-                  return <td key={item.id + key}>{item[value?.fieldKey]}</td>;
-                }
-              })}
-            </tr>
-          )})}
+              <tr key={item.id} className={checked ? "bg-primary/10" : ""}>
+                <td>
+                  <Checkbox
+                    checked={checked}
+                    onCheckedChange={() => selectRow(item.id)}
+                  />
+                </td>
+                {Object.entries(columns).map(([key, value]) => {
+                  if (value?.fieldKey) {
+                    return <td key={item.id + key}>{item[value?.fieldKey]}</td>;
+                  }
+                })}
+              </tr>
+            );
+          })}
+          <tr className="h-6"></tr>
         </tbody>
       </table>
     </div>

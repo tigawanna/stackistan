@@ -9,7 +9,7 @@ export function useViewer() {
     queryKey: ["viewer"],
     queryFn: async (ctx) => {
       try {
-        const new_user = await pb?.from("stackistan_users").authRefresh();
+        const new_user = await pb?.from("stackistan_users")?.authRefresh();
         // const user = pb?.authStore
         //   ?.model as StackistanUsersResponse;
 

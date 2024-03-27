@@ -2,6 +2,7 @@ import { LayoutProps, PreloadContext } from "rakkasjs";
 import ErrorBoundaryComponent from "@/components/wrappers/ErrorBoundaryComponent";
 import "./index.css";
 import "cherry-markdown/dist/cherry-markdown.css";
+import "@/components/pagination/pagination.css";
 import { TailwindIndicator } from "@/components/others/tailwind-indicator";
 
 

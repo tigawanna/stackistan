@@ -3,6 +3,7 @@ import { FieldType } from "./types";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 
+
 type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: {
     fieldKey: keyof T;
@@ -63,7 +64,7 @@ export function GenericDataTable<T extends Record<string, any>>({
   }
   return (
     <div className="w-full h-full  p-5">
-      <table className="w-fit table bg-base-300/40 ">
+      <table className="w-fit table bg-base-300/40">
         <thead className="w-full bg-base-300 sticky top-0">
           <tr className="w-full text-lg">
             <th className="">
@@ -114,6 +115,9 @@ export function GenericDataTable<T extends Record<string, any>>({
           )})}
         </tbody>
       </table>
+      <div className="w-full h-10 bg-base-100">
+        
+      </div>
     </div>
   );
 }

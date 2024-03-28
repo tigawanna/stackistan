@@ -3,7 +3,7 @@ import { PBFieldWrapper } from "../input-parts/PBFieldWrapper";
 import { ClientSuspense } from "rakkasjs";
 import { lazy, useEffect, useRef, useState } from "react";
 import Cherry from "cherry-markdown";
-import { Loader, Save } from "lucide-react";
+import { Loader, Pen, Save } from "lucide-react";
 import { Label } from "@/components/shadcn/ui/label";
 import { twMerge } from "tailwind-merge";
 
@@ -32,12 +32,12 @@ export function GenericFormEditor<T extends Record<string, any>>({
     <PBFieldWrapper field_key={fieldKey} pb_error={fieldError}>
       <ClientSuspense
         fallback={
-          <div className="w-full min-h-[20vh]  flex justify-center items-center bg-base-200 skeleton">
-            ...
+          <div className="w-full min-h-[50vh]  flex justify-center items-center bg-base-200 skeleton">
+            <Pen className="animate-pulse"/>
           </div>
         }
       >
-        <div className="z-40 min-w-[90%] ">
+        <div className="z-40  h-full w-full min-h-[50vh]">
           <Label
             className={twMerge(
               "font-serif font-semibold ",
@@ -46,6 +46,8 @@ export function GenericFormEditor<T extends Record<string, any>>({
             {fieldLabel}
           </Label>
           <CherryMarkdownEditor
+            max_width={800}
+            container_classname=""
             input_string={input[fieldKey]}
             setContent={(html, text) => {
               setInput((prev) => ({
@@ -81,14 +83,22 @@ export function GenericFormEditorControls({
   cherry,
   setMarkdown,
 }: GenericFormEditorControlsProps) {
-  // auto save markdown every 15 seccods
   const [saving, setSaving] = useState(false);
+  // auto save markdown every 15 seccods
+  useEffect(() => {
+    if (!cherry) return;
+    const interval = setInterval(() => {
+      setSaving(true);
+      setMarkdown(cherry.getMarkdown());
+    }, 15000);
+    return () => clearInterval(interval);
+  },[])
 
   useEffect(() => {
     if (!saving) return;
     setTimeout(() => {
       setSaving(false);
-    }, 2000);
+  }, 2000);
   }, [saving]);
 
   return (

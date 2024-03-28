@@ -9,15 +9,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/shadcn/ui/dialog";
-import { Loader, Trash } from "lucide-react";
+import { Edit, Loader, Trash } from "lucide-react";
 import { CollectionName } from "@/lib/pb/client";
-import {
-  GenericUpdateDataForm,
-  InputFieldType,
-} from "@/lib/pb/components/form/UpdateGenericDataForm";
+import { GenericUpdateDataForm} from "@/lib/pb/components/form/UpdateGenericDataForm";
 import { Schema } from "@/lib/pb/database";
+import { InputFieldType } from "@/lib/pb/components/generic-component-types";
+import { RecordModel } from "pocketbase";
 
-interface UpdateRowModalProps<T extends Schema[CollectionName]["update"]> {
+interface UpdateRowModalProps<T extends RecordModel> {
   rowId: string;
   rowFields: InputFieldType<T>;
   queryKey: string[];
@@ -25,7 +24,7 @@ interface UpdateRowModalProps<T extends Schema[CollectionName]["update"]> {
   collectionName: CollectionName;
 }
 
-export function UpdateRowModal<T extends Schema[CollectionName]["update"]>({
+export function UpdateRowModal<T extends RecordModel>({
   row,
   rowFields,
   rowId,
@@ -35,14 +34,14 @@ export function UpdateRowModal<T extends Schema[CollectionName]["update"]>({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Trash />
+        <Edit className="" />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%]">
+      <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">
         <DialogHeader>
           <DialogTitle>Update Row</DialogTitle>
           <DialogDescription>Click submit to update the row</DialogDescription>
         </DialogHeader>
-        <div className="">
+        <div className="w-full h-full ">
           <GenericUpdateDataForm
             row={row}
             rowId={rowId}

@@ -1,27 +1,28 @@
 import { useFormHook } from "@/components/form/useForm";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { PBColumnField } from "../table/types";
 import { GenericFormSelect } from "./generic-inputs/GenericFormSelect";
 import { GenericFormTextInput } from "./generic-inputs/GenericFormTextInput";
 import { GenericFormBoolean } from "./generic-inputs/GenericFormBoolean";
-import { CollectionColumnOptions } from "../generic-component-types";
+import { InputFieldType } from "../generic-component-types";
 import { GenericFormEditor } from "./generic-inputs/GenericFormEditor";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 import { CollectionName } from "@/lib/pb/client";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { Schema } from "@/lib/pb/database";
+import { Button } from "@/components/shadcn/ui/button";
+import { Check, Loader } from "lucide-react";
 
 type InputUpdateType = Record<string, any>;
 
-interface InputOptions<T extends InputUpdateType>
-  extends CollectionColumnOptions<T> {
-  fieldOptions: PBColumnField;
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-}
-export type InputFieldType<T extends InputUpdateType> = {
-  [key in keyof T]: InputOptions<T>;
-};
+// interface InputOptions<T extends InputUpdateType>
+//   extends CollectionColumnOptions<T> {
+//   fieldOptions: PBColumnField;
+//   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+// }
+// export type InputFieldType<T extends InputUpdateType> = {
+//   [key in keyof T]: InputOptions<T>;
+// };
 interface GenericDataFormProps<T extends InputUpdateType> {
   rowId: string;
   rowFields: InputFieldType<T>;
@@ -86,14 +87,17 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <form
-        className="w-full flex flex-col gap-2"
+        className="w-full flex flex-col gap-5"
         onSubmit={(e) => {
           e.preventDefault();
-          if (error || !input) return;
+          if (!input) return;
           mutation.mutate({ row: input });
         }}
       >
         {Object.entries(rowFields).map(([key, value]) => {
+          if (value?.fieldUpdatable === false) {
+            return null;
+          }
           if (value.fieldOptions?.type === "select") {
             return (
               <div key={key}>
@@ -156,6 +160,14 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
             </div>
           );
         })}
+        <Button type="submit" variant={"outline"} className="w-fit flex gap-2 items-center justify-between">
+          Submit{" "}
+          {mutation.isPending ? (
+            <Loader className="animate-spin " />
+          ) : (
+            <Check />
+          )}
+        </Button>
       </form>
     </div>
   );

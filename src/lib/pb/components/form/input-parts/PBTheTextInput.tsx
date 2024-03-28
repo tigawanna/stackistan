@@ -41,6 +41,7 @@ export function PbTheTextInput<T>({
     <TheTextInput
       {...props}
       className={className}
+      label_classname={props.label_classname}
       field_key={field_key}
       field_name={field_name}
       editing={editing}

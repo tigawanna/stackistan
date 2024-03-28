@@ -1,6 +1,8 @@
 import { ClientResponseError } from "pocketbase";
 import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
 import { Link, Mail, TimerIcon } from "lucide-react";
+import dayyjs from "dayjs";
+import dayjs from "dayjs";
 
 export type TextFieldType = "text" | "number" | "email" | "url" | "date";
 
@@ -21,7 +23,7 @@ export function GenericFormTextInput<T extends Record<string, any>>({
   setInput,
   fieldError,
   fieldLabel,
-  inputProps
+  inputProps,
 }: GenericFormTextInputProps<T>) {
   if (fieldType === "number") {
     return (
@@ -34,17 +36,20 @@ export function GenericFormTextInput<T extends Record<string, any>>({
         }}
         pb_error={fieldError}
         type="number"
-        {...inputProps} 
+        {...inputProps}
       />
     );
   }
 
   if (fieldType === "date") {
+    const date = dayjs(input[fieldKey]).format("YYYY-MM-DD");
+
     return (
       <PbTheTextInput
         field_key={fieldKey}
-        field_name={<span><TimerIcon className="size-5 mr-2"/>{fieldLabel}</span>}
-        val={input[fieldKey]}
+        label_classname="flex flex-row gap-2"
+        field_name={fieldLabel}
+        val={date}
         onChange={(e) => {
           setInput((prev) => ({ ...prev, [fieldKey]: e.target.value }));
         }}
@@ -54,11 +59,16 @@ export function GenericFormTextInput<T extends Record<string, any>>({
       />
     );
   }
-  if(fieldType === "url") {
+  if (fieldType === "url") {
     return (
       <PbTheTextInput
         field_key={fieldKey}
-        field_name={<span><Link className="size-5 mr-2"/>{fieldLabel}</span>}
+        field_name={
+          <span>
+            <Link className="size-5 mr-2" />
+            {fieldLabel}
+          </span>
+        }
         val={input[fieldKey]}
         onChange={(e) => {
           setInput((prev) => ({ ...prev, [fieldKey]: e.target.value }));
@@ -69,7 +79,7 @@ export function GenericFormTextInput<T extends Record<string, any>>({
       />
     );
   }
-  if(fieldType === "email") {
+  if (fieldType === "email") {
     return (
       <PbTheTextInput
         field_key={fieldKey}

@@ -56,16 +56,31 @@ export function Technologies({}: TechnologiesProps) {
             collectionName={collectionName}
             pbQueryOptions={pbQueryOptions}
             columns={{
-              name: { fieldKey: "name", fieldLabel: "Name", fieldType: "text" },
+              name: {
+                fieldKey: "name",
+                fieldLabel: "Name",
+                fieldType: "text",
+                fieldOptions: {
+                  type: "text",
+                },
+              },
               description: {
                 fieldKey: "description",
                 fieldLabel: "Description",
-                fieldType: "text",
+                fieldType: "editor",
+                fieldUpdatable: true,
+                fieldOptions: {
+                  type: "editor",
+                },
               },
               created: {
                 fieldKey: "created",
                 fieldLabel: "Created",
                 fieldType: "date",
+
+                fieldOptions: {
+                  type: "date",
+                },
               },
             }}
           />

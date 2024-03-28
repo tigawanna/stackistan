@@ -1,15 +1,8 @@
-import { useSSRFriendlyTheme, useWindowTheme } from "@/lib/rakkas/theme";
-import { copytoClipBoard } from "@/utils/helpers/copy-to-clipboard";
+
+import { useSSRFriendlyTheme,  } from "@/lib/rakkas/theme";
 import { useWindowSize } from "@/utils/hooks/useWindowSize";
 import Cherry from "cherry-markdown/dist/cherry-markdown.core";
-import {
-  Copy,
-  FileEdit,
-  GalleryThumbnails,
-  Printer,
-  SplitSquareHorizontal,
-} from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   cautionBlock,
@@ -19,6 +12,7 @@ import {
 } from "./custom/blocks";
 
 interface CherryMarkdownEditorProps {
+  max_width:number
   input_string: string;
   custom_element?: (cherry: Cherry | null) => JSX.Element;
   container_classname?: string;
@@ -27,13 +21,14 @@ interface CherryMarkdownEditorProps {
 
 export default function CherryMarkdownEditor({
   input_string,
+  max_width,
   container_classname,
   custom_element,
   setContent,
 }: CherryMarkdownEditorProps) {
   const cherry = useRef<Cherry | null>(null);
   const { theme } = useSSRFriendlyTheme();
-  console.log({ theme });
+
   const { width } = useWindowSize();
 
   useEffect(() => {
@@ -52,11 +47,11 @@ export default function CherryMarkdownEditor({
 
         // @ts-expect-error
         callback: {
-          afterChange: (text, html) => {
-            if (setContent) {
-              setContent(html, text);
-            }
-          },
+          // afterChange: (text, html) => {
+          //   if (setContent) {
+          //     setContent(html, text);
+          //   }
+          // },
           beforeImageMounted: (srcProp: string, src: string) => {
             return {
               srcProp,
@@ -111,6 +106,12 @@ export default function CherryMarkdownEditor({
                 "drawIo",
               ],
             },
+            "|",
+            "switchModel",
+            "togglePreview",
+            "|",
+            "fullScreen", "export",
+            "|",
             "settings",
             "codeTheme",
             "|",
@@ -132,11 +133,11 @@ export default function CherryMarkdownEditor({
             "size",
           ],
           sidebar: [
+            "switchModel",
+            "togglePreview",
             "copy",
             "theme",
             "toc",
-            "togglePreview",
-            "mobilePreview",
             "warn",
             "note",
             "tip",
@@ -157,29 +158,27 @@ export default function CherryMarkdownEditor({
   }, [cherry.current, input_string]);
 
   useEffect(() => {
-    cherry.current?.switchModel(width > 850 ? "edit&preview" : "editOnly");
+    cherry.current?.switchModel(width > 500 ? "edit&preview" : "editOnly");
   }, [width]);
 
-  function exportMarkdown() {
-    cherry.current?.export("pdf", "resume.md");
-  }
 
-  const editor_width = width > 650 ? width - 120 : width - 20;
+
+  const editor_width = width > 650 ? max_width || (width - 120) : width - 20
 
   return (
     <div
       className={twMerge(
-        "w-full h-[50vh]  flex flex-col items-center justify-between gap- relative ",
+        "  flex flex-col items-center justify-between gap-2 relative ",
         container_classname,
       )}
     >
-      <div className="flex gap-3 items-center justify-between absolute -top-8 left-[5%] right-[5%] px-2 z-50">
+      <div className="flex gap-3  z-50">
         {custom_element && custom_element(cherry?.current)}
       </div>
       <div
         style={{ width: editor_width }}
         id="cherry-markdown"
-        className="w-full h-full min-h-[40vh] "
+        className="w-full h-full  "
       />
     </div>
   );

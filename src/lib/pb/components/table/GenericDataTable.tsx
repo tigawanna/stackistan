@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FieldType } from "./types";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Option } from "lucide-react";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
@@ -11,6 +11,7 @@ import { RecordListOptions } from "pocketbase";
 import { SelectTebleColumns } from "./components/SelectTebleColumns";
 import { DeleteRowsModal } from "./components/DeleteRowsModal";
 import { CollectionColumnOptions } from "../generic-component-types";
+import { UpdateRowModal } from "./components/UpdateRowModal";
 
 export type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: CollectionColumnOptions<T>;
@@ -35,9 +36,9 @@ export function GenericDataTable<T extends Record<string, any>>({
   pbQueryOptions,
 }: GenericDataTableProps<T>) {
   const { pb } = usePocketbase();
-
+const queryKey = [collectionName, String(page), debouncedValue];
   const query = useSuspenseQuery({
-    queryKey: [collectionName, page, debouncedValue],
+    queryKey,
     queryFn: () =>
       pbTryCatchWrapper(
         pb?.collection(collectionName).getList(+page, perPage, pbQueryOptions),
@@ -136,6 +137,9 @@ export function GenericDataTable<T extends Record<string, any>>({
                 </th>
               );
             })}
+            <th className="">
+              <Option />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -165,6 +169,16 @@ export function GenericDataTable<T extends Record<string, any>>({
                     return <td key={item.id + key}>{item[value?.fieldKey]}</td>;
                   }
                 })}
+                <td className="p-2">
+                  <UpdateRowModal
+                    row={item}
+                    // @ts-expect-error
+                    rowFields={activeColumns}
+                    rowId={item.id}
+                    collectionName={collectionName}
+                    queryKey={queryKey}
+                  />
+                </td>
               </tr>
             );
           })}

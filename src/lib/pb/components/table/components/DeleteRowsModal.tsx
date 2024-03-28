@@ -22,10 +22,13 @@ interface DeleteRowsModalProps {
 
 export function DeleteRowsModal({ collectionName, ids }: DeleteRowsModalProps) {
   const { pb } = usePocketbase();
-  const delete_mutation = useMutation({
+  const mutation = useMutation({
     mutationFn: () => {
       const promises = ids.map((id) => pb.from(collectionName).delete(id));
       return Promise.all(promises);
+    },
+    meta: {
+      invalidates: [collectionName],
     },
     onSuccess() {
       sonnerToast({
@@ -66,11 +69,11 @@ export function DeleteRowsModal({ collectionName, ids }: DeleteRowsModalProps) {
             type="button"
             variant="destructive"
             className="flex gap-3 items-center justify-center min-w-fit"
-            onClick={() => delete_mutation.mutate()}
-            disabled={delete_mutation.isPending}
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
           >
             Delete{" "}
-            {delete_mutation.isPending ? (
+            {mutation.isPending ? (
               <Loader className="animate-spin " />
             ) : (
               <Trash className="" />

@@ -13,7 +13,7 @@ interface GenericDataFormProps<> {
   initialValues?: InputCreateType;
 }
 
-export function GenericUpdateDataForm({collection,initialValues}: GenericDataFormProps) {
+export function GenericCreateDataForm({collection,initialValues}: GenericDataFormProps) {
   const {
     locals: { pb },
   } = usePageContext();

@@ -1,54 +1,88 @@
 import { useFormHook } from "@/components/form/useForm";
-import { usePageContext } from "rakkasjs";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { CollectionName } from "@/lib/pb/client";
 import { PBColumnField } from "../table/types";
 import { GenericFormSelect } from "./generic-inputs/GenericFormSelect";
 import { GenericFormTextInput } from "./generic-inputs/GenericFormTextInput";
 import { GenericFormBoolean } from "./generic-inputs/GenericFormBoolean";
 import { CollectionColumnOptions } from "../generic-component-types";
 import { GenericFormEditor } from "./generic-inputs/GenericFormEditor";
+import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
+import { CollectionName } from "@/lib/pb/client";
+import { usePocketbase } from "@/lib/pb/hooks/use-pb";
+import { Schema } from "@/lib/pb/database";
 
 type InputUpdateType = Record<string, any>;
 
-interface InputOptions<T extends InputUpdateType> extends CollectionColumnOptions<T> {
+interface InputOptions<T extends InputUpdateType>
+  extends CollectionColumnOptions<T> {
   fieldOptions: PBColumnField;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
-type InputFieldType<T extends InputUpdateType> = {
+export type InputFieldType<T extends InputUpdateType> = {
   [key in keyof T]: InputOptions<T>;
 };
 interface GenericDataFormProps<T extends InputUpdateType> {
-  collection: CollectionName;
   rowId: string;
-  field: InputFieldType<T>;
-  initialValues: T;
+  rowFields: InputFieldType<T>;
+  queryKey: string[];
+  row: T;
+  collectionName: CollectionName;
 }
 
 export function GenericUpdateDataForm<T extends InputUpdateType>({
-  collection,
   rowId,
-  field,
-  initialValues,
+  queryKey,
+  rowFields,
+  collectionName,
+  row,
 }: GenericDataFormProps<T>) {
-  const {
-    locals: { pb },
-  } = usePageContext();
-
   const { input, setInput, handleChange, error, setError, validateInputs } =
     useFormHook<T>({
-      initialValues,
+      initialValues: row,
     });
 
-  const update_mutation = useMutation({
-    mutationFn: ({ inp }: { inp: T }) => {
-      return pbTryCatchWrapper(pb.collection(collection).update(rowId, inp));
+  const { pb } = usePocketbase();
+
+  const mutation = useMutation({
+    mutationFn: ({ row }: { row: Schema[CollectionName]["update"] }) => {
+      return pbTryCatchWrapper(pb.from(collectionName).update(rowId, row));
+    },
+    meta: {
+      invalidates: queryKey,
+    },
+    onSuccess(data) {
+      if (data) {
+        if (data.data) {
+          sonnerToast({
+            type: "success",
+            title: "Row updated",
+          });
+        }
+        if (data.error) {
+          sonnerToast({
+            type: "error",
+            title: "Something went wrong while updating row",
+            options: {
+              description: data.error.message,
+            },
+          });
+        }
+      }
+    },
+    onError(error, variables, context) {
+      sonnerToast({
+        type: "error",
+        title: "Something went wrong while updating row",
+        options: {
+          description: error.message,
+        },
+      });
     },
   });
 
-  const pb_error = update_mutation?.data?.error;
-  const inputs = Object.entries(field);
+  const pb_error = mutation?.data?.error;
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <form
@@ -56,10 +90,10 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
         onSubmit={(e) => {
           e.preventDefault();
           if (error || !input) return;
-          update_mutation.mutate({ inp: input });
+          mutation.mutate({ row: input });
         }}
       >
-        {Object.entries(field).map(([key, value]) => {
+        {Object.entries(rowFields).map(([key, value]) => {
           if (value.fieldOptions?.type === "select") {
             return (
               <div key={key}>

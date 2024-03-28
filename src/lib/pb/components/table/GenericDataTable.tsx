@@ -2,6 +2,12 @@ import { useState } from "react";
 import { FieldType } from "./types";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { usePocketbase } from "@/lib/pb/hooks/use-pb";
+import { pbTryCatchWrapper } from "@/lib/pb/utils";
+import { CollectionName } from "@/lib/pb/client";
+import { ListPagination } from "@/components/pagination/ReactresponsivePagination";
+import { RecordListOptions } from "pocketbase";
 
 type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: {
@@ -11,24 +17,47 @@ type TableColumns<T extends Record<string, any>> = {
   };
 };
 interface GenericDataTableProps<T extends Record<string, any>> {
-  list: T[];
+  page: number;
+  perPage?: number;
+  searchParamKey:string;
+  debouncedValue: string;
+  collectionName: CollectionName;
   columns: TableColumns<T>;
+  pbQueryOptions?:RecordListOptions | undefined
+  
 }
 
 export function GenericDataTable<T extends Record<string, any>>({
-  list,
+  page,
+  perPage=12,
+  debouncedValue,
+  collectionName,
   columns,
+  searchParamKey,
+  pbQueryOptions,
 }: GenericDataTableProps<T>) {
-  const [tableRows, setTableRows] = useState(list);
-  const [fliterBy, setFilterBy] = useState<keyof T | null>(null);
+  const { pb } = usePocketbase();
+
+  const query = useSuspenseQuery({
+    queryKey: [collectionName, page, debouncedValue],
+    queryFn: () =>
+      pbTryCatchWrapper(
+        pb?.collection(collectionName).getList(+page,perPage,pbQueryOptions),
+      ),
+  });
+  const data = query.data?.data?.items ?? [];
+  const [tableRows, setTableRows] = useState(data);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [activeColumns, setAcitveColumns] = useState<TableColumns<T>>(columns);
 
   function sortBy(key: keyof T, direction: "asc" | "desc") {
     setTableRows((prev) => {
       return [...prev].sort((a, b) => {
+        // @ts-expect-error
         if (a[key] < b[key]) {
           return direction === "asc" ? -1 : 1;
         }
+        // @ts-expect-error
         if (a[key] > b[key]) {
           return direction === "asc" ? 1 : -1;
         }
@@ -54,21 +83,22 @@ export function GenericDataTable<T extends Record<string, any>>({
     }
   }
   function selectAllRows(checked: boolean) {
-    console.log({ checked });
     if (checked) {
-      setSelectedRows(list.map((i) => i.id));
+      setSelectedRows(data.map((i) => i.id));
     } else {
       setSelectedRows([]);
     }
   }
+
   return (
     <div className="w-full h-full  p-5">
+      <div className="w-full flex justify-between"></div>
       <table className="w-full table bg-base-300/40 ">
         <thead className="w-full bg-base-300 sticky top-0 rounded-lg">
           <tr className="w-full text-lg">
             <th className="">
               <Checkbox
-                checked={selectedRows.length === list.length}
+                checked={selectedRows.length === data.length}
                 onCheckedChange={selectAllRows}
               />
             </th>
@@ -114,6 +144,7 @@ export function GenericDataTable<T extends Record<string, any>>({
                 </td>
                 {Object.entries(columns).map(([key, value]) => {
                   if (value?.fieldKey) {
+                    // @ts-expect-error
                     return <td key={item.id + key}>{item[value?.fieldKey]}</td>;
                   }
                 })}
@@ -123,6 +154,12 @@ export function GenericDataTable<T extends Record<string, any>>({
           <tr className="h-6"></tr>
         </tbody>
       </table>
+      <div className="absolute bottom-1 right-0 left-0">
+        <ListPagination
+          query_key={searchParamKey}
+          total_pages={query?.data?.data?.totalPages ?? 1}
+        />
+      </div>
     </div>
   );
 }

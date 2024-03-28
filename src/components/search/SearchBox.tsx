@@ -1,44 +1,59 @@
-
 import { Input } from "@/components/shadcn/ui/input";
-import { Loader } from "lucide-react";
-import { useTransition } from "react";
+import { Loader, X } from "lucide-react";
+import { useRef, useTransition } from "react";
 
 interface SearchBoxProps {
   debouncedValue: string;
-  setDebouncedValue: React.Dispatch<React.SetStateAction<string>>;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
   isDebouncing: boolean;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  keyword:string
 }
 
 export function SearchBox({
   debouncedValue,
   isDebouncing,
-  setDebouncedValue,
-  inputProps
+  setKeyword,
+  keyword,
+  inputProps,
 }: SearchBoxProps) {
   const [, startTransition] = useTransition();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <div className="w-full sticky top-0 ">
-    <div className="w-full relative border border-secondary ">
-      <Input
-      {...inputProps}
-        placeholder="Search"
-        className="w-full"
-        defaultValue={debouncedValue}
-        onChange={(e) => {
-          startTransition(() => {
-            setDebouncedValue((prev) => {
-              return e.target.value;
+      <div className="w-full relative">
+        <Input
+          ref={inputRef}
+          placeholder="Search"
+          className="w-full"
+          value={keyword}
+          onChange={(e) => {
+            startTransition(() => {
+              setKeyword((prev) => {
+                return e.target.value;
+              });
             });
-          });
-        }}
-      />
-      {isDebouncing && (
+          }}
+          {...inputProps}
+        />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-          <Loader className="animate-spin" />
+          <X
+            className=""
+            onClick={() => {
+              setKeyword("");
+              if (inputRef?.current?.value) {
+                console.log(inputRef?.current.value )
+            
+              }
+            }}
+          />
         </div>
-      )}
-    </div>
+        {isDebouncing && (
+          <div className="absolute inset-y-0 right-[10%] flex items-center pr-3">
+            <Loader className="animate-spin" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

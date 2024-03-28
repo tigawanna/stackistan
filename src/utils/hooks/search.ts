@@ -48,10 +48,15 @@ export function useDebouncedSearchWithhParams<
   const initSearchValue = current.searchParams.get("sq") ?? "";
   const defaultSearchType = initSearchType ?? default_search_type;
   const [, startTransition] = useTransition();
-  const { debouncedValue, setDebouncedValue, isDebouncing } = useDebouncedValue(
-    initSearchValue,
-    2000,
+    const [keyword, setKeyword] = useState(
+      initSearchValue ??"",
+    );
+  const { debouncedValue, setDebouncedValue, isDebouncing} = useDebouncedValue(
+    keyword,
+    3000,
   );
+
+
   const [searchType, setSearchType] = useState<ST | undefined>(
     defaultSearchType,
   );
@@ -85,5 +90,8 @@ export function useDebouncedSearchWithhParams<
     setSearchType,
     startTransition,
     current,
+    keyword,
+    setKeyword
+ 
   };
 }

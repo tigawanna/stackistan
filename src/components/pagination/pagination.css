@@ -91,7 +91,7 @@
 
   z-index: 3;
   color:theme("colors.secondary-content");
-  background-color:theme("colors.secondary");
+  background-color:theme("colors.primary");
   
   border-color: var(
     --pagination-active-border-color,

@@ -29,6 +29,7 @@ export function sonnerToast({ title, type, options }: SonnerToastProps) {
       icon: <XCircle className="h-10 w-10 text-error " />,
       position: "top-center",
       classNames: {
+        default:"z-50",
         title: "text-xl font-bold",
       },
       duration: 20000,

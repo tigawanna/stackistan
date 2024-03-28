@@ -9,6 +9,7 @@ import { CollectionName } from "@/lib/pb/client";
 import { ListPagination } from "@/components/pagination/ReactresponsivePagination";
 import { RecordListOptions } from "pocketbase";
 import { SelectTebleColumns } from "./components/SelectTebleColumns";
+import { DeleteRowsModal } from "./components/DeleteRowsModal";
 
 export type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: {
@@ -98,6 +99,9 @@ export function GenericDataTable<T extends Record<string, any>>({
           activeColumns={activeColumns}
           setAcitveColumns={setAcitveColumns}
         />
+        <div className="w-full flex justify-between">
+          {selectedRows.length > 0 && <DeleteRowsModal collectionName={collectionName} ids={selectedRows}/>}
+        </div>
       </div>
       <table className="w-full table bg-base-300/40 ">
         <thead className="w-full bg-base-300 sticky top-0 rounded-lg">

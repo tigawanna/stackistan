@@ -115,6 +115,7 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
           if (value.fieldOptions?.type === "editor") {
             return (
               <GenericFormEditor
+               key={key}
                 input={input}
                 setInput={setInput}
                 fieldKey={value.fieldKey as any}

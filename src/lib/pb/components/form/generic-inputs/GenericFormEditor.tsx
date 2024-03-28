@@ -32,7 +32,7 @@ export function GenericFormEditor<T extends Record<string, any>>({
     <PBFieldWrapper field_key={fieldKey} pb_error={fieldError}>
       <ClientSuspense
         fallback={
-          <div className="w-full min-h-[50vh]  flex justify-center items-center bg-base-200 skeleton">
+          <div className="w-full min-h-[40vh]  flex justify-center items-center bg-base-200 skeleton">
             <Pen className="animate-pulse"/>
           </div>
         }

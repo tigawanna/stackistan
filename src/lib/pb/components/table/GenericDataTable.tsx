@@ -8,28 +8,29 @@ import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { CollectionName } from "@/lib/pb/client";
 import { ListPagination } from "@/components/pagination/ReactresponsivePagination";
 import { RecordListOptions } from "pocketbase";
+import { SelectTebleColumns } from "./components/SelectTebleColumns";
 
-type TableColumns<T extends Record<string, any>> = {
+export type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: {
     fieldKey: keyof T;
     fieldLabel?: string;
     fieldType?: FieldType;
+    fieldHidden?: boolean;
   };
 };
 interface GenericDataTableProps<T extends Record<string, any>> {
   page: number;
   perPage?: number;
-  searchParamKey:string;
+  searchParamKey: string;
   debouncedValue: string;
   collectionName: CollectionName;
   columns: TableColumns<T>;
-  pbQueryOptions?:RecordListOptions | undefined
-  
+  pbQueryOptions?: RecordListOptions | undefined;
 }
 
 export function GenericDataTable<T extends Record<string, any>>({
   page,
-  perPage=12,
+  perPage = 12,
   debouncedValue,
   collectionName,
   columns,
@@ -42,7 +43,7 @@ export function GenericDataTable<T extends Record<string, any>>({
     queryKey: [collectionName, page, debouncedValue],
     queryFn: () =>
       pbTryCatchWrapper(
-        pb?.collection(collectionName).getList(+page,perPage,pbQueryOptions),
+        pb?.collection(collectionName).getList(+page, perPage, pbQueryOptions),
       ),
   });
   const data = query.data?.data?.items ?? [];
@@ -91,8 +92,13 @@ export function GenericDataTable<T extends Record<string, any>>({
   }
 
   return (
-    <div className="w-full h-full  p-5">
-      <div className="w-full flex justify-between"></div>
+    <div className="w-full h-full  p-5 flex flex-col gap-3">
+      <div className="w-full flex justify-between">
+        <SelectTebleColumns
+          activeColumns={activeColumns}
+          setAcitveColumns={setAcitveColumns}
+        />
+      </div>
       <table className="w-full table bg-base-300/40 ">
         <thead className="w-full bg-base-300 sticky top-0 rounded-lg">
           <tr className="w-full text-lg">
@@ -103,7 +109,10 @@ export function GenericDataTable<T extends Record<string, any>>({
               />
             </th>
 
-            {Object.entries(columns).map(([key, value]) => {
+            {Object.entries(activeColumns).map(([key, value]) => {
+              if (value?.fieldHidden) {
+                return null;
+              }
               return (
                 <th className="p-1" key={key}>
                   <span className="flex flex-col justify-center items-center  cursor-pointer">
@@ -127,7 +136,7 @@ export function GenericDataTable<T extends Record<string, any>>({
         <tbody>
           {(!tableRows || tableRows.length < 1) && (
             <tr>
-              <td colSpan={Object.keys(columns).length}>
+              <td colSpan={Object.keys(activeColumns).length}>
                 <p className="text-center">No data available</p>
               </td>
             </tr>
@@ -142,7 +151,10 @@ export function GenericDataTable<T extends Record<string, any>>({
                     onCheckedChange={() => selectRow(item.id)}
                   />
                 </td>
-                {Object.entries(columns).map(([key, value]) => {
+                {Object.entries(activeColumns).map(([key, value]) => {
+                  if (value?.fieldHidden) {
+                    return null;
+                  }
                   if (value?.fieldKey) {
                     // @ts-expect-error
                     return <td key={item.id + key}>{item[value?.fieldKey]}</td>;

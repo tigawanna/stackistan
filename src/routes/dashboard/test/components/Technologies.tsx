@@ -1,10 +1,12 @@
 import { SearchBox } from "@/components/search/SearchBox";
 import { CollectionName } from "@/lib/pb/client";
 import { GenericDataTable } from "@/lib/pb/components/table/GenericDataTable";
+import { DataTableSkeleton } from "@/lib/pb/components/table/components/data-table-skeleton";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { useDebouncedSearchWithhParams } from "@/utils/hooks/search";
 import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
 import { RecordListOptions } from "pocketbase";
+import { Suspense } from "react";
 import {} from "typed-pocketbase";
 interface TechnologiesProps {}
 
@@ -43,27 +45,31 @@ export function Technologies({}: TechnologiesProps) {
         />
       </div>
       <div className="w-full h-[99vh] overflow-auto">
-        <GenericDataTable
-          searchParamKey={searchParamKey}
-          key={page + debouncedValue}
-          page={+page}
-          debouncedValue={debouncedValue}
-          collectionName={collectionName}
-          pbQueryOptions={pbQueryOptions}
-          columns={{
-            name: { fieldKey: "name", fieldLabel: "Name", fieldType: "text" },
-            description: {
-              fieldKey: "description",
-              fieldLabel: "Description",
-              fieldType: "text",
-            },
-            created: {
-              fieldKey: "created",
-              fieldLabel: "Created",
-              fieldType: "date",
-            },
-          }}
-        />
+        <Suspense
+          fallback={<DataTableSkeleton columnCount={3} rowCount={12} />}
+        >
+          <GenericDataTable
+            searchParamKey={searchParamKey}
+            key={page + debouncedValue}
+            page={+page}
+            debouncedValue={debouncedValue}
+            collectionName={collectionName}
+            pbQueryOptions={pbQueryOptions}
+            columns={{
+              name: { fieldKey: "name", fieldLabel: "Name", fieldType: "text" },
+              description: {
+                fieldKey: "description",
+                fieldLabel: "Description",
+                fieldType: "text",
+              },
+              created: {
+                fieldKey: "created",
+                fieldLabel: "Created",
+                fieldType: "date",
+              },
+            }}
+          />
+        </Suspense>
       </div>
     </div>
   );

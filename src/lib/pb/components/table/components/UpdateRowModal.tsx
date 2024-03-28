@@ -1,5 +1,5 @@
 interface UpdateRowModalProps {
-
+    row:Record<string,any>&{id:string}
 }
 
 export function UpdateRowModal({}:UpdateRowModalProps){

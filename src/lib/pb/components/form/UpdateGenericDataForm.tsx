@@ -7,18 +7,15 @@ import { PBColumnField } from "../table/types";
 import { GenericFormSelect } from "./generic-inputs/GenericFormSelect";
 import { GenericFormTextInput } from "./generic-inputs/GenericFormTextInput";
 import { GenericFormBoolean } from "./generic-inputs/GenericFormBoolean";
+import { CollectionColumnOptions } from "../generic-component-types";
+import { GenericFormEditor } from "./generic-inputs/GenericFormEditor";
 
 type InputUpdateType = Record<string, any>;
-// type InputUpdateType = StackistanTechnologiesUpdate;
-// type InputUpdateType = BaseCollectionUpdate;
-// type InputUpdateType = Schema[CollectionName]["update"];
 
-type InputOptions<T extends InputUpdateType> = {
-  fieldkey: keyof T;
-  fieldLabel: string;
+interface InputOptions<T extends InputUpdateType> extends CollectionColumnOptions<T> {
   fieldOptions: PBColumnField;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-};
+}
 type InputFieldType<T extends InputUpdateType> = {
   [key in keyof T]: InputOptions<T>;
 };
@@ -69,7 +66,7 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
                 <GenericFormSelect
                   input={input}
                   setInput={setInput}
-                  fieldKey={value.fieldkey}
+                  fieldKey={value.fieldKey}
                   fieldLabel={value.fieldLabel}
                   fieldOptions={value.fieldOptions}
                   fieldError={pb_error}
@@ -78,7 +75,15 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
             );
           }
           if (value.fieldOptions?.type === "editor") {
-            return;
+            return (
+              <GenericFormEditor
+                input={input}
+                setInput={setInput}
+                fieldKey={value.fieldKey as any}
+                fieldLabel={value.fieldLabel}
+                fieldError={pb_error}
+              />
+            );
           }
           if (value.fieldOptions?.type === "json") {
             return;
@@ -95,7 +100,7 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
                 <GenericFormBoolean<T>
                   input={input}
                   setInput={setInput}
-                  fieldKey={value.fieldkey as any}
+                  fieldKey={value.fieldKey as any}
                   fieldLabel={value.fieldLabel}
                   fieldError={pb_error}
                 />
@@ -108,7 +113,7 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
               <GenericFormTextInput<T>
                 input={input}
                 setInput={setInput}
-                fieldKey={value.fieldkey as any}
+                fieldKey={value.fieldKey as any}
                 fieldLabel={value.fieldLabel}
                 inputProps={value?.inputProps}
                 fieldType={value.fieldOptions?.type}

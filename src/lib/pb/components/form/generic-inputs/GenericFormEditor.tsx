@@ -4,6 +4,8 @@ import { ClientSuspense } from "rakkasjs";
 import { lazy, useEffect, useRef, useState } from "react";
 import Cherry from "cherry-markdown";
 import { Loader, Save } from "lucide-react";
+import { Label } from "@/components/shadcn/ui/label";
+import { twMerge } from "tailwind-merge";
 
 const CherryMarkdownEditor = lazy(
   () => import("@/components/editor/cherry-markdown/CherryMarkdownEditor"),
@@ -30,13 +32,22 @@ export function GenericFormEditor<T extends Record<string, any>>({
     <PBFieldWrapper field_key={fieldKey} pb_error={fieldError}>
       <ClientSuspense
         fallback={
-          <div className="min-h-[20vh]  ">...</div>
+          <div className="w-full min-h-[20vh]  flex justify-center items-center bg-base-200 skeleton">
+            ...
+          </div>
         }
       >
         <div className="z-40 min-w-[90%] ">
+          <Label
+            className={twMerge(
+              "font-serif font-semibold ",
+            )}
+          >
+            {fieldLabel}
+          </Label>
           <CherryMarkdownEditor
-            input_string="ooga booga"
-            setContent={(html,text) => {
+            input_string={input[fieldKey]}
+            setContent={(html, text) => {
               setInput((prev) => ({
                 ...prev,
                 [fieldKey]: text,
@@ -50,8 +61,7 @@ export function GenericFormEditor<T extends Record<string, any>>({
                     setInput((prev) => ({
                       ...prev,
                       [fieldKey]: cherry?.getMarkdown(),
-                    }))
-                  }
+                    }))}
                 />
               );
             }}
@@ -63,7 +73,6 @@ export function GenericFormEditor<T extends Record<string, any>>({
 }
 
 interface GenericFormEditorControlsProps {
-
   cherry: Cherry | null;
   setMarkdown: (markdown: string) => void;
 }
@@ -75,19 +84,17 @@ export function GenericFormEditorControls({
   // auto save markdown every 15 seccods
   const [saving, setSaving] = useState(false);
 
-
   useEffect(() => {
     if (!saving) return;
     setTimeout(() => {
       setSaving(false);
-    },2000)
+    }, 2000);
   }, [saving]);
-
 
   return (
     <div className=" flex  items-center justify-start gap-2 p-1">
       <button
-      className=""
+        className=""
         onClick={() => {
           if (cherry) {
             setSaving(true);
@@ -95,9 +102,9 @@ export function GenericFormEditorControls({
           }
         }}
       >
-        <Save className="size-6"/>
+        <Save className="size-6" />
       </button>
-      {saving && <Loader className="animate-spin"/>}
+      {saving && <Loader className="animate-spin" />}
     </div>
   );
 }

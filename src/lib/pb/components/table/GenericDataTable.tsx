@@ -10,14 +10,10 @@ import { ListPagination } from "@/components/pagination/ReactresponsivePaginatio
 import { RecordListOptions } from "pocketbase";
 import { SelectTebleColumns } from "./components/SelectTebleColumns";
 import { DeleteRowsModal } from "./components/DeleteRowsModal";
+import { CollectionColumnOptions } from "../generic-component-types";
 
 export type TableColumns<T extends Record<string, any>> = {
-  [K in keyof T]?: {
-    fieldKey: keyof T;
-    fieldLabel?: string;
-    fieldType?: FieldType;
-    fieldHidden?: boolean;
-  };
+  [K in keyof T]?: CollectionColumnOptions<T>;
 };
 interface GenericDataTableProps<T extends Record<string, any>> {
   page: number;
@@ -100,7 +96,12 @@ export function GenericDataTable<T extends Record<string, any>>({
           setAcitveColumns={setAcitveColumns}
         />
         <div className="w-full flex justify-between">
-          {selectedRows.length > 0 && <DeleteRowsModal collectionName={collectionName} ids={selectedRows}/>}
+          {selectedRows.length > 0 && (
+            <DeleteRowsModal
+              collectionName={collectionName}
+              ids={selectedRows}
+            />
+          )}
         </div>
       </div>
       <table className="w-full table bg-base-300/40 ">

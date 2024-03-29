@@ -6,7 +6,7 @@ export interface CollectionColumnOptions<T extends Record<string, any>> {
   fieldType?: FieldType;
   fieldHidden?: boolean;
   fieldUpdatable?: boolean;
-  fieldOptions: Partial<PBColumnField>;
+  fieldOptions: Partial<PBColumnField<T>>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   // rowFields: InputFieldType<T>[keyof T]
 };
@@ -14,7 +14,7 @@ export interface CollectionColumnOptions<T extends Record<string, any>> {
 
 interface InputOptions<T extends Record<string, any>>
   extends CollectionColumnOptions<T> {
-  fieldOptions: PBColumnField;
+  fieldOptions: PBColumnField<T>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 

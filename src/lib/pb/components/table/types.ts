@@ -1,4 +1,5 @@
 import { SchemaField } from "pocketbase";
+import { TableColumns } from "./GenericDataTable";
 
 
 export type TextFieldType = "text" | "number" | "email" | "url" | "date";
@@ -78,15 +79,17 @@ export interface SelectField extends SchemaField {
 	};
 }
 
-export interface RelationField extends SchemaField {
-	type: 'relation';
-	options: {
-		collectionId: string;
-		cascadeDelete: boolean;
-		minSelect: number | null;
-		maxSelect: number;
-		displayFields: string[] | null;
-	};
+export interface RelationField<T extends Record<string, any>> extends SchemaField {
+  type: "relation";
+  filterBy: keyof T;
+  columns: TableColumns<T>;
+  options: {
+    collectionId: string;
+    cascadeDelete: boolean;
+    minSelect: number | null;
+    maxSelect: number;
+    displayFields: string[] | null;
+  };
 }
 
 export interface FileField extends SchemaField {
@@ -108,7 +111,7 @@ export interface JsonField extends SchemaField {
 }
 
 
-export type PBColumnField =
+export type PBColumnField<T extends Record<string, any>> =
   | TextField
   | EditorField
   | NumberField
@@ -117,6 +120,6 @@ export type PBColumnField =
   | UrlField
   | DateField
   | SelectField
-  | RelationField
+  | RelationField<T>
   | FileField
   | JsonField;

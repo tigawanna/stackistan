@@ -25,7 +25,7 @@ export function GenericFormFilePicker<T extends Record<string, any>>({
 }: GenericFormFilePickerProps<T>) {
   return (
     <PBFieldWrapper field_key={fieldKey} pb_error={fieldError}>
-      <div className="z-40  h-full w-full min-h-[40vh]   rounded-lg p-1">
+      <div className="z-40  h-full w-full min-h-[30vh]  rounded-lg p-1">
         <PBTheImagePicker
           collection_id_or_name={collaction_id_or_name}
           record_id={input["id"]}

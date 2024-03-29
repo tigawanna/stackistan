@@ -55,6 +55,10 @@ export function Technologies({}: TechnologiesProps) {
             debouncedValue={debouncedValue}
             collectionName={collectionName}
             pbQueryOptions={pbQueryOptions}
+            // getSelectedRows={(selected)=>{
+            //   console.log(" ==== selected ====",selected)
+            // }}
+            // relationsPickerMode
             columns={{
               name: {
                 fieldKey: "name",

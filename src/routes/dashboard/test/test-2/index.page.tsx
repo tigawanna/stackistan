@@ -15,12 +15,7 @@ export default function TestPage({}: PageProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="w-[80%] ">
-        {/* <GenericFormJSONEditor
-          input={input}
-          setInput={setInput}
-          fieldKey="json"
-          fieldLabel="json"
-        /> */}
+
         <GenericFormFilePicker
           input={input}
           setInput={setInput}

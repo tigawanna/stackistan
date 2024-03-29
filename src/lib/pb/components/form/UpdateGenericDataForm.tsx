@@ -13,6 +13,8 @@ import { Schema } from "@/lib/pb/database";
 import { Button } from "@/components/shadcn/ui/button";
 import { Check, Loader } from "lucide-react";
 import { GenericFormJSONEditor } from "./generic-inputs/GenericFormJSONEditor";
+import { GenericFormFilePicker } from "./generic-inputs/GenericFormFilePicker";
+import { GenericFormRelationPicker } from "./generic-inputs/GenericFormRelationPicker";
 
 type InputUpdateType = Record<string, any>;
 
@@ -116,7 +118,7 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
           if (value.fieldOptions?.type === "editor") {
             return (
               <GenericFormEditor
-               key={key}
+                key={key}
                 input={input}
                 setInput={setInput}
                 fieldKey={value.fieldKey as any}
@@ -138,10 +140,28 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
             );
           }
           if (value.fieldOptions?.type === "file") {
-            return;
+            return (
+              <GenericFormFilePicker
+                input={input}
+                setInput={setInput}
+                fieldLabel={value.fieldLabel}
+                collaction_id_or_name={collectionName}
+                fieldKey={value.fieldKey}
+              />
+            );
           }
           if (value.fieldOptions?.type === "relation") {
-            return;
+            return (
+              <GenericFormRelationPicker
+                input={input}
+                setInput={setInput}
+                collectionName={collectionName}
+                filterBy={value.fieldOptions.filterBy}
+                fieldLabel={value.fieldLabel}
+                fieldKey={value.fieldKey as string}
+                columns={value.fieldOptions.columns}
+              />
+            );
           }
           if (value.fieldOptions?.type === "bool") {
             return (
@@ -171,7 +191,11 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
             </div>
           );
         })}
-        <Button type="submit" variant={"outline"} className="w-fit flex gap-2 items-center justify-between">
+        <Button
+          type="submit"
+          variant={"outline"}
+          className="w-fit flex gap-2 items-center justify-between"
+        >
           Submit{" "}
           {mutation.isPending ? (
             <Loader className="animate-spin " />

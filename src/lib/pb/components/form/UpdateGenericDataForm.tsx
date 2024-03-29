@@ -12,6 +12,7 @@ import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { Schema } from "@/lib/pb/database";
 import { Button } from "@/components/shadcn/ui/button";
 import { Check, Loader } from "lucide-react";
+import { GenericFormJSONEditor } from "./generic-inputs/GenericFormJSONEditor";
 
 type InputUpdateType = Record<string, any>;
 
@@ -125,7 +126,16 @@ export function GenericUpdateDataForm<T extends InputUpdateType>({
             );
           }
           if (value.fieldOptions?.type === "json") {
-            return;
+            return (
+              <div className="w-[80%] ">
+                <GenericFormJSONEditor
+                  input={input}
+                  setInput={setInput}
+                  fieldKey={value.fieldKey}
+                  fieldLabel={value.fieldLabel}
+                />
+              </div>
+            );
           }
           if (value.fieldOptions?.type === "file") {
             return;

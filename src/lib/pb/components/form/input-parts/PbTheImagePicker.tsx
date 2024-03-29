@@ -26,6 +26,7 @@ export function PBTheImagePicker({
   setFileImage,
 }: PbTheImagePickerProps) {
   const img_url = getFileURL({ collection_id_or_name, record_id, file_name });
+  
   const [pic, setPic] = useState(img_url);
   //  const [input_pic, setInputPic] = useState<File | null>(null);
   const ref = useRef<HTMLInputElement>(null);

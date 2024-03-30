@@ -118,49 +118,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
         </CardHeader>
         <CardContent className="grid gap-6 pt-6">
           <form className="" onSubmit={handleSubmit}>
-            {/* cover image */}
-            {/* <div className="w-full min-h-[200px] flex flex-col  justify-center ">
-              <Label className="text-sm" htmlFor="cover_image_url">
-                Cover Image URL
-              </Label>
-              <PBFieldWrapper field_key={"cover_image_url"} pb_error={pb_error}>
-                <ProfileImage
-                  field_key={"cover_image_url"}
-                  // @ts-expect-error
-                  image={input?.cover_image_url}
-                  setImage={(img) => {
-                    setInput((prev) => {
-                      return {
-                        ...prev,
-                        cover_image_url: img,
-                      };
-                    });
-                  }}
-                />
-              </PBFieldWrapper>
-            </div> */}
-            
-            {/* profile image */}
-            {/* <div className="w-full min-h-[200px] flex flex-col  justify-center ">
-              <Label className="text-sm" htmlFor="avatar_url">
-                Avatar URL
-              </Label>
-              <PBFieldWrapper field_key={"avatar_url"} pb_error={pb_error}>
-                <ProfileImage
-                  field_key={"avatar_url"}
-                  // @ts-expect-error
-                  image={input?.avatar_url}
-                  setImage={(img) => {
-                    setInput((prev) => {
-                      return {
-                        ...prev,
-                        avatar_url: img,
-                      };
-                    });
-                  }}
-                />
-              </PBFieldWrapper>
-            </div> */}
+
 
             <div className="w-full  flex flex-col md:flex-row gap-2  justify-center ">
               <div className="w-full md:w-[30%]">

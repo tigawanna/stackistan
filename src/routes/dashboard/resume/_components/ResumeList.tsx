@@ -20,7 +20,14 @@ export function ResumeList({}: ResumeListProps) {
     return <ErrorOutput error={query.data?.error} />;
   }
   if (query.isError) {
-    return <ErrorOutput error={{name: "Error getting resumes", message: query?.error?.message}} />;
+    return (
+      <ErrorOutput
+        error={{
+          name: "Error getting resumes",
+          message: query?.error?.message ?? "something went wrong",
+        }}
+      />
+    );
   }
   if (!data || data.length === 0)
     return (

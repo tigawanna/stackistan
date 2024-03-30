@@ -4,12 +4,13 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useFormHook } from "@/components/form/useForm";
 import { useState } from "react";
 import { Loader, Unlock } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { emailPasswordLogin, resetPassword } from "@/lib/pb/auth";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { Label } from "@/components/shadcn/ui/label";
 import { usePageContext, navigate, Link } from "rakkasjs";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
+import { TSigninformSchema, signinformSchema } from "./schema.auth";
 
 interface SignInFormProps {
   current: URL;
@@ -20,7 +21,7 @@ export function SignInForm({ current }: SignInFormProps) {
   const [show, setShow] = useState(false);
 
   const { handleChange, input, setError, setInput, validateInputs } =
-    useFormHook<{ usernameOrEmail: string; password: string }>({
+    useFormHook<TSigninformSchema>({
       initialValues: {
         password: "",
         usernameOrEmail: "",
@@ -113,7 +114,7 @@ export function SignInForm({ current }: SignInFormProps) {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    email_login_mutation.mutate(input);
+    email_login_mutation.mutate(signinformSchema.parse(input));
   }
 
   return (

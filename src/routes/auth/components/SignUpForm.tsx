@@ -1,8 +1,6 @@
 import { Button } from "@/components/shadcn/ui/button";
 import { OAuthproviders } from "./OAuthProviders";
 import { Link, navigate, useLocation, usePageContext } from "rakkasjs";
-import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { TSignupformSchema } from "./schema.auth";
 import { useMutation, useQueryClient } from "rakkasjs";
 import { useFormHook } from "@/components/form/useForm";
 import { useState } from "react";
@@ -12,6 +10,7 @@ import { createUser } from "@/lib/pb/auth";
 import { toast } from "sonner";
 import { Label } from "@/components/shadcn/ui/label";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import { TSignupformSchema, signupformSchema } from "./schema.auth";
 
 interface SignupFormProps {}
 
@@ -26,10 +25,12 @@ export function SignUpForm({}: SignupFormProps) {
       initialValues: {
         email: "",
         username: "",
+        name: "",
         password: "",
         passwordConfirm: "",
       },
     });
+
   const email_password_signup_mutation = useMutation(
     (vars: typeof input) => {
       return createUser({
@@ -77,7 +78,7 @@ export function SignUpForm({}: SignupFormProps) {
     });
     e.preventDefault();
     if (is_valid) {
-      email_password_signup_mutation.mutate(input);
+      email_password_signup_mutation.mutate(signupformSchema.parse(input));
     }
     // mutation.mutate(input);
   }

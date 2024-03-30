@@ -1,5 +1,6 @@
 import { Toolbar } from "@/components/navigation/Toolbar";
-import { ClientSuspense, LayoutProps } from "rakkasjs";
+import { getSSRFriendlyTheme } from "@/lib/rakkas/theme";
+import { ClientSuspense, LayoutProps, PreloadContext } from "rakkasjs";
 import { Toaster } from "sonner";
 export default function AuthLayout({ children }: LayoutProps) {
   return (
@@ -12,3 +13,24 @@ export default function AuthLayout({ children }: LayoutProps) {
     </div>
   );
 }
+
+AuthLayout.preload = (ctx: PreloadContext) => {
+  // const theme = ctx.requestContext?.cookie?.theme
+  const theme = getSSRFriendlyTheme(ctx.requestContext);
+  // console.log(" ==== theme  ===== ",theme)
+  return {
+    head: {
+      title: "Stackistan | Dashboard",
+      description: "Tech job market tool",
+      htmlAttributes: { "data-theme": theme },
+      elements: [
+        {
+          tagName: "link",
+          rel: "icon",
+          type: "image/svg+xml",
+          href: "/site.svg",
+        },
+      ],
+    },
+  };
+};

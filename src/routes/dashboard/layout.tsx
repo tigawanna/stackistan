@@ -56,10 +56,20 @@ Layout.preload = (ctx: PreloadContext) => {
   // console.log(" ==== theme  ===== ",theme)
   return {
     head: {
-      title: "Dashboard",
+      title: "Stackistan | Dashboard",
       description: "Tech job market tool",
       htmlAttributes: { "data-theme": theme },
+      elements: [
+        {
+          tagName: "link",
+          rel: "icon",
+          type: "image/svg+xml",
+          href: "/site.svg",
+        },
+      ],
     },
   };
 };
+
+
 export default Layout;

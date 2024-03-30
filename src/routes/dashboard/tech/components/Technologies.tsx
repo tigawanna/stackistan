@@ -1,59 +1,91 @@
+import { SearchBox } from "@/components/search/SearchBox";
+import { CollectionName } from "@/lib/pb/client";
 import { GenericDataTable } from "@/lib/pb/components/table/GenericDataTable";
-import { pbTryCatchWrapper } from "@/lib/pb/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { usePageContext } from "rakkasjs";
+import { DataTableSkeleton } from "@/lib/pb/components/table/components/data-table-skeleton";
+import { usePocketbase } from "@/lib/pb/hooks/use-pb";
+import { useDebouncedSearchWithhParams } from "@/utils/hooks/search";
+import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
+import { RecordListOptions } from "pocketbase";
+import { Suspense } from "react";
 
-interface TechnoligiesListProps {}
+interface TechnologiesProps {}
 
-export function TechnoligiesList({}: TechnoligiesListProps) {
-  const {
-    locals: { pb },
-  } = usePageContext();
-  //   console.log(" ===== pocket base instance  ==== ", pb);
-  const query = useSuspenseQuery({
-    queryKey: ["technologies"],
-    queryFn: (ctx) => {
-      return pbTryCatchWrapper(
-        pb?.from("stackistan_technologies").getList(1, 20, {
-          sort: "-created",
-        }),
-      );
-    },
+export function Technologies({}: TechnologiesProps) {
+  const searchParamKey = "tc";
+  const collectionName: CollectionName = "stackistan_technologies";
+  const { pb } = usePocketbase();
+  const { isDebouncing, debouncedValue, setKeyword, keyword } = useDebouncedSearchWithhParams({ default_search_query: "" });
+  const { search_param } = useCustomSearchParams({
+    key: searchParamKey,
+    default_value: "1",
   });
-  const data = query?.data?.data;
-  if (!data?.items) return null;
+
+
+  const page = debouncedValue.length > 0 ? 1 : search_param;
+  const pbQueryOptions: RecordListOptions = {
+    // @ts-expect-error
+    sort: pb.from(collectionName).createSort("+created") ?? "",
+    // @ts-expect-error
+    filter: pb.from(collectionName).createFilter(`name ~ "${keyword}"`) ?? "",
+  };
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center mt-6">
-      <GenericDataTable
-        list={data?.items}
-        columns={{
-          name: {
-            fieldKey: "name",
-            fieldLabel: "Name",
-            fieldType: "text",
-          },
-          description: {
-            fieldKey: "description",
-            fieldLabel: "Description",
-            fieldType: "text",
-          },
-          link: {
-            fieldKey: "link",
-            fieldLabel: "Link",
-            fieldType: "url",
-          },
-          logo: {
-            fieldKey: "logo",
-            fieldLabel: "Logo",
-            fieldType: "url",
-          },
-          created: {
-            fieldKey: "created",
-            fieldLabel: "Created",
-            fieldType: "date",
-          },
-        }}
-      />
+    <div className="w-full h-full flex flex-col gap-2   ">
+      <div className="px-3 flex flex-col md:flex-row justify-between gap-3 pr-5">
+        <div className="w-full">
+          <h1 className="text-2xl bg-base-200 ">Technologies</h1>
+        </div>
+        <SearchBox
+          inputProps={{
+            placeholder: "Search through technologies",
+          }}
+          debouncedValue={debouncedValue}
+          isDebouncing={isDebouncing}
+          setKeyword={setKeyword}
+          keyword={keyword}
+        />
+      </div>
+      <div className="w-full h-[99vh] overflow-auto">
+        <Suspense
+          fallback={<DataTableSkeleton columnCount={3} rowCount={12} />}
+        >
+          <GenericDataTable
+            searchParamKey={searchParamKey}
+            key={page + debouncedValue}
+            page={+page}
+            debouncedValue={debouncedValue}
+            collectionName={collectionName}
+            pbQueryOptions={pbQueryOptions}
+            columns={{
+              name: {
+                fieldKey: "name",
+                fieldLabel: "Name",
+                fieldType: "text",
+                fieldOptions: {
+                  type: "text",
+                },
+              },
+              description: {
+                fieldKey: "description",
+                fieldLabel: "Description",
+                fieldType: "editor",
+                fieldUpdatable: true,
+                fieldOptions: {
+                  type: "text",
+                },
+              },
+              created: {
+                fieldKey: "created",
+                fieldLabel: "Created",
+                fieldType: "date",
+                omitFromForms: true,
+                fieldOptions: {
+                  type: "date",
+                },
+              },
+            }}
+          />
+        </Suspense>
+      </div>
     </div>
   );
 }

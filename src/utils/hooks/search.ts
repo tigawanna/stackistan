@@ -77,9 +77,15 @@ export function useDebouncedSearchWithhParams<
     if (searchType && searchType !== initSearchType) {
       new_url.searchParams.set("st", searchType);
     }
-    startTransition(() => {
-      navigate(new_url.toString());
-    });
+    const new_url_string = new_url.toString();
+    if (new_url_string !== current.toString()) {
+      startTransition(() => {
+        navigate(new_url_string);
+      });
+    }
+    // startTransition(() => {
+    //   navigate(new_url.toString());
+    // });
   }, [debouncedValue, searchType]);
 
   return {

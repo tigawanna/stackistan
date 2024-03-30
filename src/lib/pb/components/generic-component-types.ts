@@ -4,9 +4,10 @@ export interface CollectionColumnOptions<T extends Record<string, any>> {
   fieldKey: keyof T;
   fieldLabel: string;
   fieldType?: FieldType;
+  fieldOptions: Partial<Pick<PBColumnField<T>, 'type'>> & Partial<Omit<PBColumnField<T>, 'type'>>;
   fieldHidden?: boolean;
   fieldUpdatable?: boolean;
-  fieldOptions: Partial<PBColumnField<T>>;
+  omitFromForms?: boolean;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   // rowFields: InputFieldType<T>[keyof T]
 };

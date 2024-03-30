@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { FieldType } from "./types";
-import { Check, ChevronDown, ChevronUp, InfinityIcon, Option } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Option } from "lucide-react";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
@@ -13,6 +12,7 @@ import { DeleteRowsModal } from "./components/DeleteRowsModal";
 import { CollectionColumnOptions } from "../generic-component-types";
 import { UpdateRowModal } from "./components/UpdateRowModal";
 import { Button } from "@/components/shadcn/ui/button";
+import { CreateRowModal } from "./components/CreateRowModal";
 
 export type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: CollectionColumnOptions<T>;
@@ -26,7 +26,7 @@ interface GenericDataTableProps<T extends Record<string, any>> {
   columns: TableColumns<T>;
   pbQueryOptions?: RecordListOptions | undefined;
   relationsPickerMode?: boolean;
-  initiallySelectedRows?:string[]
+  initiallySelectedRows?: string[];
   getSelectedRows?: (selectedRows: string[]) => void;
 }
 
@@ -40,10 +40,10 @@ export function GenericDataTable<T extends Record<string, any>>({
   pbQueryOptions,
   relationsPickerMode,
   initiallySelectedRows,
-  getSelectedRows
+  getSelectedRows,
 }: GenericDataTableProps<T>) {
   const { pb } = usePocketbase();
-const queryKey = [collectionName, String(page), debouncedValue];
+  const queryKey = [collectionName, String(page), debouncedValue];
   const query = useSuspenseQuery({
     queryKey,
     queryFn: () =>
@@ -53,7 +53,9 @@ const queryKey = [collectionName, String(page), debouncedValue];
   });
   const data = query.data?.data?.items ?? [];
   const [tableRows, setTableRows] = useState(data);
-  const [selectedRows, setSelectedRows] = useState<string[]>(initiallySelectedRows??[]);
+  const [selectedRows, setSelectedRows] = useState<string[]>(
+    initiallySelectedRows ?? [],
+  );
   const [activeColumns, setAcitveColumns] = useState<TableColumns<T>>(columns);
 
   function sortBy(key: keyof T, direction: "asc" | "desc") {
@@ -95,33 +97,42 @@ const queryKey = [collectionName, String(page), debouncedValue];
       setSelectedRows([]);
     }
   }
-  useEffect(()=>{
-    getSelectedRows?.(selectedRows)
-  },[selectedRows])
+  useEffect(() => {
+    getSelectedRows?.(selectedRows);
+  }, [selectedRows]);
 
   return (
     <div className="w-full h-full  p-5 flex flex-col gap-3">
       <div className="w-full flex justify-between gap-5 items-center">
-        <SelectTebleColumns
-          activeColumns={activeColumns}
-          setAcitveColumns={setAcitveColumns}
-        />
-        <div className="w-full flex justify-between gap-2">
-          {!relationsPickerMode&&selectedRows.length > 0 && (
-            <DeleteRowsModal
-              collectionName={collectionName}
-              ids={selectedRows}
-            />
-          )}
-          {relationsPickerMode && (
-            <Button className="flex" type="button">
-              <Check
-                className=""
-                onClick={() => getSelectedRows?.(selectedRows)}
+        <div className="w-full flex gap-2 items-center ">
+          <SelectTebleColumns
+            activeColumns={activeColumns}
+            setAcitveColumns={setAcitveColumns}
+          />
+          <div className="w-full flex justify-between gap-2">
+            {!relationsPickerMode && selectedRows.length > 0 && (
+              <DeleteRowsModal
+                collectionName={collectionName}
+                ids={selectedRows}
               />
-              <span> Pick</span>
-            </Button>
-          )}
+            )}
+
+            {relationsPickerMode && (
+              <Button className="flex" type="button">
+                <Check
+                  className=""
+                  onClick={() => getSelectedRows?.(selectedRows)}
+                />
+                <span> Pick</span>
+              </Button>
+            )}
+          </div>
+          <CreateRowModal
+            // @ts-expect-error
+            rowFields={activeColumns}
+            collectionName={collectionName}
+            queryKey={queryKey}
+          />
         </div>
       </div>
       <table className="w-full table bg-base-300/40 ">
@@ -189,21 +200,21 @@ const queryKey = [collectionName, String(page), debouncedValue];
                   }
                 })}
                 <td className="p-2">
-                  {!relationsPickerMode&&
-                  <UpdateRowModal
-                    row={item}
-                    // @ts-expect-error
-                    rowFields={activeColumns}
-                    rowId={item.id}
-                    collectionName={collectionName}
-                    queryKey={queryKey}
-                  />
-                  }
+                  {!relationsPickerMode && (
+                    <UpdateRowModal
+                      row={item}
+                      // @ts-expect-error
+                      rowFields={activeColumns}
+                      rowId={item.id}
+                      collectionName={collectionName}
+                      queryKey={queryKey}
+                    />
+                  )}
                 </td>
               </tr>
             );
           })}
-          <tr className="h-6"></tr>
+          <tr className="h-20"></tr>
         </tbody>
       </table>
       <div className="absolute bottom-1 right-0 left-0">

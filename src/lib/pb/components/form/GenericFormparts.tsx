@@ -47,7 +47,7 @@ export function GenericFormparts<T extends Record<string, any>>({
       }}
     >
       {Object.entries(rowFields).map(([key, value]) => {
-        if (value?.fieldUpdatable === false) {
+        if (value?.omitFromForms) {
           return null;
         }
         if (value.fieldOptions?.type === "select") {

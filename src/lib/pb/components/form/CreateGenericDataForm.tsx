@@ -8,25 +8,50 @@ import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { Schema } from "@/lib/pb/database";
 import { GenericFormparts } from "./GenericFormparts";
 
-
-
 interface GenericDataFormProps<T extends Record<string, any>> {
-  rowId: string;
   rowFields: InputFieldType<T>;
   queryKey: string[];
-  row: T;
   collectionName: CollectionName;
 }
 
 export function GenericCreateDataForm<T extends Record<string, any>>({
-  rowId,
   queryKey,
   rowFields,
   collectionName,
-  row,
 }: GenericDataFormProps<T>) {
+  const initialValues = Object.entries(rowFields).reduce((acc:T, [key, value]: any) => {
+    if (value.fieldType === "bool") {
+      // @ts-expect-error
+      acc[key] = false;
+    }
+    if (value.fieldType === "number") {
+      // @ts-expect-error
+      acc[key] = 0;
+    }
+    if (
+      value.fieldType === "text" ||
+      value.fieldType === "url" ||
+      value.fieldType === "relation"||
+      value.fieldType === "editor"
+    ) {
+      // @ts-expect-error
+      acc[key] = "";
+    }
+    if (value.fieldType === "date") {
+      // @ts-expect-error
+      acc[key] = new Date();
+    }
+    if (value.fieldType === "select") {
+      // @ts-expect-error
+      acc[key] = value?.fields[0]??""
+    }
+
+    // @ts-expect-error
+    acc[key] = "";
+    return acc;
+  },{} as  T);
   const { input, setInput } = useFormHook<T>({
-    initialValues: row,
+    initialValues
   });
 
   const { pb } = usePocketbase();

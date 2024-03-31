@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Check, ChevronDown, ChevronUp, Option } from "lucide-react";
+import { Check } from "lucide-react";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
@@ -11,7 +11,7 @@ import { CollectionColumnOptions } from "../generic-component-types";
 import { Button } from "@/components/shadcn/ui/button";
 import { CreateRowModal } from "@/lib/pb/components/table/components/CreateRowModal";
 import { DeleteRowsModal } from "@/lib/pb/components/table/components/DeleteRowsModal";
-import { SelectValue } from "@radix-ui/react-select";
+
 
 export type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: CollectionColumnOptions<T>;
@@ -22,6 +22,8 @@ interface GenericDataCardsListProps<T extends Record<string, any>> {
   searchParamKey: string;
   debouncedValue: string;
   collectionName: CollectionName;
+  selectedRows: string[];
+  setSelectedRows: React.Dispatch<React.SetStateAction<string[]>>;
   columns: TableColumns<T>;
   card: (
     item: T,
@@ -41,6 +43,8 @@ export function GenericDataCardsList<T extends Record<string, any>>({
   collectionName,
   columns,
   card,
+  selectedRows,
+  setSelectedRows,
   searchParamKey,
   pbQueryOptions,
   relationsPickerMode,
@@ -58,9 +62,7 @@ export function GenericDataCardsList<T extends Record<string, any>>({
   });
   const data = query.data?.data?.items ?? [];
   // const [tableRows, setTableRows] = useState(data);
-  const [selectedRows, setSelectedRows] = useState<string[]>(
-    initiallySelectedRows ?? [],
-  );
+
   const [activeColumns, setAcitveColumns] = useState<TableColumns<T>>(columns);
   function selectItem(id: string) {
     if (selectedRows.includes(id)) {

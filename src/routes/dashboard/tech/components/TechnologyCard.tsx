@@ -31,8 +31,8 @@ export function TechnologyCard({
       key={tech.id}
       className={
         checked
-          ? "brightness-75 relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2"
-          : "relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2"
+          ? "brightness-75 relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2 rounded-lg"
+          : "relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2 rounded-lg"
       }
     >
       <Checkbox

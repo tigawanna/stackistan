@@ -7,15 +7,19 @@ import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { useDebouncedSearchWithhParams } from "@/utils/hooks/search";
 import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
 import { RecordListOptions } from "pocketbase";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { TechnologyCard } from "./TechnologyCard";
 import { StackistanTechnologiesResponse } from "Database";
+import { GenericDataCardsListSuspenseFallback } from "@/lib/pb/components/card-list/GenericDataCardsListSuspenseFallback";
 
 interface TechnologyCardListProps {}
 
 export function TechnologyCardList({}: TechnologyCardListProps) {
   const searchParamKey = "tc";
   const collectionName: CollectionName = "stackistan_technologies";
+    const [selectedRows, setSelectedRows] = useState<string[]>(
+       [],
+    );
   const { pb } = usePocketbase();
   const { isDebouncing, debouncedValue, setKeyword, keyword } =
     useDebouncedSearchWithhParams({ default_search_query: "" });
@@ -27,7 +31,7 @@ export function TechnologyCardList({}: TechnologyCardListProps) {
   const page = debouncedValue.length > 0 ? 1 : search_param;
   const pbQueryOptions: RecordListOptions = {
     // @ts-expect-error
-    sort: pb.from(collectionName).createSort("+created") ?? "",
+    sort: pb.from(collectionName).createSort("+name") ?? "",
     // @ts-expect-error
     filter: pb.from(collectionName).createFilter(`name ~ "${keyword}"`) ?? "",
   };
@@ -47,13 +51,20 @@ export function TechnologyCardList({}: TechnologyCardListProps) {
           keyword={keyword}
         />
       </div>
+      {/* <GenericDataCardsListSuspenseFallback /> */}
       <div className="w-full h-[99vh] overflow-auto">
-        <Suspense
-          fallback={<DataTableSkeleton columnCount={3} rowCount={12} />}
-        >
+        <Suspense fallback={<GenericDataCardsListSuspenseFallback />}>
           <GenericDataCardsList<StackistanTechnologiesResponse>
-            card={(record) => <TechnologyCard tech={record} />}
+            card={(record, checked, selectItem) => (
+              <TechnologyCard
+                tech={record}
+                checked={checked}
+                selectItem={selectItem}
+              />
+            )}
             searchParamKey={searchParamKey}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
             key={page + debouncedValue}
             page={+page}
             debouncedValue={debouncedValue}

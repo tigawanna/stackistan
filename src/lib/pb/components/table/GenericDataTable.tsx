@@ -24,9 +24,11 @@ interface GenericDataTableProps<T extends Record<string, any>> {
   debouncedValue: string;
   collectionName: CollectionName;
   columns: TableColumns<T>;
+  selectedRows: string[];
+  setSelectedRows: React.Dispatch<React.SetStateAction<string[]>>;
   pbQueryOptions?: RecordListOptions | undefined;
   relationsPickerMode?: boolean;
-  initiallySelectedRows?: string[];
+
   getSelectedRows?: (selectedRows: string[]) => void;
 }
 
@@ -35,11 +37,13 @@ export function GenericDataTable<T extends Record<string, any>>({
   perPage = 12,
   debouncedValue,
   collectionName,
+  selectedRows,
+  setSelectedRows,
   columns,
   searchParamKey,
   pbQueryOptions,
   relationsPickerMode,
-  initiallySelectedRows,
+
   getSelectedRows,
 }: GenericDataTableProps<T>) {
   const { pb } = usePocketbase();
@@ -53,9 +57,9 @@ export function GenericDataTable<T extends Record<string, any>>({
   });
   const data = query.data?.data?.items ?? [];
   const [tableRows, setTableRows] = useState(data);
-  const [selectedRows, setSelectedRows] = useState<string[]>(
-    initiallySelectedRows ?? [],
-  );
+  //   const [selectedRows, setSelectedRows] = useState<string[]>(
+  //  [],
+  //   );
   const [activeColumns, setAcitveColumns] = useState<TableColumns<T>>(columns);
 
   function sortBy(key: keyof T, direction: "asc" | "desc") {

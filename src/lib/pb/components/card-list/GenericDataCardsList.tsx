@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Check, ChevronDown, ChevronUp, Option } from "lucide-react";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -13,7 +13,6 @@ import { CreateRowModal } from "@/lib/pb/components/table/components/CreateRowMo
 import { DeleteRowsModal } from "@/lib/pb/components/table/components/DeleteRowsModal";
 import { SelectValue } from "@radix-ui/react-select";
 
-
 export type TableColumns<T extends Record<string, any>> = {
   [K in keyof T]?: CollectionColumnOptions<T>;
 };
@@ -24,7 +23,11 @@ interface GenericDataCardsListProps<T extends Record<string, any>> {
   debouncedValue: string;
   collectionName: CollectionName;
   columns: TableColumns<T>;
-  card: (item: T) => JSX.Element;
+  card: (
+    item: T,
+    checked: boolean,
+    selectItem: (id: string) => void,
+  ) => JSX.Element;
   pbQueryOptions?: RecordListOptions | undefined;
   relationsPickerMode?: boolean;
   initiallySelectedRows?: string[];
@@ -59,7 +62,7 @@ export function GenericDataCardsList<T extends Record<string, any>>({
     initiallySelectedRows ?? [],
   );
   const [activeColumns, setAcitveColumns] = useState<TableColumns<T>>(columns);
-  function selectRow(id: string) {
+  function selectItem(id: string) {
     if (selectedRows.includes(id)) {
       setSelectedRows((prev) => {
         if (prev) {
@@ -88,11 +91,11 @@ export function GenericDataCardsList<T extends Record<string, any>>({
   }, [selectedRows]);
 
   return (
-    <div className="w-full h-full  p-5 flex flex-col gap-3">
+    <div className="w-full min-h-full  h-fit  p-5 flex flex-col gap-5">
       <div className="w-full flex justify-between gap-5 items-center">
         <div className="w-full flex gap-2 items-center ">
           <div className="w-full flex justify-between gap-2">
-            <th className="flex gap-3">
+            <div className="flex gap-3">
               <span className="ml-2 flex gap-2">
                 <Checkbox
                   checked={selectedRows.length === data.length}
@@ -101,7 +104,7 @@ export function GenericDataCardsList<T extends Record<string, any>>({
                 Select All
               </span>
               {selectedRows.length > 0 && <span>{selectedRows.length}</span>}
-            </th>
+            </div>
             {!relationsPickerMode && selectedRows.length > 0 && (
               <DeleteRowsModal
                 collectionName={collectionName}
@@ -128,36 +131,24 @@ export function GenericDataCardsList<T extends Record<string, any>>({
         </div>
       </div>
 
-      <ul className="w-full flex flex-wrap justify-center gap-2">
+      <ul className="w-full h-[90%] flex flex-wrap justify-center gap-2">
         {data &&
           data.map((item) => {
             const checked = selectedRows.includes(item.id);
             return (
-              <li
-                key={item.id}
-                className={
-                  checked
-                    ? "brightness-75 relative w-[95%] md:w-[40%] lg:w-[30%]"
-                    : "relative w-[95%] md:w-[40%] lg:w-[30%]"
-                }
-              >
-                <Checkbox
-                  className="absolute top-2 right-2 z-40"
-                  checked={checked}
-                  onCheckedChange={() => selectRow(item.id)}
-                />
-                {/* @ts-expect-error */}
-                {card(item)}
-              </li>
+              <React.Fragment key={item.id}>
+                {card(item as any as T, checked, selectItem)}
+              </React.Fragment>
             );
           })}
+
       </ul>
-      <div className="absolute bottom-1 right-0 left-0">
+
+      <div className="absolut bottom-1 right-0 left-0">
         <ListPagination
           query_key={searchParamKey}
           total_pages={query?.data?.data?.totalPages ?? 1}
         />
-        u
       </div>
     </div>
   );

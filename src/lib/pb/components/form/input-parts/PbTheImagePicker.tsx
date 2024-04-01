@@ -3,11 +3,10 @@ import { getFileURL } from "@/lib/pb/client";
 import { ImagePlus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { Schema } from "@/lib/pb/database";
-import { Label } from "@/components/shadcn/ui/label";
 
 interface PbTheImagePickerProps {
+  field_name: React.ReactNode;
   show_preview?: boolean;
-  label?: React.ReactNode;
   label_classname?: string;
   img_classname?: string;
   collection_id_or_name?: keyof Schema;
@@ -18,7 +17,7 @@ interface PbTheImagePickerProps {
 }
 
 export function PBTheImagePicker({
-  label,
+  field_name,
   label_classname,
   img_classname,
   show_preview = true,
@@ -50,12 +49,11 @@ export function PBTheImagePicker({
     <div className="w-full  flex flex-col justify-center gap-1 relative min-h-24 p-2 rounded-md">
       <div
         className={twMerge("font-serif text-sm font-semibold", label_classname)}
-      >
-        {label}
+      > {field_name}
       </div>
 
       {/* <h2 className="text-sm text-accent">{label}</h2> */}
-      <div className="w-full  flex  justify-center bg-base-200/70 ">
+      <div className="w-full  flex  justify-center bg-base-200/70 p-3">
         {typeof pic === "string" && pic.length > 0 && show_preview ? (
           <div className="" onClick={() => ref.current?.click()}>
             <div className="w-full">

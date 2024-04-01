@@ -38,7 +38,7 @@ export function GenericFormRelationPicker<T extends Record<string, any>>({
       key: searchParamKey,
       defaultValue: "1",
     });
-    const page = debouncedValue.length > 0 ? 1 : search_param;
+    const page = debouncedValue.length > 0 ? 1 : searchParam;
 
     const pbQueryOptions: RecordListOptions = {
       // @ts-expect-error
@@ -78,6 +78,7 @@ export function GenericFormRelationPicker<T extends Record<string, any>>({
               setInput((prev) => ({ ...prev, [fieldKey]: selected }));
             }}
             relationsPickerMode
+            // @ts-expect-error
             columns={columns}
           />
         </Suspense>

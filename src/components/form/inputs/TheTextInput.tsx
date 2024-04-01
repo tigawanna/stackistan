@@ -59,7 +59,7 @@ export function TheTextInput<T>({
     <div
       key={field_key as string}
       className={twMerge(
-        "flex w-full flex-col justify-center gap-1 ",
+        "flex w-full flex-col justify-center gap-2 ",
         props.container_classname,
       )}
     >

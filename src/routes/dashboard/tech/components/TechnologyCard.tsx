@@ -1,8 +1,8 @@
-
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { getFileURL } from "@/lib/pb/client";
+import { StackistanTechnologiesResponse } from "@/lib/pb/database";
 import { Image } from "@unpic/react";
-import { StackistanTechnologiesResponse } from "Database";
+import { UpdateTechFormModal } from "./form/UpdateTechForm";
 
 interface TechnologyCardProps {
   tech: StackistanTechnologiesResponse;
@@ -35,6 +35,7 @@ export function TechnologyCard({
         checked={checked}
         onCheckedChange={() => selectItem(tech.id)}
       />
+
       <div className="w-full flex gap-4">
         <Image
           className="object-fit  aspect-square"
@@ -45,6 +46,7 @@ export function TechnologyCard({
           alt={tech.name}
         />
         <h1 className="text-2xl f">{tech.name}</h1>
+        <UpdateTechFormModal id={tech.id} item={tech} />
       </div>
       <p className="text-center line-clamp-2">{tech.description}</p>
     </li>

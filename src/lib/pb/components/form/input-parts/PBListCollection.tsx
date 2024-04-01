@@ -34,6 +34,7 @@ selectedRows,setSelectedRows,
   searchParamKey,
 }: PBListCollectionProps<T>) {
   const page = debouncedValue.length > 0 ? 1 : searchParam;
+  console.log({selectedRows})
 //   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const { pb } = usePocketbase();
   const query = useSuspenseQuery({

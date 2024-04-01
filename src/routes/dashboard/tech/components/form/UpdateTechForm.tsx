@@ -12,6 +12,7 @@ import {
 import { PBFieldWrapper } from "@/lib/pb/components/form/input-parts/PBFieldWrapper";
 import { PbTheTextAreaInput } from "@/lib/pb/components/form/input-parts/PBTheTextAreaInput";
 import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
+import { PBPickRelationsModal } from "@/lib/pb/components/form/input-parts/PBrelationPicker";
 import { PBTheImagePicker } from "@/lib/pb/components/form/input-parts/PbTheImagePicker";
 import {
   StackistanTechnologiesResponse,
@@ -20,7 +21,7 @@ import {
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { Edit} from "lucide-react";
+import { Edit } from "lucide-react";
 
 interface UpdateTechFormProps {
   id: string;
@@ -71,6 +72,7 @@ export function UpdateTechForm({ id, item }: UpdateTechFormProps) {
         description: item.description,
         link: item.link,
         logo: null,
+        dependancies: item.dependancies??[]
       },
     });
   const pb_error = mutation.data?.error;
@@ -130,6 +132,31 @@ export function UpdateTechForm({ id, item }: UpdateTechFormProps) {
             />
           </PBFieldWrapper>
         </div>
+        {/* {input.verified} */}
+        {/* {input..dependancies} */}
+        <div className="w-full h-[95%]  ">
+          <div className="font-semibold">Dependancies</div>
+          <PBPickRelationsModal<StackistanTechnologiesResponse>
+            //@ts-expect-error
+            selectedRows={input.dependancies??[]}
+            setSelectedRows={(deps) =>
+              //@ts-expect-error
+              setInput((prev) => {
+                return { ...prev, dependancies: deps };
+              })
+            }
+            title="Dependancies"
+            collectionName="stackistan_technologies"
+            columns={{
+              name: {
+                name: "name",
+              },
+            }}
+            fieldLabel="dependancies"
+            searchParamKey="tc"
+            filterBy="name"
+          />
+        </div>
       </form>
     </div>
   );
@@ -141,7 +168,6 @@ export function UpdateTechFormModal({ id, item }: UpdateTechFormProps) {
       <DialogTrigger asChild>
         <span className="cursor-pointer flex gap-1 bg-base-300 btn btn-outline btn-sm ">
           <Edit className="" />
-          
         </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">

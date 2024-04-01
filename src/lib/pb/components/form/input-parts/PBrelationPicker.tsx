@@ -24,7 +24,7 @@ interface PBrelationPickerProps<T extends RecordModel> {
   columns: Partial<PBListCollectioncolumn<T>>;
   collectionName: CollectionName;
   searchParamKey: string;
-  selectedRows: string[];
+  selectedRows?: string[];
   setSelectedRows: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
@@ -33,7 +33,7 @@ export function PBrelationPicker<T extends RecordModel>({
   columns,
   searchParamKey,
   filterBy,
-  selectedRows,
+  selectedRows=[],
   setSelectedRows,
   fieldLabel,
 }: PBrelationPickerProps<T>) {
@@ -50,38 +50,35 @@ export function PBrelationPicker<T extends RecordModel>({
         <div className="w-full">
           <h1 className="text-2xl bg-base-200 ">{fieldLabel}</h1>
         </div>
-  
-          <SearchBox
-            inputProps={{
-              placeholder: "type to search",
-            }}
-            debouncedValue={debouncedValue}
-            isDebouncing={isDebouncing}
-            setKeyword={setKeyword}
-            keyword={keyword}
-          />
- 
+
+        <SearchBox
+          inputProps={{
+            placeholder: "type to search",
+          }}
+          debouncedValue={debouncedValue}
+          isDebouncing={isDebouncing}
+          setKeyword={setKeyword}
+          keyword={keyword}
+        />
       </div>
       <div className="w-full h-[95%]">
         <ul className="w-full p-2 flex flex-wrap gap-2 overflow-clip max-h-[25%]">
-            <li>{selectedRows.length} selected</li>
-          {selectedRows.slice(0,5).map((id) => (
-            <li
-              key={id}
-              className="border bg-base-300/70 rounded-3xl  px-1"
-            >
+          <li>{selectedRows?.length} selected</li>
+          {selectedRows?.slice?.(0, 5)?.map((id) => (
+            <li key={id} className="border bg-base-300/70 rounded-3xl  px-1">
               {id}
             </li>
           ))}
-          {selectedRows.length>5 && <li>......</li>}
+          {selectedRows?.length > 5 && <li>......</li>}
         </ul>
+
         <Suspense
           fallback={
-            <div className="w-full h-full ">
-              {Array.from({ length: 12 }).map((_, i) => (
+            <div className="w-full h-full flex flex-col gap-2">
+              {Array.from({ length: 7 }).map((_, i) => (
                 <li
                   key={i}
-                  className="h-40 w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 skeleton p-2 gap-2 rounded-lg"
+                  className="h-8 w-[95%]   bg-base-300/70 skeleton gap-2 rounded-lg"
                 ></li>
               ))}
             </div>

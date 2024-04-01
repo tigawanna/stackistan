@@ -1,21 +1,5 @@
 # Stackistan
 
-
-### routes
- - dashboard
- - dashboard/profile
- - dashboard/profile/[profile]
- - dashboard/profile/resume
-
- ### TODO
- - dashboard/projects
- - dashboard/companies
- - dashboard/education
- - dashboard/activities
- - dashboard/others
-
-
-
 > Info 
  warning
  no sucking allowed
@@ -31,4 +15,19 @@
 > [!CAUTION]
 
 
-The operation completed successfully!
+ideal flow
+ - sign in
+ - create profile
+ - create job application
+   - fill in the job details
+   - generate resume and cover letter
+- view application progress and stats
+- view company progress and stats
+
+routes 
+ /dashboard/technologies
+ /dashboard/companies
+ /dashboard/resume
+ /dashboard/profile
+ /dashboard/jobs
+ /dashboard/overview

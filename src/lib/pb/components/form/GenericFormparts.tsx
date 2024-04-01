@@ -78,7 +78,7 @@ export function GenericFormparts<T extends Record<string, any>>({
         }
         if (value.fieldOptions?.type === "json") {
           return (
-            <div className="w-[80%] ">
+            <div className="w-[80%] " key={key}>
               <GenericFormJSONEditor
                 input={input}
                 setInput={setInput}
@@ -91,17 +91,20 @@ export function GenericFormparts<T extends Record<string, any>>({
         if (value.fieldOptions?.type === "file") {
           return (
             <GenericFormFilePicker
+            key={key}
               input={input}
               setInput={setInput}
               fieldLabel={value.fieldLabel}
               collaction_id_or_name={collectionName}
               fieldKey={value.fieldKey}
+              inputProps={value?.inputProps}
             />
           );
         }
         if (value.fieldOptions?.type === "relation") {
           return (
             <GenericFormRelationPicker
+              key={key}
               input={input}
               setInput={setInput}
               collectionName={collectionName}

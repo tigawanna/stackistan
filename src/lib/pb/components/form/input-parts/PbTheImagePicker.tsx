@@ -3,6 +3,7 @@ import { getFileURL } from "@/lib/pb/client";
 import { ImagePlus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { Schema } from "@/lib/pb/database";
+import { Label } from "@/components/shadcn/ui/label";
 
 interface PbTheImagePickerProps {
   show_preview?: boolean;
@@ -13,6 +14,7 @@ interface PbTheImagePickerProps {
   record_id?: string;
   file_name?: string;
   setFileImage?: (file: File | null) => void;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export function PBTheImagePicker({
@@ -24,9 +26,10 @@ export function PBTheImagePicker({
   record_id,
   file_name,
   setFileImage,
+  inputProps,
 }: PbTheImagePickerProps) {
   const img_url = getFileURL({ collection_id_or_name, record_id, file_name });
-  
+
   const [pic, setPic] = useState(img_url);
   //  const [input_pic, setInputPic] = useState<File | null>(null);
   const ref = useRef<HTMLInputElement>(null);
@@ -44,17 +47,23 @@ export function PBTheImagePicker({
     }
   }
   return (
-    <div className="w-full  flex flex-col items-center gap-1 relative min-h-24 p-2 bg-base-200/70 rounded-md">
-      <div className={twMerge("font-serif text-sm", label_classname)}>
+    <div className="w-full  flex flex-col justify-center gap-1 relative min-h-24 p-2 rounded-md">
+      <div
+        className={twMerge("font-serif text-sm font-semibold", label_classname)}
+      >
         {label}
       </div>
+
       {/* <h2 className="text-sm text-accent">{label}</h2> */}
-      <div className="md:min-w-[200px]   flex  items-center justify-center">
+      <div className="w-full  flex  justify-center bg-base-200/70 ">
         {typeof pic === "string" && pic.length > 0 && show_preview ? (
           <div className="" onClick={() => ref.current?.click()}>
             <div className="w-full">
               <img
-                className={twMerge("w-auto h-[200px]  object-cover", img_classname)}
+                className={twMerge(
+                  "w-auto h-[200px]  object-cover",
+                  img_classname,
+                )}
                 src={pic}
                 height={"200"}
                 width={"400"}
@@ -70,6 +79,7 @@ export function PBTheImagePicker({
             ref={ref}
             className="hidden"
             onChange={(e) => handleChange(e)}
+            {...inputProps}
           />
           <ImagePlus
             onClick={() => ref.current?.click()}

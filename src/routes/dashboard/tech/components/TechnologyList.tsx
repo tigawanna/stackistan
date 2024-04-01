@@ -1,8 +1,6 @@
 import { SearchBox } from "@/components/search/SearchBox";
 import { CollectionName } from "@/lib/pb/client";
 import { GenericDataCardsList } from "@/lib/pb/components/card-list/GenericDataCardsList";
-import { GenericDataTable } from "@/lib/pb/components/table/GenericDataTable";
-import { DataTableSkeleton } from "@/lib/pb/components/table/components/data-table-skeleton";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { useDebouncedSearchWithhParams } from "@/utils/hooks/search";
 import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
@@ -17,9 +15,7 @@ interface TechnologyCardListProps {}
 export function TechnologyCardList({}: TechnologyCardListProps) {
   const searchParamKey = "tc";
   const collectionName: CollectionName = "stackistan_technologies";
-    const [selectedRows, setSelectedRows] = useState<string[]>(
-       [],
-    );
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const { pb } = usePocketbase();
   const { isDebouncing, debouncedValue, setKeyword, keyword } =
     useDebouncedSearchWithhParams({ default_search_query: "" });
@@ -97,6 +93,27 @@ export function TechnologyCardList({}: TechnologyCardListProps) {
                   type: "date",
                 },
               },
+              link: {
+                fieldKey: "link",
+                fieldLabel: "Link",
+                fieldType: "url",
+                fieldHidden: true,
+                fieldOptions: {
+                  type: "url",
+                },
+              },
+              logo: {
+                fieldKey: "logo",
+                fieldLabel: "Logo",
+                fieldType: "file",
+                fieldOptions: {
+                  type: "file",
+                },
+                inputProps: {
+                  // restrain input to svg only
+                  accept: ".svg",
+                }
+              }
             }}
           />
         </Suspense>

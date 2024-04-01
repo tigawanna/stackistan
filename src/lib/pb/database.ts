@@ -324,6 +324,7 @@ export interface StackistanCompaniesResponse extends BaseCollectionResponse {
 	location: string;
 	tech_stack: string;
 	industry: '' | 'Education' | 'Research' | 'Construction' | 'Design' | 'Accounting' | 'EnvironmentalServices' | 'HumanResources' | 'Consulting' | 'Trading' | 'EnergyMining' | 'Manufacturing' | 'Automotive' | 'AviationAerospace' | 'Chemicals' | 'FoodProduction' | 'Healthcare' | 'Finance' | 'Hospitality' | 'Sports' | 'ArtsEntertainment' | 'RealEstate' | 'Legal' | 'ConsumerGoods' | 'Agriculture' | 'MediaCommunications' | 'SoftwareITServices' | 'TransportationLogistics';
+	verified: '' | 'yes' | 'no';
 }
 
 export interface StackistanCompaniesCreate extends BaseCollectionCreate {
@@ -332,6 +333,7 @@ export interface StackistanCompaniesCreate extends BaseCollectionCreate {
 	location?: string;
 	tech_stack?: string;
 	industry?: '' | 'Education' | 'Research' | 'Construction' | 'Design' | 'Accounting' | 'EnvironmentalServices' | 'HumanResources' | 'Consulting' | 'Trading' | 'EnergyMining' | 'Manufacturing' | 'Automotive' | 'AviationAerospace' | 'Chemicals' | 'FoodProduction' | 'Healthcare' | 'Finance' | 'Hospitality' | 'Sports' | 'ArtsEntertainment' | 'RealEstate' | 'Legal' | 'ConsumerGoods' | 'Agriculture' | 'MediaCommunications' | 'SoftwareITServices' | 'TransportationLogistics';
+	verified?: '' | 'yes' | 'no';
 }
 
 export interface StackistanCompaniesUpdate extends BaseCollectionUpdate {
@@ -340,6 +342,7 @@ export interface StackistanCompaniesUpdate extends BaseCollectionUpdate {
 	location?: string;
 	tech_stack?: string;
 	industry?: '' | 'Education' | 'Research' | 'Construction' | 'Design' | 'Accounting' | 'EnvironmentalServices' | 'HumanResources' | 'Consulting' | 'Trading' | 'EnergyMining' | 'Manufacturing' | 'Automotive' | 'AviationAerospace' | 'Chemicals' | 'FoodProduction' | 'Healthcare' | 'Finance' | 'Hospitality' | 'Sports' | 'ArtsEntertainment' | 'RealEstate' | 'Legal' | 'ConsumerGoods' | 'Agriculture' | 'MediaCommunications' | 'SoftwareITServices' | 'TransportationLogistics';
+	verified?: '' | 'yes' | 'no';
 }
 
 export interface StackistanCompaniesCollection {
@@ -368,6 +371,7 @@ export interface StackistanJobPostingsResponse extends BaseCollectionResponse {
 	location: string;
 	company: string;
 	level: '' | 'entry' | 'junior' | 'mid' | 'senior' | 'lead' | 'other';
+	verified: '' | 'yes' | 'no';
 }
 
 export interface StackistanJobPostingsCreate extends BaseCollectionCreate {
@@ -377,6 +381,7 @@ export interface StackistanJobPostingsCreate extends BaseCollectionCreate {
 	location?: string;
 	company?: string;
 	level?: '' | 'entry' | 'junior' | 'mid' | 'senior' | 'lead' | 'other';
+	verified?: '' | 'yes' | 'no';
 }
 
 export interface StackistanJobPostingsUpdate extends BaseCollectionUpdate {
@@ -386,6 +391,7 @@ export interface StackistanJobPostingsUpdate extends BaseCollectionUpdate {
 	location?: string;
 	company?: string;
 	level?: '' | 'entry' | 'junior' | 'mid' | 'senior' | 'lead' | 'other';
+	verified?: '' | 'yes' | 'no';
 }
 
 export interface StackistanJobPostingsCollection {
@@ -541,6 +547,7 @@ export interface StackistanTechnologiesResponse extends BaseCollectionResponse {
 	link: string;
 	logo: string;
 	dependancies: Array<string>;
+	verified: '' | 'yes' | 'no';
 }
 
 export interface StackistanTechnologiesCreate extends BaseCollectionCreate {
@@ -549,6 +556,7 @@ export interface StackistanTechnologiesCreate extends BaseCollectionCreate {
 	link?: string | URL;
 	logo?: File | null;
 	dependancies?: MaybeArray<string>;
+	verified?: '' | 'yes' | 'no';
 }
 
 export interface StackistanTechnologiesUpdate extends BaseCollectionUpdate {
@@ -559,6 +567,7 @@ export interface StackistanTechnologiesUpdate extends BaseCollectionUpdate {
 	dependancies?: MaybeArray<string>;
 	'dependancies+'?: MaybeArray<string>;
 	'dependancies-'?: MaybeArray<string>;
+	verified?: '' | 'yes' | 'no';
 }
 
 export interface StackistanTechnologiesCollection {

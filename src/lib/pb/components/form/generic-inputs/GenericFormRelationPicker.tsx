@@ -1,9 +1,5 @@
 import { ClientResponseError, RecordListOptions } from "pocketbase";
 import { PBFieldWrapper } from "../input-parts/PBFieldWrapper";
-import { Label } from "@/components/shadcn/ui/label";
-import { twMerge } from "tailwind-merge";
-import { PlainJsonEditor } from "react-plain-json-editor";
-import { PBTheImagePicker } from "../input-parts/PbTheImagePicker";
 import { CollectionName } from "@/lib/pb/client";
 import { Suspense } from "react";
 import { GenericDataTable, TableColumns } from "../../table/GenericDataTable";
@@ -38,9 +34,9 @@ export function GenericFormRelationPicker<T extends Record<string, any>>({
   
     const { pb } = usePocketbase();
     const { debouncedValue, keyword,isDebouncing,setKeyword } = useDebouncedSearchWithhParams({ default_search_query: "" });
-    const { search_param } = useCustomSearchParams({
+    const { searchParam } = useCustomSearchParams({
       key: searchParamKey,
-      default_value: "1",
+      defaultValue: "1",
     });
     const page = debouncedValue.length > 0 ? 1 : search_param;
 

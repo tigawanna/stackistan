@@ -1,122 +1,104 @@
-import { SearchBox } from "@/components/search/SearchBox";
 import { CollectionName } from "@/lib/pb/client";
-import { GenericDataCardsList } from "@/lib/pb/components/card-list/GenericDataCardsList";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
-import { useDebouncedSearchWithhParams } from "@/utils/hooks/search";
-import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
-import { RecordListOptions } from "pocketbase";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { TechnologyCard } from "./TechnologyCard";
-import { StackistanTechnologiesResponse } from "Database";
-import { GenericDataCardsListSuspenseFallback } from "@/lib/pb/components/card-list/GenericDataCardsListSuspenseFallback";
+import { and, eq, like } from "typed-pocketbase";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { pbTryCatchWrapper } from "@/lib/pb/utils";
+import { ListPagination } from "@/components/pagination/ReactresponsivePagination";
+import { Checkbox } from "@/components/shadcn/ui/checkbox";
 
-interface TechnologyCardListProps {}
+interface TechnologyCardListProps {
+  searchParamKey: string;
+  debouncedValue: string;
+  searchParam: string;
+}
 
-export function TechnologyCardList({}: TechnologyCardListProps) {
-  const searchParamKey = "tc";
+export function TechnologyList({
+  debouncedValue,
+  searchParam,
+  searchParamKey,
+}: TechnologyCardListProps) {
   const collectionName: CollectionName = "stackistan_technologies";
+  const page = debouncedValue.length > 0 ? 1 : searchParam;
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const { pb } = usePocketbase();
-  const { isDebouncing, debouncedValue, setKeyword, keyword } =
-    useDebouncedSearchWithhParams({ default_search_query: "" });
-  const { search_param } = useCustomSearchParams({
-    key: searchParamKey,
-    default_value: "1",
+  const query = useSuspenseQuery({
+    queryKey: [collectionName, String(page), debouncedValue],
+    queryFn: () => {
+      return pbTryCatchWrapper(
+        pb?.from(collectionName).getList(+page, 12, {
+          sort: "+name",
+          filter: and(
+            like("name", debouncedValue),
+            // eq("verified", "yes")
+          ),
+        }),
+      );
+    },
   });
 
-  const page = debouncedValue.length > 0 ? 1 : search_param;
-  const pbQueryOptions: RecordListOptions = {
-    // @ts-expect-error
-    sort: pb.from(collectionName).createSort("+name") ?? "",
-    // @ts-expect-error
-    filter: pb.from(collectionName).createFilter(`name ~ "${keyword}"`) ?? "",
-  };
+  const data = query?.data?.data?.items ?? [];
+  function selectItem(id: string) {
+    if (selectedRows.includes(id)) {
+      setSelectedRows((prev) => {
+        if (prev) {
+          return prev.filter((i) => i !== id);
+        }
+        return prev;
+      });
+    } else {
+      setSelectedRows((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        return [...prev, id];
+      });
+    }
+  }
+  function selectAllRows(checked: boolean) {
+    if (checked) {
+      setSelectedRows(data.map((i) => i.id));
+    } else {
+      setSelectedRows([]);
+    }
+  }
   return (
     <div className="w-full h-full flex flex-col gap-2   ">
-      <div className="px-3 flex flex-col md:flex-row justify-between gap-3 pr-5">
-        <div className="w-full">
-          <h1 className="text-2xl bg-base-200 ">Technologies</h1>
+      <div className="w-full flex justify-between gap-2">
+        <div className="flex gap-3">
+          <span className="ml-2 flex items-center gap-2">
+            <Checkbox
+              checked={
+                selectedRows.length === data.length && data.length > 0
+              }
+              onCheckedChange={selectAllRows}
+            />
+            Select All
+          </span>
+          {selectedRows.length > 0 && <span>{selectedRows.length}</span>}
         </div>
-        <SearchBox
-          inputProps={{
-            placeholder: "Search through technologies",
-          }}
-          debouncedValue={debouncedValue}
-          isDebouncing={isDebouncing}
-          setKeyword={setKeyword}
-          keyword={keyword}
-        />
       </div>
-      {/* <GenericDataCardsListSuspenseFallback /> */}
-      <div className="w-full h-[99vh] overflow-auto">
-        <Suspense fallback={<GenericDataCardsListSuspenseFallback />}>
-          <GenericDataCardsList<StackistanTechnologiesResponse>
-            card={(record, checked, selectItem) => (
+      <ul className="w-full h-[90%] flex flex-wrap justify-center gap-2">
+        {data &&
+          data.map((item) => {
+            const checked = selectedRows.includes(item.id);
+            return (
               <TechnologyCard
-                tech={record}
+                key={item.id}
                 checked={checked}
                 selectItem={selectItem}
+                tech={item}
               />
-            )}
-            searchParamKey={searchParamKey}
-            selectedRows={selectedRows}
-            setSelectedRows={setSelectedRows}
-            key={page + debouncedValue}
-            page={+page}
-            debouncedValue={debouncedValue}
-            collectionName={collectionName}
-            pbQueryOptions={pbQueryOptions}
-            columns={{
-              name: {
-                fieldKey: "name",
-                fieldLabel: "Name",
-                fieldType: "text",
-                fieldOptions: {
-                  type: "text",
-                },
-              },
-              description: {
-                fieldKey: "description",
-                fieldLabel: "Description",
-                fieldType: "editor",
-                fieldUpdatable: true,
-                fieldOptions: {
-                  type: "text",
-                },
-              },
-              created: {
-                fieldKey: "created",
-                fieldLabel: "Created",
-                fieldType: "date",
-                omitFromForms: true,
-                fieldOptions: {
-                  type: "date",
-                },
-              },
-              link: {
-                fieldKey: "link",
-                fieldLabel: "Link",
-                fieldType: "url",
-                fieldHidden: true,
-                fieldOptions: {
-                  type: "url",
-                },
-              },
-              logo: {
-                fieldKey: "logo",
-                fieldLabel: "Logo",
-                fieldType: "file",
-                fieldOptions: {
-                  type: "file",
-                },
-                inputProps: {
-                  // restrain input to svg only
-                  accept: ".svg",
-                }
-              }
-            }}
-          />
-        </Suspense>
+            );
+          })}
+      </ul>
+
+      <div className="absolut bottom-1 right-0 left-0">
+        <ListPagination
+          query_key={searchParamKey}
+          total_pages={query?.data?.data?.totalPages ?? 1}
+        />
       </div>
     </div>
   );

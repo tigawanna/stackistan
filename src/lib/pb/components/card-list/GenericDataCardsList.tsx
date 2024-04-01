@@ -100,7 +100,7 @@ export function GenericDataCardsList<T extends Record<string, any>>({
             <div className="flex gap-3">
               <span className="ml-2 flex gap-2">
                 <Checkbox
-                  checked={selectedRows.length === data.length}
+                  checked={(selectedRows.length === data.length)&&(selectedRows.length>0)}
                   onCheckedChange={selectAllRows}
                 />
                 Select All

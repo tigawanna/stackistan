@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/shadcn/ui/card";
+
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { getFileURL } from "@/lib/pb/client";
 import { Image } from "@unpic/react";

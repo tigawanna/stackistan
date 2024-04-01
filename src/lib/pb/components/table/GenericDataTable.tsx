@@ -144,7 +144,9 @@ export function GenericDataTable<T extends Record<string, any>>({
           <tr className="w-full text-lg">
             <th className="">
               <Checkbox
-                checked={selectedRows.length === data.length}
+                checked={
+                  selectedRows.length === data.length && selectedRows.length > 0
+                }
                 onCheckedChange={selectAllRows}
               />
             </th>

@@ -8,8 +8,8 @@ interface ListingsPaginationProps {
 }
 
 export function ListPagination({ query_key,total_pages }: ListingsPaginationProps) {
-  const { search_param: page_param, updateSeachparams } = useCustomSearchParams(
-    { key:query_key, default_value: "1" },
+  const { searchParam: page_param, updateSeachparams } = useCustomSearchParams(
+    { key:query_key, defaultValue: "1" },
   );
 
   return (

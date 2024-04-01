@@ -2,14 +2,14 @@ import { navigate, useLocation } from "rakkasjs";
 
 interface UseCustomSearchParams {
   key: string;
-  default_value?: string;
+  defaultValue?: string;
 }
 export function useCustomSearchParams({
   key,
-  default_value = "q",
+  defaultValue = "q",
 }: UseCustomSearchParams) {
   const { current } = useLocation();
-  const search_param = current.searchParams.get(key) ?? default_value;
+  const searchParam = current.searchParams.get(key) ?? defaultValue;
   function updateSeachparams(value?: string) {
     const new_url = new URL(current);
     if (!value) {
@@ -18,7 +18,7 @@ export function useCustomSearchParams({
       new_url.searchParams.set(key, value);
     }
 
-    navigate(new_url.toString(), { replace: true }) ?? default_value;
+    navigate(new_url.toString(), { replace: true }) ?? defaultValue;
   }
-  return { search_param, updateSeachparams };
+  return { searchParam, updateSeachparams };
 }

@@ -44,7 +44,8 @@ function Layout({ children }: LayoutProps) {
           </div>
         </div>
         <ClientSuspense fallback={<div className="h-8 "></div>}>
-          <Toaster richColors />
+            <Toaster richColors className=""/>
+    
         </ClientSuspense>
       </div>
     </ErrorBoundaryComponent>
@@ -70,6 +71,5 @@ Layout.preload = (ctx: PreloadContext) => {
     },
   };
 };
-
 
 export default Layout;

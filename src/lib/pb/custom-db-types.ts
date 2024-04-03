@@ -64,3 +64,5 @@ export interface StackistanResumeProfileExperience {
 }
 
 export interface StackistanCompaniesTechstack {}
+
+export type MaybeArray<T> = T | T[];

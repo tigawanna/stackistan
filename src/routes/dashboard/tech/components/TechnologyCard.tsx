@@ -3,6 +3,7 @@ import { getFileURL } from "@/lib/pb/client";
 import { StackistanTechnologiesResponse } from "@/lib/pb/database";
 import { Image } from "@unpic/react";
 import { UpdateTechFormModal } from "./form/UpdateTechForm";
+import { Link } from "rakkasjs";
 
 interface TechnologyCardProps {
   tech: StackistanTechnologiesResponse;
@@ -24,6 +25,8 @@ export function TechnologyCard({
   return (
     <li
       key={tech.id}
+      // prefetch="never"
+      //   href={`/dashboard/tech/${tech.id}`}
       className={
         checked
           ? "brightness-75 relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2 rounded-lg"

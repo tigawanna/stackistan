@@ -1,17 +1,15 @@
-import { StackistanTechnologiesResponse } from "@/lib/pb/database";
 import { PBListCollection, PBListCollectioncolumn } from "./PBListCollection";
 import { useDebouncedSearchWithhParams } from "@/utils/hooks/search";
 import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
 import { SearchBox } from "@/components/search/SearchBox";
 import { RecordModel } from "pocketbase";
 import { CollectionName } from "@/lib/pb/client";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -25,7 +23,7 @@ interface PBrelationPickerProps<T extends RecordModel> {
   collectionName: CollectionName;
   searchParamKey: string;
   selectedRows?: string[];
-  setSelectedRows: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedRows: (selectedRows: string[]) => void;
 }
 
 export function PBrelationPicker<T extends RecordModel>({
@@ -33,7 +31,7 @@ export function PBrelationPicker<T extends RecordModel>({
   columns,
   searchParamKey,
   filterBy,
-  selectedRows=[],
+  selectedRows = [],
   setSelectedRows,
   fieldLabel,
 }: PBrelationPickerProps<T>) {
@@ -44,6 +42,7 @@ export function PBrelationPicker<T extends RecordModel>({
     defaultValue: "1",
   });
 
+  // console.log({ selectedRows });
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
       <div className="w-full px-3 flex flex-col md:flex-row justify-between gap-3 pr-5">
@@ -92,7 +91,7 @@ export function PBrelationPicker<T extends RecordModel>({
             searchParam={searchParam}
             searchParamKey={searchParamKey}
             filterBy={filterBy}
-            setSelectedRows={setSelectedRows}
+            setSelectedRows={(rows)=>setSelectedRows(rows)}
           />
         </Suspense>
       </div>
@@ -100,49 +99,49 @@ export function PBrelationPicker<T extends RecordModel>({
   );
 }
 
-
-
-
-
-export function PBPickRelationsModal<T extends RecordModel>({ 
-collectionName,
+export function PBPickRelationsModal<T extends RecordModel>({
+  collectionName,
   columns,
   searchParamKey,
   filterBy,
   selectedRows,
   setSelectedRows,
   fieldLabel,
-}: PBrelationPickerProps<T>){
-return (
-  <Dialog>
-    <DialogTrigger asChild>
-      <span className="cursor-pointer flex gap-1 bg-base-300 btn btn-outline btn-sm ">
-        <GitFork className="" /> Pick relations
-      </span>
-    </DialogTrigger>
-    <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto ">
-      <DialogHeader>
-        <DialogTitle>Update Entry</DialogTitle>
-        <DialogDescription>
-          submit an update propasal for approval
-        </DialogDescription>
-      </DialogHeader>
-      <div className="w-full h-[75%]  ">
-        <PBrelationPicker
-          collectionName={collectionName}
-          columns={columns}
-          searchParamKey={searchParamKey}
-          filterBy={filterBy}
-          fieldLabel={fieldLabel}
-          setSelectedRows={setSelectedRows}
-          selectedRows={selectedRows}
-        />
-      </div>
-        <DialogClose className="flex gap-3 btn btn-wide ">Done<Check className="h-5 w-5" /></DialogClose>
+}: PBrelationPickerProps<T>) {
+    const [open, setOpen] = useState(false);
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <span className="cursor-pointer flex gap-1  btn btn-outline  p-2">
+          <GitFork className="" /> Pick relations
+        </span>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto ">
+        <DialogHeader>
+          <DialogTitle>Update Entry</DialogTitle>
+          <DialogDescription>
+            submit an update propasal for approval
+          </DialogDescription>
+        </DialogHeader>
+        <div className="w-full h-[75%]  ">
+          <PBrelationPicker
+            collectionName={collectionName}
+            columns={columns}
+            searchParamKey={searchParamKey}
+            filterBy={filterBy}
+            fieldLabel={fieldLabel}
+            setSelectedRows={setSelectedRows}
+            selectedRows={selectedRows}
+          />
+        </div>
+        <DialogClose className="flex gap-3 btn btn-wide ">
+          Done
+          <Check className="h-5 w-5" />
+        </DialogClose>
 
-      {/* <DialogFooter className="sm:justify-start">
+        {/* <DialogFooter className="sm:justify-start">
       </DialogFooter> */}
-    </DialogContent>
-  </Dialog>
-);
+      </DialogContent>
+    </Dialog>
+  );
 }

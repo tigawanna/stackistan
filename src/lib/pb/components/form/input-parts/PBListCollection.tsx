@@ -21,7 +21,7 @@ interface PBListCollectionProps<T extends RecordModel> {
   debouncedValue: string;
   searchParam: string;
   selectedRows: string[];
-  setSelectedRows: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedRows: (selectedRows: string[]) => void;
 }
 
 export function PBListCollection<T extends RecordModel = RecordModel>({
@@ -34,7 +34,7 @@ selectedRows,setSelectedRows,
   searchParamKey,
 }: PBListCollectionProps<T>) {
   const page = debouncedValue.length > 0 ? 1 : searchParam;
-  console.log({selectedRows})
+  // console.log({selectedRows})
 //   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const { pb } = usePocketbase();
   const query = useSuspenseQuery({
@@ -55,19 +55,24 @@ selectedRows,setSelectedRows,
   const data = query?.data?.data?.items ?? [];
   function selectItem(id: string) {
     if (selectedRows.includes(id)) {
-      setSelectedRows((prev) => {
-        if (prev) {
-          return prev.filter((i) => i !== id);
-        }
-        return prev;
-      });
+
+      // setSelectedRows((prev) => {
+      //   if (prev) {
+      //     return prev.filter((i) => i !== id);
+      //   }
+      //   return prev;
+      // });
+      setSelectedRows(selectedRows.filter((i) => i !== id));
+
     } else {
-      setSelectedRows((prev) => {
-        if (!prev) {
-          return prev;
-        }
-        return [...prev, id];
-      });
+      // setSelectedRows((prev) => {
+      //   if (!prev) {
+      //     return prev;
+      //   }
+      //   return [...prev, id];
+      // });
+
+      setSelectedRows([...selectedRows, id]);
     }
   }
   function selectAllRows(checked: boolean) {

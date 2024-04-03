@@ -5,6 +5,7 @@ import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
 import { cn } from "@/components/shadcn/lib/utils";
 import { buttonVariants } from "@/components/shadcn/ui/button";
+import { Toaster } from "sonner";
 
 const AlertDialog = AlertDialogPrimitive.Root;
 
@@ -41,6 +42,9 @@ const AlertDialogContent = React.forwardRef<
       )}
       {...props}
     />
+    <div className="z-50 ">
+      <Toaster richColors className="" />
+    </div>
   </AlertDialogPortal>
 ));
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName;

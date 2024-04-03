@@ -44,8 +44,7 @@ function Layout({ children }: LayoutProps) {
           </div>
         </div>
         <ClientSuspense fallback={<div className="h-8 "></div>}>
-            <Toaster richColors className=""/>
-    
+          <Toaster richColors className="" />
         </ClientSuspense>
       </div>
     </ErrorBoundaryComponent>

@@ -3,14 +3,13 @@ import { Button } from "@/components/shadcn/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/shadcn/ui/dialog";
 import { Edit } from "lucide-react";
 
-
 interface TestDialogProps {
 
 }
 
 export function TestDialog({}:TestDialogProps){
 return (
-  <Dialog modal={true}>
+  <Dialog modal={false}>
     <DialogTrigger asChild>
       <span className="cursor-pointer flex gap-1 bg-base-300 btn btn-outline btn-sm ">
         <Edit className="" />
@@ -18,15 +17,16 @@ return (
     </DialogTrigger>
     <DialogContent
       className="sm:max-w-[80%] w-full h-[90%] overflow-auto"
-    //   onInteractOutside={(e) => {
-    //     const { originalEvent } = e.detail;
-    //     if (
-    //       originalEvent.target instanceof Element &&
-    //       originalEvent.target.closest(".group.toaster")
-    //     ) {
-    //       e.preventDefault();
-    //     }
-    //   }}
+      onInteractOutside={(e) => {
+                  e.preventDefault();
+        const { originalEvent } = e.detail;
+        if (
+          originalEvent.target instanceof Element &&
+          originalEvent.target.closest(".group.toaster")
+        ) {
+          e.preventDefault();
+        }
+      }}
     >
       <DialogHeader>
         <DialogTitle>Update Entry</DialogTitle>

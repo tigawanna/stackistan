@@ -50,10 +50,10 @@ const DialogContent = React.forwardRef<
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
+      <div className=" ">
+        <Toaster richColors className="" />
+      </div>
     </DialogPrimitive.Content>
-    <div className="z-50 ">
-      <Toaster richColors className="" />
-    </div>
   </DialogPortal>
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;

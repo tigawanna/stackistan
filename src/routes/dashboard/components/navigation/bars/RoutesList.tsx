@@ -11,7 +11,7 @@ export function RoutesList({ icontsOnly = true }: RoutesListProps) {
     { name: "profile", url: "/dashboard/profile", icon: <User /> },
     { name: "resume", url: "/dashboard/resume", icon: <Lock /> },
     { name: "tech", url: "/dashboard/tech", icon: <Layers /> },
-    { name: "education", url: "/dashboard/eductaion", icon: <GraduationCap /> },
+    { name: "education", url: "/dashboard/education", icon: <GraduationCap /> },
     { name: "test", url: "/dashboard/test", icon: <TestTube2 /> },
   ];
 

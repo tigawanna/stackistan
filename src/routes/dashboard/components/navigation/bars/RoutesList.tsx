@@ -1,5 +1,5 @@
 import { Link } from "rakkasjs";
-import { Home, Layers, Lock, TestTube2, User } from "lucide-react";
+import { GraduationCap, Home, Layers, Lock, TestTube2, User } from "lucide-react";
 import { TooltipWrapper } from "@/components/wrappers/TooltipWrapper";
 interface RoutesListProps {
   icontsOnly?: boolean;
@@ -11,6 +11,7 @@ export function RoutesList({ icontsOnly = true }: RoutesListProps) {
     { name: "profile", url: "/dashboard/profile", icon: <User /> },
     { name: "resume", url: "/dashboard/resume", icon: <Lock /> },
     { name: "tech", url: "/dashboard/tech", icon: <Layers /> },
+    { name: "education", url: "/dashboard/eductaion", icon: <GraduationCap /> },
     { name: "test", url: "/dashboard/test", icon: <TestTube2 /> },
   ];
 

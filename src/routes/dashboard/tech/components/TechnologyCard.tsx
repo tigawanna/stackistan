@@ -48,7 +48,7 @@ export function TechnologyCard({
           src={logo_url}
           alt={tech.name}
         />
-        <h1 className="text-2xl f">{tech.name}</h1>
+        <Link href={tech.link} target="_blank" className="text-2xl cursor-pointer hover:text-blue-600">{tech.name}</Link>
         <UpdateTechFormModal id={tech.id} item={tech} />
       </div>
       <p className="text-center line-clamp-2">{tech.description}</p>

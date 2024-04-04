@@ -22,7 +22,7 @@ import {
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { Edit, X } from "lucide-react";
+import { Edit, Plus, X } from "lucide-react";
 import { useState } from "react";
 
 interface UpdateTechFormProps {
@@ -79,18 +79,17 @@ export function TechnologyForm({
       });
     },
   });
-  const { input, handleChange, setInput } = useFormHook<
-    StackistanTechnologiesUpdate
-  >({
-    initialValues: {
-      name: item.name,
-      description: item.description,
-      link: item.link,
-      verified: "no",
+  const { input, handleChange, setInput } =
+    useFormHook<StackistanTechnologiesUpdate>({
+      initialValues: {
+        name: item.name,
+        description: item.description,
+        link: item.link,
+        verified: "no",
 
-      dependancies: item.dependancies ?? [],
-    },
-  });
+        dependancies: item.dependancies ?? [],
+      },
+    });
   const pb_error = mutation.data?.error;
 
   return (
@@ -99,7 +98,7 @@ export function TechnologyForm({
         className="w-full flex flex-col items-center gap-5"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log({ input });
+
           mutation.mutate(input);
         }}
       >
@@ -167,9 +166,7 @@ export function TechnologyForm({
                           setInput((prev) => ({
                             ...prev,
                             dependancies: Array.isArray(prev.dependancies)
-                              ? prev.dependancies?.filter((d) =>
-                                d !== id
-                              )
+                              ? prev.dependancies?.filter((d) => d !== id)
                               : prev.dependancies,
                           }));
                         }}
@@ -178,9 +175,15 @@ export function TechnologyForm({
                   ))}
               </ul>
               <PBPickRelationsModal<StackistanTechnologiesResponse>
-                selectedRows={Array.isArray(input.dependancies)
-                  ? input.dependancies
-                  : []}
+                dialogTrigger={
+                  <div className="flex gap-2 btn btn-wode- btn-sm">
+                    <span>pick dependacies</span>
+                    <Plus />
+                  </div>
+                }
+                selectedRows={
+                  Array.isArray(input.dependancies) ? input.dependancies : []
+                }
                 setSelectedRows={(deps) => {
                   if (Array.isArray(deps)) {
                     setInput((prev) => ({ ...prev, dependancies: deps }));

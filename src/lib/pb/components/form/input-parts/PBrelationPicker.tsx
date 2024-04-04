@@ -24,6 +24,7 @@ interface PBrelationPickerProps<T extends RecordModel> {
   searchParamKey: string;
   selectedRows?: string[];
   setSelectedRows: (selectedRows: string[]) => void;
+  dialogTrigger?: React.ReactNode;
 }
 
 export function PBrelationPicker<T extends RecordModel>({
@@ -91,7 +92,7 @@ export function PBrelationPicker<T extends RecordModel>({
             searchParam={searchParam}
             searchParamKey={searchParamKey}
             filterBy={filterBy}
-            setSelectedRows={(rows)=>setSelectedRows(rows)}
+            setSelectedRows={(rows) => setSelectedRows(rows)}
           />
         </Suspense>
       </div>
@@ -107,14 +108,17 @@ export function PBPickRelationsModal<T extends RecordModel>({
   selectedRows,
   setSelectedRows,
   fieldLabel,
+  dialogTrigger,
 }: PBrelationPickerProps<T>) {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <span className="cursor-pointer flex gap-1  btn btn-outline  p-2">
-          <GitFork className="" /> Pick relations
-        </span>
+        {dialogTrigger || (
+          <span className="cursor-pointer flex gap-1  btn btn-outline  p-2">
+            <GitFork className="" /> Pick relations
+          </span>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-full h-full overflow-auto ">
         <DialogHeader>

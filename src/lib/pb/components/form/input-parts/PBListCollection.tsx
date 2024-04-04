@@ -38,7 +38,7 @@ selectedRows,setSelectedRows,
 //   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const { pb } = usePocketbase();
   const query = useSuspenseQuery({
-    queryKey: [collectionName, String(page), debouncedValue],
+    queryKey: [collectionName, String(page), debouncedValue,"list"],
     queryFn: () => {
       return pbTryCatchWrapper(
         pb?.from(collectionName).getList(+page, 5, {

@@ -17,38 +17,23 @@ import { PBPickRelationsModal } from "@/lib/pb/components/form/input-parts/PBrel
 import { PBTheImagePicker } from "@/lib/pb/components/form/input-parts/PbTheImagePicker";
 import {
   StackistanTechnologiesResponse,
-  StackistanTechnologiesUpdate,
+  StackistanTechnologiesCreate,
 } from "@/lib/pb/database";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { Edit, X } from "lucide-react";
+import { Edit, Plus, X } from "lucide-react";
 import { useState } from "react";
 
-interface UpdateTechFormProps {
-  id: string;
-  item: StackistanTechnologiesResponse;
-}
-
-interface UpdateTechFormProps {
-  id: string;
-  item: StackistanTechnologiesResponse;
+interface AddNewTechFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function TechnologyForm({
-  id,
-  item,
-  setOpen,
-}: UpdateTechFormProps & {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+export function TechnologyForm({ setOpen }: AddNewTechFormProps) {
   const { pb } = usePocketbase();
   const mutation = useMutation({
-    mutationFn: (item: StackistanTechnologiesUpdate) => {
-      return pbTryCatchWrapper(
-        pb.from("stackistan_technologies").update(id, item),
-      );
+    mutationFn: (item: StackistanTechnologiesCreate) => {
+      return pbTryCatchWrapper(pb.from("stackistan_technologies").create(item));
     },
     meta: {
       invalidates: ["stackistan_technologies"],
@@ -58,7 +43,7 @@ export function TechnologyForm({
         if (data.data) {
           sonnerToast({
             type: "success",
-            title: "Entry updated",
+            title: "New technology added",
           });
 
           setOpen(false);
@@ -66,7 +51,7 @@ export function TechnologyForm({
         if (data.error) {
           sonnerToast({
             type: "error",
-            title: "Something went wrong while updating entry",
+            title: "Something went wrong while creating new technology",
             options: {
               description: data.error.message,
             },
@@ -77,7 +62,7 @@ export function TechnologyForm({
     onError: (error) => {
       sonnerToast({
         type: "error",
-        title: "Something went wrong while updating entry",
+        title: "Something went wrong while creating new technology",
         options: {
           description: error.message,
         },
@@ -85,14 +70,14 @@ export function TechnologyForm({
     },
   });
   const { input, handleChange, setInput } =
-    useFormHook<StackistanTechnologiesUpdate>({
+    useFormHook<StackistanTechnologiesCreate>({
       initialValues: {
-        name: item.name,
-        description: item.description,
-        link: item.link,
+        name: "",
+        description: "",
+        link: "",
         verified: "no",
-
-        dependancies: item.dependancies ?? [],
+        logo: null,
+        dependancies: [],
       },
     });
   const pb_error = mutation.data?.error;
@@ -145,8 +130,8 @@ export function TechnologyForm({
               <PBTheImagePicker
                 field_name={"Logo"}
                 collection_id_or_name="stackistan_technologies"
-                record_id={id}
-                file_name={item.logo}
+                record_id={""}
+                file_name={""}
                 inputProps={{
                   //  only allow .svg
                   accept: ".svg",
@@ -209,24 +194,25 @@ export function TechnologyForm({
   );
 }
 
-export function UpdateTechFormModal({ id, item }: UpdateTechFormProps) {
+interface AddNewTechFormModalProps {}
+export function AddNewTechFormModal({}: AddNewTechFormModalProps) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <span className="cursor-pointer flex gap-1 bg-base-300 btn btn-outline btn-sm ">
-          <Edit className="" />
+          <Plus className="" /> new
         </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">
         <DialogHeader>
-          <DialogTitle>Update Entry</DialogTitle>
+          <DialogTitle>Add new Technology</DialogTitle>
           <DialogDescription>
-            submit an update propasal for approval
+            submit a propasal for approval
           </DialogDescription>
         </DialogHeader>
         <div className="w-full h-full ">
-          <TechnologyForm id={id} item={item} setOpen={setOpen} />
+          <TechnologyForm setOpen={setOpen} />
         </div>
 
         <DialogFooter className="sm:justify-start"></DialogFooter>

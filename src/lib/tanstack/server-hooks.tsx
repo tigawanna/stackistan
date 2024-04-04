@@ -22,13 +22,12 @@ const tanstackQueryServerHooksFactory: ServerPluginFactory = (_, options) => ({
     }),
     defaultOptions: {
       queries: {
-        staleTime: 100,
+        staleTime: 1000 * 10,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
       },
       ...options.defaultTanstackQueryOptions,
     },
-    
   });
     queryClient.getQueryCache().subscribe(({ type, query }) => {
       if (type !== "updated" || query.state.status !== "success") return;

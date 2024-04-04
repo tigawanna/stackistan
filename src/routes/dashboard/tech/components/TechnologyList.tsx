@@ -69,9 +69,7 @@ export function TechnologyList({
         <div className="flex gap-3">
           <span className="ml-2 flex items-center gap-2">
             <Checkbox
-              checked={
-                selectedRows.length === data.length && data.length > 0
-              }
+              checked={selectedRows.length === data.length && data.length > 0}
               onCheckedChange={selectAllRows}
             />
             Select All
@@ -79,26 +77,28 @@ export function TechnologyList({
           {selectedRows.length > 0 && <span>{selectedRows.length}</span>}
         </div>
       </div>
-      <ul className="w-full h-[90%] flex flex-wrap justify-center gap-2">
-        {data &&
-          data.map((item) => {
-            const checked = selectedRows.includes(item.id);
-            return (
-              <TechnologyCard
-                key={item.id}
-                checked={checked}
-                selectItem={selectItem}
-                tech={item}
-              />
-            );
-          })}
-      </ul>
+      <div className="h-full ">
+        <ul className="w-full  h-full flex flex-wrap justify-center gap-2 overflow-y-scroll pb-[1%]">
+          {data &&
+            data.map((item) => {
+              const checked = selectedRows.includes(item.id);
+              return (
+                <TechnologyCard
+                  key={item.id}
+                  checked={checked}
+                  selectItem={selectItem}
+                  tech={item}
+                />
+              );
+            })}
 
-      <div className="absolut bottom-1 right-0 left-0">
-        <ListPagination
-          query_key={searchParamKey}
-          total_pages={query?.data?.data?.totalPages ?? 1}
-        />
+          <div className=" w-full">
+            <ListPagination
+              query_key={searchParamKey}
+              total_pages={query?.data?.data?.totalPages ?? 1}
+            />
+          </div>
+        </ul>
       </div>
     </div>
   );

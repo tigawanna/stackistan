@@ -74,11 +74,11 @@ export function PBrelationPicker<T extends RecordModel>({
         <Suspense
           fallback={
             <div className="w-full h-full flex flex-col gap-2">
-              {Array.from({ length: 7 }).map((_, i) => (
-                <li
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div
                   key={i}
-                  className="h-8 w-[95%]   bg-base-300/70 skeleton gap-2 rounded-lg"
-                ></li>
+                  className="h-8 w-[95%]   bg-base-300/40 skeleton gap-2 rounded-lg"
+                ></div>
               ))}
             </div>
           }
@@ -116,14 +116,14 @@ export function PBPickRelationsModal<T extends RecordModel>({
           <GitFork className="" /> Pick relations
         </span>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto ">
+      <DialogContent className="sm:max-w-[80%] w-full h-full overflow-auto ">
         <DialogHeader>
           <DialogTitle>Update Entry</DialogTitle>
           <DialogDescription>
             submit an update propasal for approval
           </DialogDescription>
         </DialogHeader>
-        <div className="w-full h-[75%]  ">
+        <div className="w-full  h-[95%] overflow-y-scroll">
           <PBrelationPicker
             collectionName={collectionName}
             columns={columns}
@@ -134,7 +134,7 @@ export function PBPickRelationsModal<T extends RecordModel>({
             selectedRows={selectedRows}
           />
         </div>
-        <DialogClose className="flex gap-3 btn btn-wide ">
+        <DialogClose className="flex gap-3 btn btn-wide btn-sm ">
           Done
           <Check className="h-5 w-5" />
         </DialogClose>

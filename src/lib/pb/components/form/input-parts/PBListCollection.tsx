@@ -41,7 +41,7 @@ selectedRows,setSelectedRows,
     queryKey: [collectionName, String(page), debouncedValue,"list"],
     queryFn: () => {
       return pbTryCatchWrapper(
-        pb?.from(collectionName).getList(+page, 5, {
+        pb?.from(collectionName).getList(+page, 12, {
           filter: and(
             // @ts-expect-error
             like(filterBy, debouncedValue),
@@ -93,7 +93,7 @@ selectedRows,setSelectedRows,
           onCheckedChange={selectAllRows}
         /> */}
       </div>
-      <ul className="w-full h-[90%] flex flex-col items-center justify-center gap-2 p-2">
+      <ul className="w-full h-full flex flex-col items-center justify-center gap-2 p-2">
         {data &&
           data.map((i) => {
             const checked = selectedRows.includes(i.id);
@@ -116,13 +116,13 @@ selectedRows,setSelectedRows,
               </div>
             );
           })}
+        <div className="w-full">
+          <ListPagination
+            query_key={searchParamKey}
+            total_pages={query?.data?.data?.totalPages ?? 1}
+          />
+        </div>
       </ul>
-      <div className="absolut bottom-2 right-0 left-0">
-        <ListPagination
-          query_key={searchParamKey}
-          total_pages={query?.data?.data?.totalPages ?? 1}
-        />
-      </div>
     </div>
   );
 }

@@ -28,11 +28,6 @@ import { useState } from "react";
 interface UpdateTechFormProps {
   id: string;
   item: StackistanTechnologiesResponse;
-}
-
-interface UpdateTechFormProps {
-  id: string;
-  item: StackistanTechnologiesResponse;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -84,17 +79,18 @@ export function TechnologyForm({
       });
     },
   });
-  const { input, handleChange, setInput } =
-    useFormHook<StackistanTechnologiesUpdate>({
-      initialValues: {
-        name: item.name,
-        description: item.description,
-        link: item.link,
-        verified: "no",
+  const { input, handleChange, setInput } = useFormHook<
+    StackistanTechnologiesUpdate
+  >({
+    initialValues: {
+      name: item.name,
+      description: item.description,
+      link: item.link,
+      verified: "no",
 
-        dependancies: item.dependancies ?? [],
-      },
-    });
+      dependancies: item.dependancies ?? [],
+    },
+  });
   const pb_error = mutation.data?.error;
 
   return (
@@ -160,7 +156,7 @@ export function TechnologyForm({
           <div className="w-full h-[95%]  flex flex-col gap-2">
             <div className="font-semibold">Dependancies</div>
             <div className="w-full h-[95%]  flex flex-col gap-4">
-              <ul className="w-full p-2 flex flex-wrap gap-2 overflow-clip ">
+              <ul className="w-full p-2 flex flex-wrap gap-3 overflow-clip ">
                 {Array.isArray(input?.dependancies) &&
                   input.dependancies?.map((id) => (
                     <li key={id} className="badge p-1 cursor-pointer">
@@ -171,7 +167,9 @@ export function TechnologyForm({
                           setInput((prev) => ({
                             ...prev,
                             dependancies: Array.isArray(prev.dependancies)
-                              ? prev.dependancies?.filter((d) => d !== id)
+                              ? prev.dependancies?.filter((d) =>
+                                d !== id
+                              )
                               : prev.dependancies,
                           }));
                         }}
@@ -180,9 +178,9 @@ export function TechnologyForm({
                   ))}
               </ul>
               <PBPickRelationsModal<StackistanTechnologiesResponse>
-                selectedRows={
-                  Array.isArray(input.dependancies) ? input.dependancies : []
-                }
+                selectedRows={Array.isArray(input.dependancies)
+                  ? input.dependancies
+                  : []}
                 setSelectedRows={(deps) => {
                   if (Array.isArray(deps)) {
                     setInput((prev) => ({ ...prev, dependancies: deps }));
@@ -209,14 +207,17 @@ export function TechnologyForm({
   );
 }
 
-export function UpdateTechFormModal({ id, item }: UpdateTechFormProps) {
+interface UpdateTechFormModalProps {
+  id: string;
+  item: StackistanTechnologiesResponse;
+}
+
+export function UpdateTechFormModal({ id, item }: UpdateTechFormModalProps) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <span className="cursor-pointer flex gap-1 bg-base-300 btn btn-outline btn-sm ">
-          <Edit className="" />
-        </span>
+        <Edit className="size-5" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">
         <DialogHeader>

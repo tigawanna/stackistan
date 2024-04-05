@@ -73,7 +73,7 @@ export interface DateField extends SchemaField {
 export interface SelectField extends SchemaField {
 	type: 'select';
     fields:{label:string,value:string} []
-	options: {
+	options?: {
 		maxSelect: number;
 		values: string[];
 	};

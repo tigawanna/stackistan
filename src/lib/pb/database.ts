@@ -200,6 +200,9 @@ export interface StackistanUsersCollection {
 	relations: {
 		'stackistan_resume_profile(user)': StackistanResumeProfileCollection[];
 		'stackistan_job_application(user)': StackistanJobApplicationCollection[];
+		'stackistan_job_experience(user)': StackistanJobExperienceCollection[];
+		'stackistan_user_education(user)': StackistanUserEducationCollection[];
+		'stackistan_user_projects(user)': StackistanUserProjectsCollection[];
 	};
 }
 
@@ -419,6 +422,7 @@ export interface StackistanJobExperienceResponse extends BaseCollectionResponse 
 	achievements: string;
 	from: string;
 	to: string;
+	user: string;
 }
 
 export interface StackistanJobExperienceCreate extends BaseCollectionCreate {
@@ -427,6 +431,7 @@ export interface StackistanJobExperienceCreate extends BaseCollectionCreate {
 	achievements?: string;
 	from?: string | Date;
 	to?: string | Date;
+	user?: string;
 }
 
 export interface StackistanJobExperienceUpdate extends BaseCollectionUpdate {
@@ -435,6 +440,7 @@ export interface StackistanJobExperienceUpdate extends BaseCollectionUpdate {
 	achievements?: string;
 	from?: string | Date;
 	to?: string | Date;
+	user?: string;
 }
 
 export interface StackistanJobExperienceCollection {
@@ -448,6 +454,7 @@ export interface StackistanJobExperienceCollection {
 		'stackistan_resume_profile(experience)': StackistanResumeProfileCollection[];
 		company: StackistanCompaniesCollection;
 		job: StackistanJobApplicationCollection;
+		user: StackistanUsersCollection;
 	};
 }
 
@@ -463,6 +470,7 @@ export interface StackistanUserEducationResponse extends BaseCollectionResponse 
 	qualification: '' | 'Certificate' | 'Diploma' | 'Bachelors' | 'Masters' | 'PhD';
 	from: string;
 	to: string;
+	user: string;
 }
 
 export interface StackistanUserEducationCreate extends BaseCollectionCreate {
@@ -471,6 +479,7 @@ export interface StackistanUserEducationCreate extends BaseCollectionCreate {
 	qualification?: '' | 'Certificate' | 'Diploma' | 'Bachelors' | 'Masters' | 'PhD';
 	from?: string | Date;
 	to?: string | Date;
+	user?: string;
 }
 
 export interface StackistanUserEducationUpdate extends BaseCollectionUpdate {
@@ -479,6 +488,7 @@ export interface StackistanUserEducationUpdate extends BaseCollectionUpdate {
 	qualification?: '' | 'Certificate' | 'Diploma' | 'Bachelors' | 'Masters' | 'PhD';
 	from?: string | Date;
 	to?: string | Date;
+	user?: string;
 }
 
 export interface StackistanUserEducationCollection {
@@ -490,6 +500,7 @@ export interface StackistanUserEducationCollection {
 	update: StackistanUserEducationUpdate;
 	relations: {
 		'stackistan_resume_profile(education)': StackistanResumeProfileCollection[];
+		user: StackistanUsersCollection;
 	};
 }
 
@@ -504,6 +515,7 @@ export interface StackistanUserProjectsResponse extends BaseCollectionResponse {
 	description: string;
 	link: string;
 	tech_stack: Array<string>;
+	user: string;
 }
 
 export interface StackistanUserProjectsCreate extends BaseCollectionCreate {
@@ -511,6 +523,7 @@ export interface StackistanUserProjectsCreate extends BaseCollectionCreate {
 	description?: string;
 	link?: string | URL;
 	tech_stack?: MaybeArray<string>;
+	user?: string;
 }
 
 export interface StackistanUserProjectsUpdate extends BaseCollectionUpdate {
@@ -520,6 +533,7 @@ export interface StackistanUserProjectsUpdate extends BaseCollectionUpdate {
 	tech_stack?: MaybeArray<string>;
 	'tech_stack+'?: MaybeArray<string>;
 	'tech_stack-'?: MaybeArray<string>;
+	user?: string;
 }
 
 export interface StackistanUserProjectsCollection {
@@ -532,6 +546,7 @@ export interface StackistanUserProjectsCollection {
 	relations: {
 		'stackistan_resume_profile(projects)': StackistanResumeProfileCollection[];
 		tech_stack: StackistanTechnologiesCollection[];
+		user: StackistanUsersCollection;
 	};
 }
 

@@ -15,12 +15,12 @@ const pocketbaseServerHooksFactory: ServerPluginFactory = (_, options) => ({
     beforePages: [],
     beforeApiRoutes: [],
     beforeNotFound: [],
-    beforeAll: [ pocketbaseMiddleware],
+    beforeAll: [pocketbaseMiddleware],
   },
   createPageHooks(requestContext) {
     return {
       extendPageContext(pageContext) {
-        const request = requestContext
+        const request = requestContext;
 
         if (!request) return;
         if (!pageContext.locals.pb) {
@@ -31,7 +31,7 @@ const pocketbaseServerHooksFactory: ServerPluginFactory = (_, options) => ({
           // pageContext.locals.pb.authStore.loadFromCookie(
           //   request.headers.get("cookie") || "",
           // );
-     
+
           pageContext.locals.pb.authStore.loadFromCookie(
             request?.request.headers?.get("cookie") ?? "",
           );
@@ -40,6 +40,7 @@ const pocketbaseServerHooksFactory: ServerPluginFactory = (_, options) => ({
         try {
           if (pageContext.locals.pb.authStore.isValid) {
             const user = pageContext?.locals?.pb;
+
             pageContext.tanstackQueryClient.setQueryData(
               ["viewer"],
               user?.authStore?.model,

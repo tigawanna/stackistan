@@ -1,5 +1,6 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { usePageContext } from "rakkasjs";
+import { PocketBaseClient } from "../client";
 
 export function useViewer() {
   const {
@@ -7,17 +8,18 @@ export function useViewer() {
   } = usePageContext();
   const query = useSuspenseQuery({
     queryKey: ["viewer"],
-    queryFn: async (ctx) => {
-      try {
-        const new_user = await pb?.from("stackistan_users")?.authRefresh();
-        // const user = pb?.authStore
-        //   ?.model as StackistanUsersResponse;
-
-        return { user: new_user, error: null };
-      } catch (error: any) {
-        return { user: null, error: error.message };
-      }
-    },
+    queryFn: () => getViewer(pb),
+    staleTime: 1000 * 60 * 60 * 24,
   });
+
   return query;
+}
+
+export async function getViewer(pb: PocketBaseClient) {
+  try {
+    const new_user = await pb?.from("stackistan_users")?.authRefresh();
+    return new_user.record;
+  } catch (error: any) {
+    return null;
+  }
 }

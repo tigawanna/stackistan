@@ -8,6 +8,7 @@ interface LoggedInProfileProps {
 
 export function LoggedInProfile({}:LoggedInProfileProps){
   const { data,error,isError } = useViewer();
+      console.log("=== data === ", data);
     if (data?.error) {
       return <ErrorOutput error={data?.error} />;
     }
@@ -17,10 +18,11 @@ export function LoggedInProfile({}:LoggedInProfileProps){
         message: error?.message ?? "Something went wrong",
       }} />;
     }
-  if(!data?.user?.record) return null;
+
+  if(!data) return null;
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-        <ProfileComponent profile={data?.user?.record}/>
+        <ProfileComponent profile={data}/>
     </div>
   );
 }

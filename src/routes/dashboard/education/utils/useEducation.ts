@@ -1,38 +1,21 @@
+import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { useViewer } from "@/lib/pb/hooks/useViewer";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useLocation, usePageContext } from "rakkasjs";
-import { and, eq,like,or } from "typed-pocketbase";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { eq } from "typed-pocketbase";
 
-interface UseEducations {
-  page?: number;
-  perPage?: number;
-}
+interface UseEducations {}
 
-export function useEducations({ page = 1, perPage = 12 }: UseEducations) {
-  const {
-    data: { user }} = useViewer();
-  const {
-    locals: { pb },
-  } = usePageContext();
-  
-  const { current } = useLocation();
-  const edp = current.searchParams.get("edp");
-  const edq = current.searchParams.get("edq");
-  return useSuspenseQuery({
-    queryKey: ["educations"],
+export function useEducation({}: UseEducations) {
+
+  const { pb, viewer } = usePocketbase();
+  return queryOptions({
+    queryKey: ["stackistan_user_education", viewer?.record?.id!],
     queryFn: () =>
       pbTryCatchWrapper(
-        pb?.from("stackistan_user_education").getList(page, perPage, {
-          // filter: and(
-          //   eq("id", user?.record?.id!),
-          //   or(
-          //     like("school", edp || ""),
-          //     like("field_of_study", edq || ""),
-          //       // @ts-expect-error
-          //     like("qualification", edq || ""),
-          //   ),
-          // ),
+        pb?.from("stackistan_user_education").getFullList({
+          filter: eq("id", viewer?.record?.id!),
+          sort: "-to",
         }),
       ),
   });

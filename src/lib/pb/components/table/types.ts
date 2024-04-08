@@ -70,10 +70,10 @@ export interface DateField extends SchemaField {
 	};
 }
 
-export interface SelectField extends SchemaField {
+export interface SelectField<T extends Record<string, any>,K extends string> extends SchemaField {
 	type: 'select';
-    fields:{label:string,value:string} []
-	options?: {
+    fields:{label:string,value:T[K]} []
+	options: {
 		maxSelect: number;
 		values: string[];
 	};
@@ -111,7 +111,7 @@ export interface JsonField extends SchemaField {
 }
 
 
-export type PBColumnField<T extends Record<string, any>> =
+export type PBColumnField<T extends Record<string, any>,K extends string> =
   | TextField
   | EditorField
   | NumberField
@@ -119,7 +119,7 @@ export type PBColumnField<T extends Record<string, any>> =
   | EmailField
   | UrlField
   | DateField
-  | SelectField
+  | SelectField<T,K>
   | RelationField<T>
   | FileField
   | JsonField;

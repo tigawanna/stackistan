@@ -45,7 +45,7 @@ export function PBrelationPicker<T extends RecordModel>({
 
   // console.log({ selectedRows });
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+    <div className="w-full h-full flex flex-col  gap-2 overflow-auto p-2">
       <div className="w-full px-3 flex flex-col md:flex-row justify-between gap-3 pr-5">
         <div className="w-full">
           <h1 className="text-2xl bg-base-200 ">{fieldLabel}</h1>
@@ -120,13 +120,13 @@ export function PBPickRelationsModal<T extends RecordModel>({
           </span>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[80%] w-full h-full overflow-auto ">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[80%] w-full h-[80%] overflow-auto ">
+        {/* <DialogHeader>
           <DialogTitle>Update Entry</DialogTitle>
           <DialogDescription>
             submit an update propasal for approval
           </DialogDescription>
-        </DialogHeader>
+        </DialogHeader> */}
         <div className="w-full  h-[95%] overflow-y-scroll">
           <PBrelationPicker
             collectionName={collectionName}

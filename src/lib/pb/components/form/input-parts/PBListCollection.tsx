@@ -84,7 +84,7 @@ selectedRows,setSelectedRows,
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center relative overflow-auto">
+    <div className="w-full h-full overflow-auto">
       <div className="w-full flex justify-between items-center">
         {/* <Checkbox
           checked={
@@ -93,7 +93,7 @@ selectedRows,setSelectedRows,
           onCheckedChange={selectAllRows}
         /> */}
       </div>
-      <ul className="w-full h-full flex flex-col items-center justify-center gap-2 p-2">
+      <ul className="w-full h-full flex flex-col  gap-2 p-2">
         {data &&
           data.map((i) => {
             const checked = selectedRows.includes(i.id);

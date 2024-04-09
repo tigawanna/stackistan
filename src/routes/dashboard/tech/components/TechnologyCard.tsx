@@ -4,6 +4,7 @@ import { StackistanTechnologiesResponse } from "@/lib/pb/database";
 import { Image } from "@unpic/react";
 import { UpdateTechFormModal } from "./form/UpdateTechForm";
 import { Link } from "rakkasjs";
+import { ExternalLink } from "lucide-react";
 
 interface TechnologyCardProps {
   tech: StackistanTechnologiesResponse;
@@ -48,16 +49,20 @@ export function TechnologyCard({
           src={logo_url}
           alt={tech.name}
         />
+      <div className=" flex gap-1 items-start hover:text-sky-200">
         <Link
           href={tech.link}
           target="_blank"
-          className="text-2xl cursor-pointer hover:text-blue-600 "
+          className="text-xl cursor-pointer  peer"
         >
           {tech.name}
         </Link>
-        <div className="hidden absolute top-2 right-[10%] z-40 group-hover:block">
-          <UpdateTechFormModal id={tech.id} item={tech} />
-        </div>
+        <ExternalLink className="hidden peer-hover:block size-3" />
+      </div>
+      </div>
+
+      <div className="hidden absolute top-2 right-[10%] z-40 group-hover:block">
+        <UpdateTechFormModal id={tech.id} item={tech} />
       </div>
       <p className="text-center line-clamp-2">{tech.description}</p>
     </li>

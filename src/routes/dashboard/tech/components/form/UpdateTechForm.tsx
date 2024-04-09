@@ -203,7 +203,7 @@ export function TechnologyForm({
           </div>
         </div>
         <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save {mutation.ispending && <Loader className="animate-spin" />}
+          Save {mutation.isPending && <Loader className="animate-spin" />}
         </Button>
       </form>
     </div>

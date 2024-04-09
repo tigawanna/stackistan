@@ -22,7 +22,7 @@ import {
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { Edit, Plus, X } from "lucide-react";
+import { Loader, Plus, X } from "lucide-react";
 import { useState } from "react";
 
 interface AddNewTechFormProps {
@@ -88,7 +88,7 @@ export function TechnologyForm({ setOpen }: AddNewTechFormProps) {
         className="w-full flex flex-col items-center gap-5"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log({ input });
+
           mutation.mutate(input);
         }}
       >
@@ -187,7 +187,7 @@ export function TechnologyForm({ setOpen }: AddNewTechFormProps) {
           </div>
         </div>
         <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save
+          Save {mutation.isPending && <Loader className="animate-spin" />}
         </Button>
       </form>
     </div>
@@ -207,9 +207,7 @@ export function AddNewTechFormModal({}: AddNewTechFormModalProps) {
       <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">
         <DialogHeader>
           <DialogTitle>Add new Technology</DialogTitle>
-          <DialogDescription>
-            submit a propasal for approval
-          </DialogDescription>
+          <DialogDescription>submit a propasal for approval</DialogDescription>
         </DialogHeader>
         <div className="w-full h-full ">
           <TechnologyForm setOpen={setOpen} />

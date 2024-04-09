@@ -512,28 +512,28 @@ export interface StackistanUserEducationCollection {
 export interface StackistanUserProjectsResponse extends BaseCollectionResponse {
 	collectionName: 'stackistan_user_projects';
 	name: string;
-	description: string;
 	link: string;
 	tech_stack: Array<string>;
 	user: string;
+	description: string;
 }
 
 export interface StackistanUserProjectsCreate extends BaseCollectionCreate {
 	name?: string;
-	description?: string;
 	link?: string | URL;
 	tech_stack?: MaybeArray<string>;
 	user?: string;
+	description?: string;
 }
 
 export interface StackistanUserProjectsUpdate extends BaseCollectionUpdate {
 	name?: string;
-	description?: string;
 	link?: string | URL;
 	tech_stack?: MaybeArray<string>;
 	'tech_stack+'?: MaybeArray<string>;
 	'tech_stack-'?: MaybeArray<string>;
 	user?: string;
+	description?: string;
 }
 
 export interface StackistanUserProjectsCollection {

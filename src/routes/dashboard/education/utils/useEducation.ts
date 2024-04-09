@@ -13,7 +13,7 @@ export function useEducation({}: UseEducations) {
       pbTryCatchWrapper(
         pb?.from("stackistan_user_education").getFullList({
           filter: eq("user", viewer?.id!),
-          sort: "-to",
+          sort: "+to",
         }),
       ),
   });

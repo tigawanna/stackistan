@@ -1,7 +1,10 @@
-import { usePocketbase } from "@/lib/pb/hooks/use-pb";
-import { getViewer, useViewer } from "@/lib/pb/hooks/useViewer";
-import { PageProps, useQuery } from "rakkasjs";
+import { PageProps } from "rakkasjs";
+import { EducationListFallBack } from "../education/components/EducationList";
 
 export default function TestPage({}: PageProps) {
-  return <div className="flex h-full   w-full flex-col  ">test</div>;
+  return (
+    <div className="flex h-full   w-full flex-col  ">
+      <EducationListFallBack />
+    </div>
+  );
 }

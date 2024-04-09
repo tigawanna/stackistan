@@ -1,5 +1,5 @@
 import { Link } from "rakkasjs";
-import { FlaskConical, GraduationCap, Home, Layers, Lock, TestTube2, User } from "lucide-react";
+import { FlaskConical, GraduationCap, Hammer, Home, Layers, Lock, TestTube2, User } from "lucide-react";
 import { TooltipWrapper } from "@/components/wrappers/TooltipWrapper";
 interface RoutesListProps {
   icontsOnly?: boolean;
@@ -11,12 +11,13 @@ export function RoutesList({ icontsOnly = true }: RoutesListProps) {
     { name: "profile", url: "/dashboard/profile", icon: <User /> },
     { name: "resume", url: "/dashboard/resume", icon: <Lock /> },
     { name: "tech", url: "/dashboard/tech", icon: <Layers /> },
+    { name: "projects", url: "/dashboard/projects", icon: <Hammer /> },
     { name: "education", url: "/dashboard/education", icon: <GraduationCap /> },
     { name: "test", url: "/dashboard/test", icon: <FlaskConical /> },
   ];
 
   return (
-    <div className="h-[80%] flex flex-col justify-between items-center gap-2 z-50">
+    <div className="h-[80%] flex flex-col justify-between items-center gap-1 z-50">
       <div>
         <TooltipWrapper label="Home">
           <Link  href="/" className="">
@@ -24,7 +25,7 @@ export function RoutesList({ icontsOnly = true }: RoutesListProps) {
           </Link>
         </TooltipWrapper>
       </div>
-      <ul className="flex flex-col gap-3 items-center ">
+      <ul className="flex flex-col gap-1 items-center ">
         {routes.map((route) => {
           return (
             <TooltipWrapper label={route.name} key={route.name}>
@@ -32,7 +33,7 @@ export function RoutesList({ icontsOnly = true }: RoutesListProps) {
                 href={route.url}
                 className="text-3xl  items-center flex gap-3 
                 hover:bg-base-300 
-              rounded-lg p-2 lg:p-4  "
+              rounded-lg p-1 lg:p-2  "
               >
                 {route.icon}
                 {icontsOnly ? (

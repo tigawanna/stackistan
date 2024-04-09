@@ -1,0 +1,11 @@
+interface UpdateUserProjectProps {
+
+}
+
+export function UpdateUserProject({}:UpdateUserProjectProps){
+return (
+ <div className='w-full h-full flex flex-col items-center justify-center'>
+
+ </div>
+);
+}

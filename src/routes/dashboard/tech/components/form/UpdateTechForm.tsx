@@ -22,7 +22,7 @@ import {
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { Edit, Plus, X } from "lucide-react";
+import { Edit, Plus, X,Loader } from "lucide-react";
 import { useState } from "react";
 
 interface UpdateTechFormProps {
@@ -203,7 +203,7 @@ export function TechnologyForm({
           </div>
         </div>
         <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save
+          Save {mutation.ispending && <Loader className="animate-spin" />}
         </Button>
       </form>
     </div>

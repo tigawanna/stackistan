@@ -29,12 +29,12 @@ export function TechnologyCard({
       //   href={`/dashboard/tech/${tech.id}`}
       className={
         checked
-          ? "brightness-75 relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2 rounded-lg"
-          : "relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2 rounded-lg"
+          ? "brightness-75 relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2 rounded-lg group"
+          : "relative w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 p-2 gap-2 rounded-lg group"
       }
     >
       <Checkbox
-        className="absolute top-2 right-2 z-40"
+        className="absolute top-2 right-2 z-40 "
         checked={checked}
         onCheckedChange={() => selectItem(tech.id)}
       />
@@ -48,8 +48,16 @@ export function TechnologyCard({
           src={logo_url}
           alt={tech.name}
         />
-        <Link href={tech.link} target="_blank" className="text-2xl cursor-pointer hover:text-blue-600">{tech.name}</Link>
-        <UpdateTechFormModal id={tech.id} item={tech} />
+        <Link
+          href={tech.link}
+          target="_blank"
+          className="text-2xl cursor-pointer hover:text-blue-600 "
+        >
+          {tech.name}
+        </Link>
+        <div className="hidden absolute top-2 right-[10%] z-40 group-hover:block">
+          <UpdateTechFormModal id={tech.id} item={tech} />
+        </div>
       </div>
       <p className="text-center line-clamp-2">{tech.description}</p>
     </li>

@@ -24,6 +24,7 @@ import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
 import { Loader, Plus, X } from "lucide-react";
 import { useState } from "react";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface AddNewTechFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -186,9 +187,9 @@ export function TechnologyForm({ setOpen }: AddNewTechFormProps) {
             </div>
           </div>
         </div>
-        <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save {mutation.isPending && <Loader className="animate-spin" />}
-        </Button>
+    
+
+        <SpinnerButton type="submit" variant={"outline"} mutation={mutation} />
       </form>
     </div>
   );

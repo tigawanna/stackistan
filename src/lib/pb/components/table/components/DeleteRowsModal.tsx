@@ -12,6 +12,7 @@ import {
 } from "@/components/shadcn/ui/dialog";
 import { CollectionName } from "@/lib/pb/client";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
+import { SpinnerButton } from "@/lib/tanstack/components/SaveButton";
 import { useMutation } from "@tanstack/react-query";
 import { Loader, Trash } from "lucide-react";
 
@@ -65,20 +66,14 @@ export function DeleteRowsModal({ collectionName, ids }: DeleteRowsModalProps) {
               Cancel
             </Button>
           </DialogClose>
-          <Button
+
+          <SpinnerButton
             type="button"
             variant="destructive"
-            className="flex gap-3 items-center justify-center min-w-fit"
+            mutation={mutation}
             onClick={() => mutation.mutate()}
-            disabled={mutation.isPending}
-          >
-            Delete{" "}
-            {mutation.isPending ? (
-              <Loader className="animate-spin " />
-            ) : (
-              <Trash className="" />
-            )}
-          </Button>
+      
+          />
         </div>
 
         <DialogFooter className="sm:justify-start"></DialogFooter>

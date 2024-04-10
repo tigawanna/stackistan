@@ -24,6 +24,7 @@ import { PBFormSelect } from "@/lib/pb/components/form/input-parts/PBFormSelect"
 import { Edit, Loader, Plus } from "lucide-react";
 import { useState } from "react";
 import dayjs from "dayjs";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 interface UpdateEducationFormProps {
   id: string;
   item: StackistanUserEducationUpdate;
@@ -162,9 +163,12 @@ export function UpdateEducationForm({
             />
           </div>
         </div>
-        <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save {mutation.isPending && <Loader className="animate-spin" />}
-        </Button>
+
+        <SpinnerButton
+          type="submit"
+          mutation={mutation}
+
+        />
       </form>
     </div>
   );

@@ -6,12 +6,11 @@ import { InputFieldType } from "../generic-component-types";
 import { GenericFormEditor } from "./generic-inputs/GenericFormEditor";
 import { CollectionName } from "@/lib/pb/client";
 import { Schema } from "@/lib/pb/database";
-import { Button } from "@/components/shadcn/ui/button";
-import { Check, Loader } from "lucide-react";
 import { GenericFormJSONEditor } from "./generic-inputs/GenericFormJSONEditor";
 import { GenericFormFilePicker } from "./generic-inputs/GenericFormFilePicker";
 import { GenericFormRelationPicker } from "./generic-inputs/GenericFormRelationPicker";
 import { ClientResponseError } from "pocketbase";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface GenericFormpartsProps<T extends Record<string, any>> {
   input: T;
@@ -91,7 +90,7 @@ export function GenericFormparts<T extends Record<string, any>>({
         if (value.fieldOptions?.type === "file") {
           return (
             <GenericFormFilePicker
-            key={key}
+              key={key}
               input={input}
               setInput={setInput}
               fieldLabel={value.fieldLabel}
@@ -143,14 +142,8 @@ export function GenericFormparts<T extends Record<string, any>>({
           </div>
         );
       })}
-      <Button
-        type="submit"
-        variant={"outline"}
-        className="w-fit flex gap-2 items-center justify-between"
-      >
-        Submit{" "}
-        {mutation.isPending ? <Loader className="animate-spin " /> : <Check />}
-      </Button>
+
+      <SpinnerButton mutation={mutation} />
     </form>
   );
 }

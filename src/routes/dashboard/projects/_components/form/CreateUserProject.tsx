@@ -4,11 +4,14 @@ import { CollectionName } from "@/lib/pb/client";
 import { PbTheTextAreaInput } from "@/lib/pb/components/form/input-parts/PBTheTextAreaInput";
 import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
 import { PBPickRelationsModal } from "@/lib/pb/components/form/input-parts/PBrelationPicker";
-import { StackistanTechnologiesResponse, StackistanUserProjectsCreate } from "@/lib/pb/database";
+import {
+  StackistanTechnologiesResponse,
+  StackistanUserProjectsCreate,
+} from "@/lib/pb/database";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { X,Loader, Plus } from "lucide-react";
+import { X, Loader, Plus } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import {
   Dialog,
@@ -19,15 +22,15 @@ import {
   DialogTrigger,
 } from "@/components/shadcn/ui/dialog";
 import { useState } from "react";
+import { ImportFromGithubModal } from "../github/ImportFromGithub";
 
 interface CreateUserProjectFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function CreateUserProjectForm({setOpen}: CreateUserProjectFormProps) {
-
+export function CreateUserProjectForm({ setOpen }: CreateUserProjectFormProps) {
   const collectionName: CollectionName = "stackistan_user_projects";
-  const { pb,viewer } = usePocketbase();
+  const { pb, viewer } = usePocketbase();
   const mutation = useMutation({
     mutationFn: (item: StackistanUserProjectsCreate) => {
       return pbTryCatchWrapper(pb.from(collectionName).create(item));
@@ -74,12 +77,32 @@ export function CreateUserProjectForm({setOpen}: CreateUserProjectFormProps) {
         link: "",
         image_url: "",
         tech_stack: [],
-        user:viewer?.id!
+        user: viewer?.id!,
       },
     });
   const pb_error = mutation.data?.error;
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
+      <div className="w-full h-full flex flex-col items-center justify-center">
+        <ImportFromGithubModal
+          selectedRepo={{
+            name: input.name ?? "",
+            description: input.description ?? "",
+            link: typeof input.link === "string" ? input.link : "",
+            image_url:
+              typeof input.image_url === "string" ? input.image_url : "",
+          }}
+          setSelectedRepo={(e) => {
+            setInput((prev) => ({
+              ...prev,
+              name: e.name,
+              description: e.description,
+              link: e.link,
+              image_url: e.image_url,
+            }));
+          }}
+        />
+      </div>
       <form
         className="w-full flex flex-col items-center gap-5"
         onSubmit={(e) => {
@@ -131,7 +154,6 @@ export function CreateUserProjectForm({setOpen}: CreateUserProjectFormProps) {
             />
           </div>
 
-    
           {/* {input..dependancies} */}
           <div className="w-full h-[95%]  flex flex-col gap-2">
             <div className="font-semibold">Dependancies</div>
@@ -156,7 +178,9 @@ export function CreateUserProjectForm({setOpen}: CreateUserProjectFormProps) {
                   ))}
               </ul>
               <PBPickRelationsModal<StackistanTechnologiesResponse>
-                dialogTrigger={<span className="btn btn-outline">Pick techstack</span>}
+                dialogTrigger={
+                  <span className="btn btn-outline">Pick techstack</span>
+                }
                 selectedRows={
                   Array.isArray(input.tech_stack) ? input.tech_stack : []
                 }
@@ -178,14 +202,13 @@ export function CreateUserProjectForm({setOpen}: CreateUserProjectFormProps) {
             </div>
           </div>
         </div>
-        <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save {mutation.isPending && <Loader className="animate-spin" />}
-        </Button>
+
+        
+        <SpinnerButton type="submit" variant={"outline"} mutation={mutation} />
       </form>
     </div>
   );
 }
-
 
 interface AddNewUserProjectFormModalProps {}
 export function AddNewUserProjectFormModal({}: AddNewUserProjectFormModalProps) {
@@ -202,8 +225,9 @@ export function AddNewUserProjectFormModal({}: AddNewUserProjectFormModalProps) 
           <DialogTitle>Add new Project</DialogTitle>
           {/* <DialogDescription>Add a project </DialogDescription> */}
         </DialogHeader>
+
         <div className="w-full h-full ">
-          <CreateUserProjectForm setOpen={setOpen}/>
+          <CreateUserProjectForm setOpen={setOpen} />
         </div>
 
         <DialogFooter className="sm:justify-start"></DialogFooter>

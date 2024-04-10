@@ -1,7 +1,6 @@
 import { SearchBox } from "@/components/search/SearchBox";
 import { GenericDataCardsListSuspenseFallback } from "@/lib/pb/components/card-list/GenericDataCardsListSuspenseFallback";
 import { useDebouncedSearchWithhParams } from "@/utils/hooks/search";
-import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
 import { Suspense, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { GithubReposList } from "./GithubReposList";
@@ -16,22 +15,21 @@ export interface OneGithubRepo {
 }
 
 interface GithubReposProps {
-  selectedRows: OneGithubRepo[];
-  setSelectedRows: React.Dispatch<React.SetStateAction<OneGithubRepo[]>>;
+  selectedRepo: OneGithubRepo;
+  setSelectedRepo: (item: OneGithubRepo) => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function GithubRepos({
-  selectedRows,
-  setSelectedRows,
+  selectedRepo,
+  setSelectedRepo,
+  setOpen,
 }: GithubReposProps) {
   //   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const searchParamKey = "repo";
   const { isDebouncing, debouncedValue, setKeyword, keyword } =
     useDebouncedSearchWithhParams({ default_search_query: "" });
-  const { searchParam } = useCustomSearchParams({
-    key: searchParamKey,
-    defaultValue: "1",
-  });
+
   const { data } = useViewer();
   const [githubUsername, setGithubUsername] = useState(
     data?.github_username ?? "",
@@ -60,13 +58,17 @@ export function GithubRepos({
         </div>
       </div>
       <div className="w-full h-[99vh] overflow-auto">
-        <Suspense fallback={<GenericDataCardsListSuspenseFallback />}>
+        <Suspense
+          fallback={
+            <GenericDataCardsListSuspenseFallback cardClassName="max-h-28" />
+          }
+        >
           <GithubReposList
             githubUsername={githubUsername}
             debouncedValue={debouncedValue}
-            searchParam={searchParam}
-            selectedRows={selectedRows}
-            setSelectedRows={setSelectedRows}
+            selectedRepo={selectedRepo}
+            setSelectedRepo={setSelectedRepo}
+            setOpen={setOpen}
           />
         </Suspense>
       </div>

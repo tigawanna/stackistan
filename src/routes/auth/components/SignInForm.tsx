@@ -155,18 +155,12 @@ export function SignInForm({ current }: SignInFormProps) {
               }}
             />
           </div>
-          <Button
+
+          <SpinnerButton
             type="submit"
-            disabled={email_login_mutation.isPending}
-            className="btn btn-wide min-w-[50%]"
-            size={"sm"}
-          >
-            {" "}
-            Sign in{" "}
-            {email_login_mutation.isPending && (
-              <Loader className="animate-spin" />
-            )}
-          </Button>
+            mutation={mutation}
+            onClick={() => mutation.mutate()}
+          />
         </form>
 
         <div className="w-full flex items-center justify-center">
@@ -187,21 +181,16 @@ export function SignInForm({ current }: SignInFormProps) {
             Sign up
           </Link>
         </p>
-        <button
-          className="btn btn-outline btn-sm flex text-xs gap-2 h-2 "
-          disabled={pw_reset_request_mutation.isPending}
+        <SpinnerButton
+          type="submit"
           onClick={() =>
             pw_reset_request_mutation.mutate({
               email: input.usernameOrEmail,
             })
           }
-        >
-          <h3>Forgot password</h3>
-          <Unlock className="h-4 w-4 text-red-600" />
-          {pw_reset_request_mutation.isPending && (
-            <Loader className="animate-spin" />
-          )}
-        </button>
+          mutation={pw_reset_request_mutation}
+          onClick={() => pw_reset_request_mutation.mutate()}
+        />
       </div>
     </div>
   );

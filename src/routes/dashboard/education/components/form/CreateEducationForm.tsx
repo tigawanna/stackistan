@@ -1,5 +1,4 @@
 import { useFormHook } from "@/components/form/useForm";
-import { Button } from "@/components/shadcn/ui/button";
 import { CollectionName } from "@/lib/pb/client";
 import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
 import { StackistanUserEducationCreate } from "@/lib/pb/database";
@@ -155,9 +154,13 @@ export function CreateEducationForm({ setOpen }: CreateEducationFormProps) {
 
           {/* {input.logo} */}
         </div>
-        <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save  {mutation.isPending && <Loader className="animate-spin" />}
-        </Button>
+
+
+        <SpinnerButton
+          type="submit"
+          mutation={mutation}
+
+        />
       </form>
     </div>
   );

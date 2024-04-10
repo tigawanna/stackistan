@@ -12,10 +12,9 @@ import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextIn
 import { PbTheTextAreaInput } from "@/lib/pb/components/form/input-parts/PBTheTextAreaInput";
 import { TheCountryFields } from "@/components/country/TheCountryFields";
 import ClientSuspenseWrapper from "@/components/wrappers/ClientSuspenseWrapper";
-import { Button } from "@/components/shadcn/ui/button";
-import { Loader } from "lucide-react";
 import { TheStringListInput } from "@/components/form/inputs/StringListInput";
 import { PBTheImagePicker } from "@/lib/pb/components/form/input-parts/PbTheImagePicker";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface UpdateProfileFormProps {}
 
@@ -118,8 +117,6 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
         </CardHeader>
         <CardContent className="grid gap-6 pt-6">
           <form className="" onSubmit={handleSubmit}>
-
-
             <div className="w-full  flex flex-col md:flex-row gap-2  justify-center ">
               <div className="w-full md:w-[30%]">
                 <PBTheImagePicker
@@ -257,13 +254,12 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
             </div>
             {/* submit button */}
             <div className="w-full py-5 flex items-center justify-center">
-              <Button
-                className="min-w-full  md:min-w-[50%] flax gap-3"
-                disabled={mutation.isPending}
-              >
-                Submit{" "}
-                {mutation.isPending && <Loader className="animate-spin" />}
-              </Button>
+ 
+              <SpinnerButton
+                type="submit"
+                mutation={mutation}
+ 
+              />
             </div>
           </form>
         </CardContent>

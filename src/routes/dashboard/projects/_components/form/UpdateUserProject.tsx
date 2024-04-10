@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/shadcn/ui/dialog";
 import { useState } from "react";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface UpdateUserProjectFormProps {
   id: string;
@@ -77,11 +78,11 @@ export function UpdateUserProjectForm({
   const { input, handleChange, setInput } =
     useFormHook<StackistanUserProjectsUpdate>({
       initialValues: {
-        name:item.name??"",
-        description: item.description??"",
-        link: item.link??"",
+        name: item.name ?? "",
+        description: item.description ?? "",
+        link: item.link ?? "",
         image_url: item.image_url,
-        tech_stack: item.tech_stack??[],
+        tech_stack: item.tech_stack ?? [],
         user: viewer?.id!,
       },
     });
@@ -187,9 +188,8 @@ export function UpdateUserProjectForm({
             </div>
           </div>
         </div>
-        <Button className="min-w-[80%] md:min-w-[50%]" variant={"outline"}>
-          Save {mutation.isPending && <Loader className="animate-spin" />}
-        </Button>
+
+        <SpinnerButton type="submit" variant={"outline"} mutation={mutation} />
       </form>
     </div>
   );
@@ -198,13 +198,26 @@ export function UpdateUserProjectForm({
 interface UpdateUserProjectFormModalProps {
   id: string;
   item: StackistanUserProjectsUpdate;
+  setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export function UpdateUserProjectFormModal({id,item}: UpdateUserProjectFormModalProps) {
+export function UpdateUserProjectFormModal({
+  id,
+  item,
+  setOpenDropdown,
+}: UpdateUserProjectFormModalProps) {
   const [open, setOpen] = useState(false);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open);
+        setOpenDropdown(open);
+      }}
+    >
       <DialogTrigger asChild>
-        <Edit className="text-primary" />
+        <div className="flex gap-2">
+          <Edit className="text-primary" /> Edit
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">
         <DialogHeader>

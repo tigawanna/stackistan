@@ -15,7 +15,7 @@ export function GenericDataCardsListSuspenseFallback({
         {Array.from({ length: cards }).map((_, i) => (
           <li
             key={i}
-            className="h-40 w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 skeleton p-2 gap-2 rounded-lg"
+            className="h-56 w-[95%] md:w-[40%] lg:w-[30%] flex flex-col bg-base-300/70 skeleton p-2 gap-2 rounded-lg"
           />
         ))}
       </ul>

@@ -4,14 +4,11 @@ import { CollectionName } from "@/lib/pb/client";
 import { PbTheTextAreaInput } from "@/lib/pb/components/form/input-parts/PBTheTextAreaInput";
 import { PbTheTextInput } from "@/lib/pb/components/form/input-parts/PBTheTextInput";
 import { PBPickRelationsModal } from "@/lib/pb/components/form/input-parts/PBrelationPicker";
-import {
-  StackistanTechnologiesResponse,
-  StackistanUserProjectsUpdate,
-} from "@/lib/pb/database";
+import { StackistanTechnologiesResponse, StackistanUserProjectsCreate } from "@/lib/pb/database";
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { X, Loader, Edit } from "lucide-react";
+import { X,Loader, Plus } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import {
   Dialog,
@@ -23,22 +20,17 @@ import {
 } from "@/components/shadcn/ui/dialog";
 import { useState } from "react";
 
-interface UpdateUserProjectFormProps {
-  id: string;
-  item: StackistanUserProjectsUpdate;
+interface CreateUserProjectFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function UpdateUserProjectForm({
-  id,
-  item,
-  setOpen,
-}: UpdateUserProjectFormProps) {
+export function CreateUserProjectForm({setOpen}: CreateUserProjectFormProps) {
+
   const collectionName: CollectionName = "stackistan_user_projects";
-  const { pb, viewer } = usePocketbase();
+  const { pb,viewer } = usePocketbase();
   const mutation = useMutation({
-    mutationFn: (item: StackistanUserProjectsUpdate) => {
-      return pbTryCatchWrapper(pb.from(collectionName).update(id, item));
+    mutationFn: (item: StackistanUserProjectsCreate) => {
+      return pbTryCatchWrapper(pb.from(collectionName).create(item));
     },
     meta: {
       invalidates: [collectionName],
@@ -48,7 +40,7 @@ export function UpdateUserProjectForm({
         if (data.data) {
           sonnerToast({
             type: "success",
-            title: "Project updated",
+            title: "New project added",
           });
 
           setOpen(false);
@@ -56,7 +48,7 @@ export function UpdateUserProjectForm({
         if (data.error) {
           sonnerToast({
             type: "error",
-            title: "Something went wrong while updating project",
+            title: "Something went wrong while creating new project",
             options: {
               description: data.error.message,
             },
@@ -67,7 +59,7 @@ export function UpdateUserProjectForm({
     onError: (error) => {
       sonnerToast({
         type: "error",
-        title: "Something went wrong while updating project",
+        title: "Something went wrong while creating new project",
         options: {
           description: error.message,
         },
@@ -75,14 +67,14 @@ export function UpdateUserProjectForm({
     },
   });
   const { input, handleChange, setInput } =
-    useFormHook<StackistanUserProjectsUpdate>({
+    useFormHook<StackistanUserProjectsCreate>({
       initialValues: {
-        name:item.name??"",
-        description: item.description??"",
-        link: item.link??"",
-        image_url: item.image_url,
-        tech_stack: item.tech_stack??[],
-        user: viewer?.id!,
+        name: "",
+        description: "",
+        link: "",
+        image_url: "",
+        tech_stack: [],
+        user:viewer?.id!
       },
     });
   const pb_error = mutation.data?.error;
@@ -139,6 +131,7 @@ export function UpdateUserProjectForm({
             />
           </div>
 
+    
           {/* {input..dependancies} */}
           <div className="w-full h-[95%]  flex flex-col gap-2">
             <div className="font-semibold">Dependancies</div>
@@ -163,9 +156,7 @@ export function UpdateUserProjectForm({
                   ))}
               </ul>
               <PBPickRelationsModal<StackistanTechnologiesResponse>
-                dialogTrigger={
-                  <span className="btn btn-outline">Pick techstack</span>
-                }
+                dialogTrigger={<span className="btn btn-outline">Pick techstack</span>}
                 selectedRows={
                   Array.isArray(input.tech_stack) ? input.tech_stack : []
                 }
@@ -195,24 +186,24 @@ export function UpdateUserProjectForm({
   );
 }
 
-interface UpdateUserProjectFormModalProps {
-  id: string;
-  item: StackistanUserProjectsUpdate;
-}
-export function UpdateUserProjectFormModal({id,item}: UpdateUserProjectFormModalProps) {
+
+interface AddNewUserProjectFormModalProps {}
+export function AddNewUserProjectFormModal({}: AddNewUserProjectFormModalProps) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Edit className="text-primary" />
+        <span className="cursor-pointer flex gap-1 bg-base-300 btn btn-outline btn-sm ">
+          <Plus className="" /> new
+        </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">
         <DialogHeader>
-          <DialogTitle>Update Project</DialogTitle>
+          <DialogTitle>Add new Project</DialogTitle>
           {/* <DialogDescription>Add a project </DialogDescription> */}
         </DialogHeader>
         <div className="w-full h-full ">
-          <UpdateUserProjectForm id={id} item={item} setOpen={setOpen} />
+          <CreateUserProjectForm setOpen={setOpen}/>
         </div>
 
         <DialogFooter className="sm:justify-start"></DialogFooter>

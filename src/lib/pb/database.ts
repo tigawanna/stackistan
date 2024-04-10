@@ -516,6 +516,7 @@ export interface StackistanUserProjectsResponse extends BaseCollectionResponse {
 	tech_stack: Array<string>;
 	user: string;
 	description: string;
+	image_url: string;
 }
 
 export interface StackistanUserProjectsCreate extends BaseCollectionCreate {
@@ -524,6 +525,7 @@ export interface StackistanUserProjectsCreate extends BaseCollectionCreate {
 	tech_stack?: MaybeArray<string>;
 	user?: string;
 	description?: string;
+	image_url?: string | URL;
 }
 
 export interface StackistanUserProjectsUpdate extends BaseCollectionUpdate {
@@ -534,6 +536,7 @@ export interface StackistanUserProjectsUpdate extends BaseCollectionUpdate {
 	'tech_stack-'?: MaybeArray<string>;
 	user?: string;
 	description?: string;
+	image_url?: string | URL;
 }
 
 export interface StackistanUserProjectsCollection {

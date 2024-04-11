@@ -1,5 +1,5 @@
 import { useViewer } from "@/lib/pb/hooks/useViewer";
-import { ProfileComponent } from "./ProfileComponent";
+import { ProfileComponent } from "./TheProfileComponent";
 import { ErrorOutput } from "@/components/wrappers/ErrorOutput";
 
 interface LoggedInProfileProps {}

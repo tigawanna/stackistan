@@ -1,7 +1,7 @@
 import { PageProps } from "rakkasjs"
 import { Suspense } from "react";
 import { LoggedInProfile } from "./components/LoggedInProfile";
-import { ProfileComponentSuspenseFallback } from "./components/ProfileComponent";
+import { ProfileComponentSuspenseFallback } from "./components/TheProfileComponent";
 export default function ProfilePage({}:PageProps) {
 
 return (

@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { CollectionName } from "@/lib/pb/client";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
-import { SpinnerButton } from "@/components/shadcn/ui/spinner-button";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 interface DeleteUserprojectProps {
   id: string;
   setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;

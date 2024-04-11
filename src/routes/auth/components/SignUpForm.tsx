@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { Label } from "@/components/shadcn/ui/label";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { TSignupformSchema, signupformSchema } from "./schema.auth";
-
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 interface SignupFormProps {}
 
 export function SignUpForm({}: SignupFormProps) {
@@ -145,18 +145,13 @@ export function SignUpForm({}: SignupFormProps) {
               }}
             />
           </div>
-          <Button
+
+          <SpinnerButton
             type="submit"
-            disabled={email_password_signup_mutation.isLoading}
-            className="btn btn-sm btn-outline min-w-[50%]"
-            size={"sm"}
-          >
-            {" "}
-            Sign Up{" "}
-            {email_password_signup_mutation.isLoading && (
-              <Loader className="animate-spin" />
-            )}
-          </Button>
+            label="Sign Up"
+            // @ts-expect-error
+            mutation={email_password_signup_mutation}
+          />
         </form>
 
         {email_password_signup_mutation.data?.error && (

@@ -11,8 +11,7 @@ import {
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { X, Loader, Plus } from "lucide-react";
-import { Button } from "@/components/shadcn/ui/button";
+import { X, Plus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +22,7 @@ import {
 } from "@/components/shadcn/ui/dialog";
 import { useState } from "react";
 import { ImportFromGithubModal } from "../github/ImportFromGithub";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface CreateUserProjectFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;

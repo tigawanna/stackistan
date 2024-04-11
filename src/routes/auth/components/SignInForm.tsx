@@ -1,9 +1,7 @@
 import { OAuthproviders } from "./OAuthProviders";
-import { Button } from "@/components/shadcn/ui/button";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { useFormHook } from "@/components/form/useForm";
 import { useState } from "react";
-import { Loader, Unlock } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { emailPasswordLogin, resetPassword } from "@/lib/pb/auth";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
@@ -11,6 +9,7 @@ import { Label } from "@/components/shadcn/ui/label";
 import { usePageContext, navigate, Link } from "rakkasjs";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 import { TSigninformSchema, signinformSchema } from "./schema.auth";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface SignInFormProps {
   current: URL;
@@ -156,11 +155,21 @@ export function SignInForm({ current }: SignInFormProps) {
             />
           </div>
 
-          <SpinnerButton
-            type="submit"
-            mutation={mutation}
-            onClick={() => mutation.mutate()}
-          />
+          <SpinnerButton type="submit" mutation={email_login_mutation} label="Sign In"/>
+          {email_login_mutation.data?.error && (
+            <div className="w-full flex justify-center">
+              <p className="bg-error-content text-error text-sm p-2 rounded-e-lg ">
+                {email_login_mutation.data.error?.message}
+              </p>
+            </div>
+          )}
+          {pw_reset_request_mutation.data?.error && (
+            <div className="w-full flex justify-center">
+              <p className="bg-error-content text-error text-sm p-2 rounded-e-lg ">
+                {pw_reset_request_mutation.data.error?.message}
+              </p>
+            </div>
+          )}
         </form>
 
         <div className="w-full flex items-center justify-center">
@@ -183,13 +192,13 @@ export function SignInForm({ current }: SignInFormProps) {
         </p>
         <SpinnerButton
           type="submit"
+          label="Reset password"
           onClick={() =>
             pw_reset_request_mutation.mutate({
               email: input.usernameOrEmail,
             })
           }
           mutation={pw_reset_request_mutation}
-          onClick={() => pw_reset_request_mutation.mutate()}
         />
       </div>
     </div>

@@ -19,6 +19,7 @@ import { PBFormSelect } from "@/lib/pb/components/form/input-parts/PBFormSelect"
 import { Plus, Loader } from "lucide-react";
 import { useState } from "react";
 import dayjs from "dayjs";
+import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface CreateEducationFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;

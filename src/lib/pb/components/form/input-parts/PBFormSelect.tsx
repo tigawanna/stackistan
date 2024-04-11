@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/ui/select";
-import { SelectField } from "@/lib/pb/components/table/types";
+import { SelectField } from "@/lib/pb/field-types";
 import { ClientResponseError } from "pocketbase";
 import { PBFieldWrapper } from "./PBFieldWrapper";
 

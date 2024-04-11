@@ -4,18 +4,19 @@ import { GithubRepos, OneGithubRepo } from "../projects/_components/github/Githu
 
 
 export default function TestPage({}: PageProps) {
-    const [selectedRows, setSelectedRows] = useState<OneGithubRepo[]>([
+    const [selectedRow, setSelectedRows] = useState<OneGithubRepo>(
       {
         name: "",
         description: "",
         image_url: "",
         link: "",
       },
-    ]);
-    console.log("===== selected rows ====== ",selectedRows)
+    );
+    console.log("===== selected rows ====== ",selectedRow)
   return (
     <div className="flex h-full   w-full flex-col  ">
-      <GithubRepos selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
+      <GithubRepos setOpen={()=>{}} selectedRepo={selectedRow}  setSelectedRepo={setSelectedRows} />
+
     </div>
   );
 }

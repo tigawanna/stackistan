@@ -169,7 +169,7 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
           </div>
         </div>
         {/* skills  */}
-        {skills && (
+        {/* {skills && (
           <div className="flex flex-wrap items-center justify-center gap-3">
             {skills?.split(",").map((skill, idx) => {
               return (
@@ -179,7 +179,7 @@ export function ProfileComponent({ profile }: ProfileComponentProps) {
               );
             })}
           </div>
-        )}
+        )} */}
       </div>
       {/* end of profile details */}
     </div>

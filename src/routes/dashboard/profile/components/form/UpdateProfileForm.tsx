@@ -28,30 +28,28 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
   const { error, handleChange, input, setError, validateInputs, setInput } =
     useFormHook<StackistanUsersUpdate>({
       initialValues: {
-        name: data?.user?.record?.name || "",
+        name: data?.name || "",
         avatar: null,
         cover_image: null,
-        bio: data?.user?.record?.bio || "",
-        website: data?.user?.record?.website || "",
-        skills: data?.user?.record?.skills || "",
-        linkedin_username: data?.user?.record?.linkedin_username || "",
-        github_username: data?.user?.record?.github_username || "",
-        country: data?.user?.record?.country || "",
-        city: data?.user?.record?.city || "",
-        phone: data?.user?.record?.phone || "",
-        avatar_url: data?.user?.record?.avatar_url || "",
-        cover_image_url: data?.user?.record?.cover_image_url || "",
-        username: data?.user?.record?.username || "",
+        bio: data?.bio || "",
+        website: data?.website || "",
+        skills: data?.skills || "",
+        linkedin_username: data?.linkedin_username || "",
+        github_username: data?.github_username || "",
+        country: data?.country || "",
+        city: data?.city || "",
+        phone: data?.phone || "",
+        avatar_url: data?.avatar_url || "",
+        cover_image_url: data?.cover_image_url || "",
+        username: data?.username || "",
       },
     });
   useEffect(() => {
     startTransition(() => {
       // @ts-expect-error
-      setInput(data?.user?.record as StackistanUsersUpdate);
+      setInput(data);
     });
-  }, [data?.user?.record]);
-
-
+  }, [data]);
 
   const mutation = useMutation({
     mutationFn: ({
@@ -100,7 +98,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
     });
     if (isValid) {
       // console.log(" === updating  ==== ", input);
-      mutation.mutate({ id: data?.user?.record?.id || "", input });
+      mutation.mutate({ id: data?.id || "", input });
     }
   }
   const pb_error = mutation.data?.error;
@@ -121,8 +119,8 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
               <div className="w-full md:w-[30%]">
                 <PBTheImagePicker
                   img_classname="aspect-square"
-                  label="Profile Image"
-                  file_name={data?.user?.record?.avatar}
+                  field_name="Profile Image"
+                  file_name={data?.avatar}
                   collection_id_or_name="stackistan_users"
                   show_preview={true}
                   setFileImage={(e) => {
@@ -137,9 +135,9 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
               </div>
               <div className="w-full">
                 <PBTheImagePicker
-                  label="Cover image"
+                  field_name="Cover image"
                   img_classname="w-full"
-                  file_name={data?.user?.record?.cover_image}
+                  file_name={data?.cover_image}
                   collection_id_or_name="stackistan_users"
                   show_preview={true}
                   setFileImage={(e) => {
@@ -254,12 +252,7 @@ export function UpdateProfileForm({}: UpdateProfileFormProps) {
             </div>
             {/* submit button */}
             <div className="w-full py-5 flex items-center justify-center">
- 
-              <SpinnerButton
-                type="submit"
-                mutation={mutation}
- 
-              />
+              <SpinnerButton type="submit" mutation={mutation} />
             </div>
           </form>
         </CardContent>

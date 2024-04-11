@@ -20,7 +20,7 @@ export function SpinnerButton({
   return (
     <Button
       className={twMerge(
-        "min-w-[80%] md:min-w-[50%] flex gap-2 justify-between items-center",
+        "min-w-[80%] md:min-w-[50%] flex gap-2 justify-center font-bold items-center",
         className,
       )}
       variant={"outline"}

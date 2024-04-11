@@ -1,7 +1,5 @@
 
 import { useViewer } from "@/lib/pb/hooks/useViewer";
-
-import { Image } from "@unpic/react";
 import { ProfileComponent } from "./ProfileComponent";
 
 interface ProfileContainerProps {}

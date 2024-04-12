@@ -1,5 +1,5 @@
 import { GraduationCap, Loader, Edit } from "lucide-react";
-import { useEducation } from "../utils/useEducation";
+import { useEducation } from "./useEducation";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { PBTimeStamp } from "@/lib/pb/components/PBTimestamp";
 import { AddEducationModal } from "./form/CreateEducationForm";
@@ -10,8 +10,8 @@ import { DeletePBRecordModal } from "@/lib/pb/components/record/DeletePBRecordMo
 interface EducationListProps {}
 
 export function EducationList({}: EducationListProps) {
-  const { educationQueryOption, collectionName } = useEducation({});
-  const query = useSuspenseQuery(educationQueryOption);
+  const { queryOption, collectionName } = useEducation({});
+  const query = useSuspenseQuery(queryOption);
   const data = query.data.data;
 
   return (

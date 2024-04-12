@@ -8,7 +8,7 @@ interface UseEducations {}
 export function useEducation({}: UseEducations) {
   const { pb, viewer } = usePocketbase();
   const collectionName = "stackistan_user_education"  as const
-  const educationQueryOption = queryOptions({
+  const queryOption = queryOptions({
     queryKey: [collectionName, viewer?.id!],
     queryFn: () =>
       pbTryCatchWrapper(
@@ -19,7 +19,7 @@ export function useEducation({}: UseEducations) {
       ),
   });
   return {
-    educationQueryOption,
+    queryOption,
     collectionName
   };
 }

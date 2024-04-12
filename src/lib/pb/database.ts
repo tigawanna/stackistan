@@ -198,9 +198,9 @@ export interface StackistanUsersCollection {
 	create: StackistanUsersCreate;
 	update: StackistanUsersUpdate;
 	relations: {
-		'stackistan_resume_profile(user)': StackistanResumeProfileCollection[];
-		'stackistan_job_application(user)': StackistanJobApplicationCollection[];
-		'stackistan_job_experience(user)': StackistanJobExperienceCollection[];
+		'stackistan_user_resume_profile(user)': StackistanUserResumeProfileCollection[];
+		'stackistan_user_job_application(user)': StackistanUserJobApplicationCollection[];
+		'stackistan_user_job_experience(user)': StackistanUserJobExperienceCollection[];
 		'stackistan_user_education(user)': StackistanUserEducationCollection[];
 		'stackistan_user_projects(user)': StackistanUserProjectsCollection[];
 	};
@@ -208,11 +208,11 @@ export interface StackistanUsersCollection {
 
 // ==== end of stackistan_users block =====
 
-// ==== start of stackistan_resume_profile block =====
+// ==== start of stackistan_user_resume_profile block =====
 
 
-export interface StackistanResumeProfileResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_resume_profile';
+export interface StackistanUserResumeProfileResponse extends BaseCollectionResponse {
+	collectionName: 'stackistan_user_resume_profile';
 	user: string;
 	type: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other' | 'general';
 	experience: Array<string>;
@@ -223,7 +223,7 @@ export interface StackistanResumeProfileResponse extends BaseCollectionResponse 
 	config: any;
 }
 
-export interface StackistanResumeProfileCreate extends BaseCollectionCreate {
+export interface StackistanUserResumeProfileCreate extends BaseCollectionCreate {
 	user: string;
 	type: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other' | 'general';
 	experience?: MaybeArray<string>;
@@ -234,7 +234,7 @@ export interface StackistanResumeProfileCreate extends BaseCollectionCreate {
 	config?: any;
 }
 
-export interface StackistanResumeProfileUpdate extends BaseCollectionUpdate {
+export interface StackistanUserResumeProfileUpdate extends BaseCollectionUpdate {
 	user?: string;
 	type?: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'gamedev' | 'data' | 'devops' | 'other' | 'general';
 	experience?: MaybeArray<string>;
@@ -251,29 +251,29 @@ export interface StackistanResumeProfileUpdate extends BaseCollectionUpdate {
 	config?: any;
 }
 
-export interface StackistanResumeProfileCollection {
+export interface StackistanUserResumeProfileCollection {
 	type: 'base';
 	collectionId: string;
-	collectionName: 'stackistan_resume_profile';
-	response: StackistanResumeProfileResponse;
-	create: StackistanResumeProfileCreate;
-	update: StackistanResumeProfileUpdate;
+	collectionName: 'stackistan_user_resume_profile';
+	response: StackistanUserResumeProfileResponse;
+	create: StackistanUserResumeProfileCreate;
+	update: StackistanUserResumeProfileUpdate;
 	relations: {
 		user: StackistanUsersCollection;
-		experience: StackistanJobExperienceCollection[];
+		experience: StackistanUserJobExperienceCollection[];
 		education: StackistanUserEducationCollection[];
 		projects: StackistanUserProjectsCollection[];
-		'stackistan_job_application(resume_details)': StackistanJobApplicationCollection[];
+		'stackistan_user_job_application(resume_details)': StackistanUserJobApplicationCollection[];
 	};
 }
 
-// ==== end of stackistan_resume_profile block =====
+// ==== end of stackistan_user_resume_profile block =====
 
-// ==== start of stackistan_job_application block =====
+// ==== start of stackistan_user_job_application block =====
 
 
-export interface StackistanJobApplicationResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_job_application';
+export interface StackistanUserJobApplicationResponse extends BaseCollectionResponse {
+	collectionName: 'stackistan_user_job_application';
 	user: string;
 	posting: string;
 	resume_details: string;
@@ -282,7 +282,7 @@ export interface StackistanJobApplicationResponse extends BaseCollectionResponse
 	status: '' | 'applied' | 'rejected' | 'accepted';
 }
 
-export interface StackistanJobApplicationCreate extends BaseCollectionCreate {
+export interface StackistanUserJobApplicationCreate extends BaseCollectionCreate {
 	user: string;
 	posting: string;
 	resume_details: string;
@@ -291,7 +291,7 @@ export interface StackistanJobApplicationCreate extends BaseCollectionCreate {
 	status?: '' | 'applied' | 'rejected' | 'accepted';
 }
 
-export interface StackistanJobApplicationUpdate extends BaseCollectionUpdate {
+export interface StackistanUserJobApplicationUpdate extends BaseCollectionUpdate {
 	user?: string;
 	posting?: string;
 	resume_details?: string;
@@ -300,22 +300,22 @@ export interface StackistanJobApplicationUpdate extends BaseCollectionUpdate {
 	status?: '' | 'applied' | 'rejected' | 'accepted';
 }
 
-export interface StackistanJobApplicationCollection {
+export interface StackistanUserJobApplicationCollection {
 	type: 'base';
 	collectionId: string;
-	collectionName: 'stackistan_job_application';
-	response: StackistanJobApplicationResponse;
-	create: StackistanJobApplicationCreate;
-	update: StackistanJobApplicationUpdate;
+	collectionName: 'stackistan_user_job_application';
+	response: StackistanUserJobApplicationResponse;
+	create: StackistanUserJobApplicationCreate;
+	update: StackistanUserJobApplicationUpdate;
 	relations: {
 		user: StackistanUsersCollection;
 		posting: StackistanJobPostingsCollection;
-		resume_details: StackistanResumeProfileCollection;
-		'stackistan_job_experience(job)': StackistanJobExperienceCollection[];
+		resume_details: StackistanUserResumeProfileCollection;
+		'stackistan_user_job_experience(job)': StackistanUserJobExperienceCollection[];
 	};
 }
 
-// ==== end of stackistan_job_application block =====
+// ==== end of stackistan_user_job_application block =====
 
 // ==== start of stackistan_companies block =====
 
@@ -357,7 +357,7 @@ export interface StackistanCompaniesCollection {
 	update: StackistanCompaniesUpdate;
 	relations: {
 		'stackistan_job_postings(company)': StackistanJobPostingsCollection[];
-		'stackistan_job_experience(company)': StackistanJobExperienceCollection[];
+		'stackistan_user_job_experience(company)': StackistanUserJobExperienceCollection[];
 	};
 }
 
@@ -405,18 +405,18 @@ export interface StackistanJobPostingsCollection {
 	create: StackistanJobPostingsCreate;
 	update: StackistanJobPostingsUpdate;
 	relations: {
-		'stackistan_job_application(posting)': StackistanJobApplicationCollection[];
+		'stackistan_user_job_application(posting)': StackistanUserJobApplicationCollection[];
 		company: StackistanCompaniesCollection;
 	};
 }
 
 // ==== end of stackistan_job_postings block =====
 
-// ==== start of stackistan_job_experience block =====
+// ==== start of stackistan_user_job_experience block =====
 
 
-export interface StackistanJobExperienceResponse extends BaseCollectionResponse {
-	collectionName: 'stackistan_job_experience';
+export interface StackistanUserJobExperienceResponse extends BaseCollectionResponse {
+	collectionName: 'stackistan_user_job_experience';
 	company: string;
 	job: string;
 	achievements: string;
@@ -425,7 +425,7 @@ export interface StackistanJobExperienceResponse extends BaseCollectionResponse 
 	user: string;
 }
 
-export interface StackistanJobExperienceCreate extends BaseCollectionCreate {
+export interface StackistanUserJobExperienceCreate extends BaseCollectionCreate {
 	company: string;
 	job: string;
 	achievements?: string;
@@ -434,7 +434,7 @@ export interface StackistanJobExperienceCreate extends BaseCollectionCreate {
 	user?: string;
 }
 
-export interface StackistanJobExperienceUpdate extends BaseCollectionUpdate {
+export interface StackistanUserJobExperienceUpdate extends BaseCollectionUpdate {
 	company?: string;
 	job?: string;
 	achievements?: string;
@@ -443,22 +443,22 @@ export interface StackistanJobExperienceUpdate extends BaseCollectionUpdate {
 	user?: string;
 }
 
-export interface StackistanJobExperienceCollection {
+export interface StackistanUserJobExperienceCollection {
 	type: 'base';
 	collectionId: string;
-	collectionName: 'stackistan_job_experience';
-	response: StackistanJobExperienceResponse;
-	create: StackistanJobExperienceCreate;
-	update: StackistanJobExperienceUpdate;
+	collectionName: 'stackistan_user_job_experience';
+	response: StackistanUserJobExperienceResponse;
+	create: StackistanUserJobExperienceCreate;
+	update: StackistanUserJobExperienceUpdate;
 	relations: {
-		'stackistan_resume_profile(experience)': StackistanResumeProfileCollection[];
+		'stackistan_user_resume_profile(experience)': StackistanUserResumeProfileCollection[];
 		company: StackistanCompaniesCollection;
-		job: StackistanJobApplicationCollection;
+		job: StackistanUserJobApplicationCollection;
 		user: StackistanUsersCollection;
 	};
 }
 
-// ==== end of stackistan_job_experience block =====
+// ==== end of stackistan_user_job_experience block =====
 
 // ==== start of stackistan_user_education block =====
 
@@ -499,7 +499,7 @@ export interface StackistanUserEducationCollection {
 	create: StackistanUserEducationCreate;
 	update: StackistanUserEducationUpdate;
 	relations: {
-		'stackistan_resume_profile(education)': StackistanResumeProfileCollection[];
+		'stackistan_user_resume_profile(education)': StackistanUserResumeProfileCollection[];
 		user: StackistanUsersCollection;
 	};
 }
@@ -520,10 +520,10 @@ export interface StackistanUserProjectsResponse extends BaseCollectionResponse {
 }
 
 export interface StackistanUserProjectsCreate extends BaseCollectionCreate {
-	name?: string;
+	name: string;
 	link?: string | URL;
 	tech_stack?: MaybeArray<string>;
-	user?: string;
+	user: string;
 	description?: string;
 	image_url?: string | URL;
 }
@@ -547,7 +547,7 @@ export interface StackistanUserProjectsCollection {
 	create: StackistanUserProjectsCreate;
 	update: StackistanUserProjectsUpdate;
 	relations: {
-		'stackistan_resume_profile(projects)': StackistanResumeProfileCollection[];
+		'stackistan_user_resume_profile(projects)': StackistanUserResumeProfileCollection[];
 		tech_stack: StackistanTechnologiesCollection[];
 		user: StackistanUsersCollection;
 	};
@@ -606,11 +606,11 @@ export interface StackistanTechnologiesCollection {
 
 export type Schema = {
 	stackistan_users: StackistanUsersCollection;
-	stackistan_resume_profile: StackistanResumeProfileCollection;
-	stackistan_job_application: StackistanJobApplicationCollection;
+	stackistan_user_resume_profile: StackistanUserResumeProfileCollection;
+	stackistan_user_job_application: StackistanUserJobApplicationCollection;
 	stackistan_companies: StackistanCompaniesCollection;
 	stackistan_job_postings: StackistanJobPostingsCollection;
-	stackistan_job_experience: StackistanJobExperienceCollection;
+	stackistan_user_job_experience: StackistanUserJobExperienceCollection;
 	stackistan_user_education: StackistanUserEducationCollection;
 	stackistan_user_projects: StackistanUserProjectsCollection;
 	stackistan_technologies: StackistanTechnologiesCollection;

@@ -86,14 +86,14 @@ export function DeletePBRecordModal({
           {triggerLabel}
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[80%] w-fit px-4 pb-1 h-fit overflow-auto">
+      <DialogContent className="sm:max-w-[80%] w-fit min-w-[40%] px-4 py-2 h-fit overflow-auto">
         <DialogHeader>
-          <DialogTitle>Delete {label} entry</DialogTitle>
+          <DialogTitle>Delete entry</DialogTitle>
           <DialogDescription>
             Are you sure you want to delete ?{" "}
           </DialogDescription>
         </DialogHeader>
-        <div className="w-full h-full flex justify-center items-center gap-6">
+        <div className="w-full h-full flex justify-between items-center gap-6">
           <SpinnerButton
             type="button"
             variant="destructive"
@@ -104,6 +104,7 @@ export function DeletePBRecordModal({
             }}
           />
           <Button
+            className="min-w-[40%]"
             type="button"
             variant="outline"
             onClick={() => {

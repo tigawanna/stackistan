@@ -10,7 +10,7 @@ import { DeletePBRecordModal } from "@/lib/pb/components/record/DeletePBRecordMo
 interface EducationListProps {}
 
 export function EducationList({}: EducationListProps) {
-  const {educationQueryOption,collectionName} = useEducation({});
+  const { educationQueryOption, collectionName } = useEducation({});
   const query = useSuspenseQuery(educationQueryOption);
   const data = query.data.data;
 
@@ -34,8 +34,14 @@ export function EducationList({}: EducationListProps) {
                       </span>
 
                       <div className="size-5 hidden group-hover:block absolute top-[3%]">
-                        <UpdateEducationModal id={item.id} item={item} />
-                        <DeletePBRecordModal id={item.id} label="Education" collectionName={collectionName} />
+               
+                          <UpdateEducationModal id={item.id} item={item} />
+                          <DeletePBRecordModal
+                            id={item.id}
+                            label="Education"
+                            collectionName={collectionName}
+                          />
+                   
                       </div>
                       <div className="text-md font-black">
                         {item.qualification}
@@ -61,8 +67,15 @@ export function EducationList({}: EducationListProps) {
                       {item.school}{" "}
                     </span>
 
-                    <div className="size-5 hidden group-hover:block absolute top-[3%]">
-                      <UpdateEducationModal id={item.id} item={item} />
+                    <div className="size-5 hidden group-hover:block absolute top-[3%] right-[3%]">
+                 
+                        <DeletePBRecordModal
+                          id={item.id}
+                          label="Education"
+                          collectionName={collectionName}
+                        />
+                        <UpdateEducationModal id={item.id} item={item} />
+                
                     </div>
                     <div className="text-md font-black">
                       {item.qualification}

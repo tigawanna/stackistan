@@ -7,14 +7,19 @@ interface UseEducations {}
 
 export function useEducation({}: UseEducations) {
   const { pb, viewer } = usePocketbase();
-  return queryOptions({
-    queryKey: ["stackistan_user_education", viewer?.id!],
+  const collectionName = "stackistan_user_education"  as const
+  const educationQueryOption = queryOptions({
+    queryKey: [collectionName, viewer?.id!],
     queryFn: () =>
       pbTryCatchWrapper(
-        pb?.from("stackistan_user_education").getFullList({
+        pb?.from(collectionName).getFullList({
           filter: eq("user", viewer?.id!),
           sort: "+to",
         }),
       ),
   });
+  return {
+    educationQueryOption,
+    collectionName
+  };
 }

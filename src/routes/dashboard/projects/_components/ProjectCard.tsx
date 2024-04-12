@@ -4,7 +4,6 @@ import { ExternalLink, EllipsisVertical } from "lucide-react";
 import { Link } from "rakkasjs";
 import { Image } from "@unpic/react";
 import { UpdateUserProjectFormModal } from "./form/UpdateUserProject";
-import { DeleteUserproject } from "./form/DeleteUserproject";
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -14,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/shadcn/ui/dropdown-menu";
+import { DeletePBRecordModal } from "@/lib/pb/components/record/DeletePBRecordModal";
 interface ProjectCardProps {
   item: StackistanUserProjectsResponse;
   checked: boolean;
@@ -61,13 +61,6 @@ export function ProjectCard({ item, checked, selectItem }: ProjectCardProps) {
           <ProjectCardOptions id={item.id} item={item} />
         </div>
 
-        {/* <div className="hidden absolute top-1 p-2  right-1 left-1 z-40 group-hover:flex justify-end gap-4 bg-base-300 w-full"> */}
-        {/* <UpdateTechFormModal id={item.id} item={item} /> */}
-
-        {/* <DeleteUserproject id={item.id} /> */}
-        {/*    
-        </div> */}
-
         <p className="text-sm line-clamp-2">{item.description}</p>
       </div>
     </li>
@@ -90,7 +83,12 @@ export function ProjectCardOptions({ id, item }: ProjectCardOptionsProps) {
         <DropdownMenuLabel>Options</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          <DeleteUserproject id={id} setOpenDropdown={setOpenDropdown} />
+          <DeletePBRecordModal
+            id={item.id}
+            label="Project"
+            setOpenDropdown={setOpenDropdown}
+            collectionName="stackistan_user_projects"
+          />
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           <UpdateUserProjectFormModal

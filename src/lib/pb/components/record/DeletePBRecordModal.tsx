@@ -1,7 +1,7 @@
 import { usePocketbase } from "@/lib/pb/hooks/use-pb";
 import { pbTryCatchWrapper } from "@/lib/pb/utils";
 import { useMutation } from "@tanstack/react-query";
-import { X, Loader, Edit, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import {
   Dialog,
@@ -16,18 +16,23 @@ import { useState } from "react";
 import { CollectionName } from "@/lib/pb/client";
 import { sonnerToast } from "@/components/shadcn/misc/sonner-taost";
 import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
-interface DeleteUserprojectProps {
+
+interface DeletePBRecordModalProps {
   id: string;
-  setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  label: string;  
+  setOpenDropdown?: React.Dispatch<React.SetStateAction<boolean>>;
+  collectionName: CollectionName;
+
 }
 
-export function DeleteUserproject({
+export function DeletePBRecordModal({
   id,
+  label,
   setOpenDropdown,
-}: DeleteUserprojectProps) {
-  const collectionName: CollectionName = "stackistan_user_projects";
+  collectionName,
+}: DeletePBRecordModalProps) {
   const [open, setOpen] = useState(false);
-  const { pb, viewer } = usePocketbase();
+  const { pb } = usePocketbase();
   const mutation = useMutation({
     mutationFn: () => {
       return pbTryCatchWrapper(pb.from(collectionName).delete(id));
@@ -40,7 +45,7 @@ export function DeleteUserproject({
         if (data.data) {
           sonnerToast({
             type: "success",
-            title: "Project updated",
+            title: "Succesfully deleted",
           });
 
           setOpen(false);
@@ -48,7 +53,7 @@ export function DeleteUserproject({
         if (data.error) {
           sonnerToast({
             type: "error",
-            title: "Something went wrong while updating project",
+            title: "Something went wrong while deleting",
             options: {
               description: data.error.message,
             },
@@ -59,7 +64,7 @@ export function DeleteUserproject({
     onError: (error) => {
       sonnerToast({
         type: "error",
-        title: "Something went wrong while updating project",
+        title: "Something went wrong while deleting",
         options: {
           description: error.message,
         },
@@ -71,23 +76,22 @@ export function DeleteUserproject({
       open={open}
       onOpenChange={(open) => {
         setOpen(open);
-        setOpenDropdown(open);
+        setOpenDropdown && setOpenDropdown?.(open);
       }}
     >
       <DialogTrigger asChild>
         <div className="flex gap-2">
-          <Trash className="text-error fill-error" /> Delete
+          <Trash className="text-error fill-error" />
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-fit px-4 pb-1 h-fit overflow-auto">
         <DialogHeader>
-          <DialogTitle>Delete Project</DialogTitle>
+          <DialogTitle>Delete {label} entry</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this project?{" "}
+            Are you sure you want to delete ?{" "}
           </DialogDescription>
         </DialogHeader>
         <div className="w-full h-full flex justify-center items-center gap-6">
-
           <SpinnerButton
             type="button"
             variant="destructive"

@@ -35,7 +35,7 @@ export function Technologies({}: TechnologiesProps) {
         />
       </div>
       <div className="w-full h-[99vh] overflow-auto">
-        <Suspense fallback={<GenericDataCardsListSuspenseFallback cardClassName="h-24"/>}>
+        <Suspense fallback={<GenericDataCardsListSuspenseFallback cardClassName="h-28"/>}>
           <TechnologyList
             searchParamKey={searchParamKey}
             debouncedValue={debouncedValue}

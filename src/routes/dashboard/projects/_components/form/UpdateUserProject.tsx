@@ -216,7 +216,7 @@ export function UpdateUserProjectFormModal({
     >
       <DialogTrigger asChild>
         <div className="flex gap-2">
-          <Edit className="text-primary" /> Edit
+          <Edit className="" /> Edit
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-full h-[90%] overflow-auto">

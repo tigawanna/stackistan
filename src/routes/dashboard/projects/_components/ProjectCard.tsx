@@ -88,6 +88,7 @@ export function ProjectCardOptions({ id, item }: ProjectCardOptionsProps) {
             label="Project"
             setOpenDropdown={setOpenDropdown}
             collectionName="stackistan_user_projects"
+            triggerLabel="Delete"
           />
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -95,6 +96,7 @@ export function ProjectCardOptions({ id, item }: ProjectCardOptionsProps) {
             id={id}
             item={item}
             setOpenDropdown={setOpenDropdown}
+
           />
         </DropdownMenuItem>
       </DropdownMenuContent>

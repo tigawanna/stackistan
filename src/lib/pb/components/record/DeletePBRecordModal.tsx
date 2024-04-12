@@ -19,15 +19,16 @@ import { SpinnerButton } from "@/lib/tanstack/components/SpinnerButton";
 
 interface DeletePBRecordModalProps {
   id: string;
-  label: string;  
+  label: string;
+  triggerLabel?: React.ReactNode;
   setOpenDropdown?: React.Dispatch<React.SetStateAction<boolean>>;
   collectionName: CollectionName;
-
 }
 
 export function DeletePBRecordModal({
   id,
   label,
+  triggerLabel,
   setOpenDropdown,
   collectionName,
 }: DeletePBRecordModalProps) {
@@ -82,6 +83,7 @@ export function DeletePBRecordModal({
       <DialogTrigger asChild>
         <div className="flex gap-2">
           <Trash className="text-error fill-error" />
+          {triggerLabel}
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] w-fit px-4 pb-1 h-fit overflow-auto">

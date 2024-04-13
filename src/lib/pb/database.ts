@@ -274,6 +274,8 @@ export interface StackistanUserResumeProfileCollection {
 
 export interface StackistanUserJobApplicationResponse extends BaseCollectionResponse {
 	collectionName: 'stackistan_user_job_application';
+	title: string;
+	position: string;
 	user: string;
 	posting: string;
 	resume_details: string;
@@ -283,6 +285,8 @@ export interface StackistanUserJobApplicationResponse extends BaseCollectionResp
 }
 
 export interface StackistanUserJobApplicationCreate extends BaseCollectionCreate {
+	title?: string;
+	position?: string;
 	user: string;
 	posting: string;
 	resume_details: string;
@@ -292,6 +296,8 @@ export interface StackistanUserJobApplicationCreate extends BaseCollectionCreate
 }
 
 export interface StackistanUserJobApplicationUpdate extends BaseCollectionUpdate {
+	title?: string;
+	position?: string;
 	user?: string;
 	posting?: string;
 	resume_details?: string;

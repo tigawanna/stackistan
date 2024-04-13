@@ -1,4 +1,4 @@
-import { GraduationCap, Loader, Edit } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import { useEducation } from "./useEducation";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { PBTimeStamp } from "@/lib/pb/components/PBTimestamp";
